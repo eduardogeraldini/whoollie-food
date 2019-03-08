@@ -1,4 +1,4 @@
-# System = Whoollie Food
+# System - Whoollie Food
 Sistema de gerenciamento para restaurantes/bares
 
 
