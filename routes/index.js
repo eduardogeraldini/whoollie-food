@@ -7,7 +7,7 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Whollie Services' });
 });
 
-/* router.get("/db", function (req, res, next) {
+/*router.get("/db", function (req, res, next) {
 
   conn.query("SELECT * FROM tb_clientes", (err, results) => {
 
@@ -19,8 +19,6 @@ router.get('/', function (req, res, next) {
 
   });
 
-}); */ 
-
-
+}); */
 
 module.exports = router;
