@@ -2,7 +2,7 @@
 Sistema de gerenciamento para restaurantes/bares
 
 
-####Como rodar:
+###Como rodar:
 
 Faça download ou clone o projeto para sua máquina. 
 
