@@ -1,5 +1,5 @@
 var express = require('express');
-//var conn = require('./../inc/db');
+var conn = require('./../inc/db');
 var router = express.Router();
 
 /* GET home page. */
@@ -7,9 +7,9 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Whollie Services' });
 });
 
-/* router.get("/db", function (req, res, next) {
+router.get("/api/whoollie-food/empresas", function (req, res, next) {
 
-  conn.query("SELECT * FROM tb_clientes", (err, results) => {
+  conn.query("SELECT * FROM tbEmpresas", (err, results) => {
 
     if (err) {
       res.send(err);
@@ -19,8 +19,6 @@ router.get('/', function (req, res, next) {
 
   });
 
-}); */ 
-
-
+}); 
 
 module.exports = router;
