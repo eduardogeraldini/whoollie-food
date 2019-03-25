@@ -16,4 +16,20 @@ router.get("/empresas", function (req, res, next) {
   
 });
 
+
+router.get("/produtos", function (req, res, next) {
+
+  conn.query("SELECT * FROM tbProdutos", (err, results) => {
+
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(results);
+    }
+
+  });
+
+});
+
+
 module.exports = router;
