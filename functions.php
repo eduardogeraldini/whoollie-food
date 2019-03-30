@@ -18,4 +18,30 @@
         }
     }
 
+    function initialize($path) {
+        
+        require_once("vendor/autoload.php");
+
+        $app = new \Slim\App([
+            'debug'=> true
+        ]);
+        
+        foreach($path as $key) {
+
+            $key = "routes/".$key."/";
+            $directory = dir($key);
+            
+            while($arquivo = $directory -> read()){
+                if(is_file($key.$arquivo))
+                    include($key.$arquivo);
+            }
+            
+            $directory -> close();
+        
+        }
+
+        $app->run();
+
+    }
+
 ?>
