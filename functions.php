@@ -18,7 +18,7 @@
         }
 
         if ($script != "") {
-            require_once("src/js/" . $script . ".js");
+            require_once("src/js/" . $script . ".html");
         }
 
     }
