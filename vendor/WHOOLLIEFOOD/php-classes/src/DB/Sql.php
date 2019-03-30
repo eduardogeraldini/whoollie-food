@@ -4,20 +4,32 @@ namespace WHOOLLIEFOOD\DB;
 
 class Sql {
 
-	const HOSTNAME = "127.0.0.1";
-	const USERNAME = "root";
-	const PASSWORD = "";
-	const DBNAME = "dbwhoolliefood";
+	private $HOSTNAME = "";
+	private $USERNAME = "";
+	private $PASSWORD = "";
+	private $DBNAME = "";
 
 	private $conn;
 
 	public function __construct()
 	{
 
+		if($_SERVER['REMOTE_ADDR'] == "::1") { 			
+			$HOSTNAME = "localhost"; 			
+			$USERNAME = "root"; 			
+			$PASSWORD = ""; 			
+			$DBNAME = "u672842222_tech"; 		
+		} else {	 			
+			$HOSTNAME = "185.201.11.24"; 			
+			$USERNAME = "u672842222_tech"; 			
+			$PASSWORD = ""; 			
+			$DBNAME = "u672842222_tech"; 		
+		}
+
 		$this->conn = new \PDO(
-			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
-			Sql::USERNAME,
-			Sql::PASSWORD
+			"mysql:dbname=".$this->DBNAME.";host=".$this->HOSTNAME, 
+			$this->USERNAME,
+			$this->PASSWORD
 		);
 
 	}
