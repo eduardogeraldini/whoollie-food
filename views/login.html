@@ -87,7 +87,7 @@
             
             e.preventDefault();
 
-            $.post('/whoollie-food/api/login', $("#formLogin").serialize(), function(data) {
+            $.post('/api/login', $("#formLogin").serialize(), function(data) {
                 alert(JSON.parse(data).message);
             });
 
