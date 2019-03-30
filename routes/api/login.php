@@ -13,8 +13,7 @@ $app->post('/api/login', function ($request, $response, $args) {
 
 $app->get('/api/logout', function ($request, $response, $args) {
 
-User::verifyLogin();
-User::logout();
+    User::logout();
 
 });
 

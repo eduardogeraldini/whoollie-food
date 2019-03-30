@@ -47,7 +47,7 @@ class User{
 
 	}
 
-	public static function verifyLogin($isAPI = true){
+	public static function verifyLogin($isAPI = true, $login = false){
 
 		if(!isset($_SESSION[User::SESSION]) || !$_SESSION[User::SESSION] || !(int)$_SESSION[User::SESSION]["idUser"] > 0){
 			
@@ -55,14 +55,23 @@ class User{
 				echo json_encode([
 					'login' => false,
 					'message' => 'Não logado!',
-				]);
+				]);		
 				exit;
 			} else {
-				header("Location: /whoollie-food/login");
-				exit;
+				if (!$login) {
+					header("Location: /logar");
+					exit;
+				}	
 			}
-			
+		} else {
+
+			if ($login) {
+				header("Location: /dashboard");
+				exit;
+			}	
+
 		}
+
 	}
 
 	public static function logout(){
