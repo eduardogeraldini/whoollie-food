@@ -57,6 +57,7 @@ $app->post('/produtos', function($request, $response, $args) {
 	$product->setDesNote($input['desNote']);
 	$product->setVlUnity($input['vlUnity']);
 	$product->setQtStock($input['qtStock']);
+	$product->setQtStock($input['idProductCategory']);
 
 	$product->createProduct($input);
 	
