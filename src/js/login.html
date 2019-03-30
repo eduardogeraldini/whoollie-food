@@ -5,7 +5,11 @@
             e.preventDefault();
 
             $.post('/api/login', $(this).serialize(), function(data) {
-                alert(JSON.parse(data).message);
+                if (JSON.parse(data).login) {
+                    window.location.href = "/produtos"; 
+                } else {
+                    swal("Erro!", JSON.parse(data).message, "error");
+                }
             });
 
         });
