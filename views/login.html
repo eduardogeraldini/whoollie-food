@@ -87,7 +87,7 @@
             
             e.preventDefault();
 
-            $.post('/api/login', $("#formLogin").serialize(), function(data) {
+            $.post('/api/login', $(this).serialize(), function(data) {
                 alert(JSON.parse(data).message);
             });
 
