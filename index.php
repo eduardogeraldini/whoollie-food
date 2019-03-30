@@ -28,8 +28,8 @@ $app->post('/logout', function ($request, $response, $args) {
 
 	User::verifyLogin();
 	
-	$login = $request->getParam('login');
-	$senha = $request->getParam('senha');
+	$login = $request->getParam('desLogin');
+	$senha = $request->getParam('desPassword');
 
 	echo User::login($login, $senha);
 
@@ -57,9 +57,9 @@ $app->post('/produtos', function($request, $response, $args) {
 	$product->setDesNote($input['desNote']);
 	$product->setVlUnity($input['vlUnity']);
 	$product->setQtStock($input['qtStock']);
-	$product->setQtStock($input['idProductCategory']);
+	$product->setIdProductCategory($input['idProductCategory']);
 
-	$product->createProduct($input);
+	$product->createProduct();
 	
 });
 

@@ -81,9 +81,12 @@ class Product{
 
     }
 
-    public function createProduct($product){
+    public function createProduct(){
 
         $sql = new Sql();
+
+		echo "INSERT INTO tbProducts(desName, desNote, qtStock, vlUnity, idCompany, idProductCategory) 
+		VALUES ('".$this->getDesName()."', '".$this->getDesNote()."', '".$this->getQtStock()."', '".$this->getVlUnity()."', '".$this->getIdCompany()."', '".$this->getIdProductCategory()."')";
 
 		$sql->query("INSERT INTO tbProducts(desName, desNote, qtStock, vlUnity, idCompany, idProductCategory) 
 			VALUES (:DESNAME, :DESNOTE, :QTSTOCK, :VLUNITY, :IDCOMPANY, :IDPRODUCTCATEGORY)", [
