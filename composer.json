@@ -9,7 +9,9 @@
     "require": {
     	"phpmailer/phpmailer":"5.2.22",
         "slim/slim":"^3.0",
-        "firebase/php-jwt":">1.0"
+        "rain/raintpl": ">=3.0.0",
+        "pusher/pusher-php-server": "^3.4"
+
     },
     "autoload": {
         "psr-4": {

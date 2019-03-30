@@ -8,6 +8,7 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
 {
     public static $files = array (
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -21,6 +22,8 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
         ),
         'P' => 
         array (
+            'Pusher\\' => 7,
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
@@ -30,7 +33,6 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
         ),
         'F' => 
         array (
-            'Firebase\\JWT\\' => 13,
             'FastRoute\\' => 10,
         ),
     );
@@ -44,6 +46,14 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
         array (
             0 => __DIR__ . '/..' . '/slim/slim/Slim',
         ),
+        'Pusher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pusher/pusher-php-server/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
@@ -56,10 +66,6 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
         array (
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
-        'Firebase\\JWT\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
-        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
@@ -67,6 +73,13 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
     );
 
     public static $prefixesPsr0 = array (
+        'R' => 
+        array (
+            'Rain' => 
+            array (
+                0 => __DIR__ . '/..' . '/rain/raintpl/library',
+            ),
+        ),
         'P' => 
         array (
             'Pimple' => 
