@@ -53,7 +53,7 @@ class User{
 			
 			if ($isAPI) {
 				echo json_encode([
-					'login' => 'false',
+					'login' => false,
 					'message' => 'Não logado!',
 				]);
 				exit;
