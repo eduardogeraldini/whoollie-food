@@ -18,12 +18,12 @@ class Sql {
 			$HOSTNAME = "localhost"; 			
 			$USERNAME = "root"; 			
 			$PASSWORD = ""; 			
-			$DBNAME = "u672842222_tech"; 		
+			$DBNAME = "u672842222_food"; 		
 		} else {	 			
 			$HOSTNAME = "185.201.11.24"; 			
-			$USERNAME = "u672842222_tech"; 			
-			$PASSWORD = ""; 			
-			$DBNAME = "u672842222_tech"; 		
+			$USERNAME = "u672842222_dev"; 			
+			$PASSWORD = "whoollie123"; 			
+			$DBNAME = "u672842222_food"; 		
 		}
 
 		$this->conn = new \PDO(
