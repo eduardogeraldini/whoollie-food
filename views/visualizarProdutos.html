@@ -1,0 +1,135 @@
+{{ include('inc/header.html') }}
+ 
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h4 mb-4 text-gray-800">Produtos - Gerenciar</h1>
+  <p>Permite você visualizar, buscar e gerenciar seu cardápio de forma simples.</p>
+
+  <div class="row">
+    <div class="col">
+      <div class="card shadow mb-4 border-left-info">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Filtros de Pesquisa</h6>
+        </div>
+        <div class="card-body">
+
+          <form>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nome:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Pesquisar por: Beef Pizza.">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Categoria:</label>
+              <div class="col-sm-10">
+                <select class="form-control">
+                  <option>Nenhuma...</option>
+                  <option>Bebidas</option>
+                  <option>Lanches</option>
+                </select>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-info">Filtrar</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <h1 class="h5 mb-4 text-gray-800">Todos os Produtos:</h1>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="card shadow mb-4 border-left-success">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary float-left">Beef Pizza</h6>
+
+          <span class="badge badge-success float-right">R$ 20,00</span>
+        </div>
+        <div class="card-body text-center">
+          <img class="fluid-img mb-1" src="admin/img/pizza.jpg" alt="">
+          <p>The styling for this basic card example is created by using default Bootstrap utility classes.</p>
+
+          <a href="#" class="btn btn-info btn-circle">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a href="#" class="btn btn-danger btn-circle">
+            <i class="fas fa-trash"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card shadow mb-4 border-left-success">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary float-left">Beef Pizza</h6>
+          <span class="badge badge-success float-right">R$ 20,00</span>
+        </div>
+        <div class="card-body text-center">
+          <img class="fluid-img" src="admin/img/pizza.jpg" alt="">
+          <p>The styling for this basic card example is created by using default Bootstrap utility classes.</p>
+
+          <a href="#" class="btn btn-info btn-circle">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a href="#" class="btn btn-danger btn-circle">
+            <i class="fas fa-trash"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card shadow mb-4 border-left-success">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary float-left">Beef Pizza</h6>
+          <span class="badge badge-success float-right">R$ 20,00</span>
+        </div>
+        <div class="card-body text-center">
+          <img class="fluid-img" src="admin/img/pizza.jpg" alt="">
+          <p>The styling for this basic card example is created by using default Bootstrap utility classes.</p>
+
+          <a href="#" class="btn btn-info btn-circle">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a href="#" class="btn btn-danger btn-circle">
+            <i class="fas fa-trash"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card shadow mb-4 border-left-success">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary float-left">Beef Pizza</h6>
+          <span class="badge badge-success float-right">R$ 20,00</span>
+        </div>
+        <div class="card-body text-center">
+          <img class="fluid-img" src="admin/img/pizza.jpg" alt="">
+          <p>The styling for this basic card example is created by using default Bootstrap utility classes.</p>
+
+          <a href="#" class="btn btn-info btn-circle">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a href="#" class="btn btn-danger btn-circle">
+            <i class="fas fa-trash"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{{ include('inc/footer.html') }}
+
