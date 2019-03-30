@@ -20,7 +20,7 @@ $app->post('/login', function ($request, $response, $args) {
 		$login = $request->getParam('login');
 		$senha = $request->getParam('senha');
 
-		User::login($login, $senha);
+		echo User::login($login, $senha);
 
 });
 

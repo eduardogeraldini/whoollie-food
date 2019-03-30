@@ -14,7 +14,7 @@ class User{
 
 		$results = $sql->select("SELECT * FROM tbUsers WHERE desLogin = :LOGIN", array(
 			":LOGIN"=>$login
-        ));
+		));
 
 		if(count($results) === 0){
 

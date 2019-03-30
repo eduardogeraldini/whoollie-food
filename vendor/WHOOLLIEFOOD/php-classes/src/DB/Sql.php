@@ -15,15 +15,15 @@ class Sql {
 	{
 
 		if($_SERVER['REMOTE_ADDR'] == "::1") { 			
-			$HOSTNAME = "localhost"; 			
-			$USERNAME = "root"; 			
-			$PASSWORD = ""; 			
-			$DBNAME = "u672842222_food"; 		
+			$this->HOSTNAME = "localhost"; 			
+			$this->USERNAME = "root"; 			
+			$this->PASSWORD = ""; 			
+			$this->DBNAME = "u672842222_food"; 		
 		} else {	 			
-			$HOSTNAME = "185.201.11.24"; 			
-			$USERNAME = "u672842222_dev"; 			
-			$PASSWORD = "whoollie123"; 			
-			$DBNAME = "u672842222_food"; 		
+			$this->HOSTNAME = "185.201.11.24"; 			
+			$this->USERNAME = "u672842222_dev"; 			
+			$this->PASSWORD = "whoollie123"; 			
+			$this->DBNAME = "u672842222_food"; 		
 		}
 
 		$this->conn = new \PDO(
