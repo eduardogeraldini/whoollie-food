@@ -3,40 +3,42 @@
 session_start();
 
 require_once("vendor/autoload.php");
+require_once("functions.php");
 
 use \WHOOLLIEFOOD\MODEL\Product;
 use \WHOOLLIEFOOD\MODEL\User;
 
 $app = new \Slim\App();
 
-$app->get('/', function ($request, $response, $args) {
+$app->get('/api', function ($request, $response, $args) {
 	$response->getBody()->write(' Hello ');
 
 	return $response;
 });
 
-$app->post('/login', function ($request, $response, $args) {
+$app->get('/login', function ($request, $response, $args) {
 	
-		$login = $request->getParam('login');
-		$senha = $request->getParam('senha');
+	renderPage("", "login", true);
+
+});
+
+$app->post('/api/login', function ($request, $response, $args) {
+	
+		$login = $request->getParam('desLogin');
+		$senha = $request->getParam('desPassword');
 
 		echo User::login($login, $senha);
 
 });
 
-$app->post('/logout', function ($request, $response, $args) {
+$app->get('/api/logout', function ($request, $response, $args) {
 
 	User::verifyLogin();
-	
-	$login = $request->getParam('desLogin');
-	$senha = $request->getParam('desPassword');
-
-	echo User::login($login, $senha);
+	User::logout();
 
 });
 
-
-$app->get('/produtos', function($request, $response, $args) {
+$app->get('/api/produtos', function($request, $response, $args) {
 
 	User::verifyLogin();
 
@@ -46,7 +48,15 @@ $app->get('/produtos', function($request, $response, $args) {
 	
 });
 
-$app->post('/produtos', function($request, $response, $args) {
+$app->get('/produtos', function($request, $response, $args) {
+
+	User::verifyLogin(false);
+
+	renderPage("product", "criarProdutos");
+	
+});
+
+$app->post('/api/produtos', function($request, $response, $args) {
 
 	User::verifyLogin();
 	$input = $request->getParsedBody();
@@ -63,7 +73,7 @@ $app->post('/produtos', function($request, $response, $args) {
 	
 });
 
-$app->get('/produtos/{id}', function($request, $response, $args) {
+$app->get('/api/produtos/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
 
