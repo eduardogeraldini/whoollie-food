@@ -2,7 +2,7 @@
 
     const PATHVIEWS = "views";
 
-    function renderPage($module, $page, $singularPage = false) {
+    function renderPage($module, $page, $singularPage = false, $script = "") {
 
         if (!$singularPage) {
             require_once("views/inc/header.html");
@@ -16,6 +16,11 @@
         if (!$singularPage) {
             require_once("views/inc/footer.html");
         }
+
+        if ($script != "") {
+            require_once("src/js/" . $script . ".js");
+        }
+
     }
 
     function initialize($path) {
