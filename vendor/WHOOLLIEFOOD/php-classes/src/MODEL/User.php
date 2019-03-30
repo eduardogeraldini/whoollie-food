@@ -19,7 +19,7 @@ class User{
 		if(count($results) === 0){
 
             return json_encode([
-                'login' => 'false',
+                'login' => false,
                 'message' => 'Credenciais incorretas!',
             ]);
 			
@@ -32,14 +32,14 @@ class User{
 			$_SESSION[User::SESSION] = $data;
 
 			return json_encode([
-                'login' => 'true',
+                'login' => true,
                 'message' => 'Logado com sucesso!',
             ]);
 
 		} else {
 
 			return json_encode([
-                'login' => 'false',
+                'login' => false,
                 'message' => 'Credenciais incorretas!',
             ]);
 
