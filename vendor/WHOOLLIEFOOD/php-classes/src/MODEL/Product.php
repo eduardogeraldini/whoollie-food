@@ -10,6 +10,14 @@ class Product{
 	private $desNote;
 	private $vlUnity;
 	private $qtStock;
+	private $idCompany;
+	private $idProductCategory;
+
+	public function __construct(){
+
+		$this->idCompany = $_SESSION['User']['idCompany'];
+
+	}
 
 	public function setDesName($desName){
 		$this->desName = $desName;
@@ -27,6 +35,10 @@ class Product{
 		$this->qtStock = $qtStock;
 	}
 
+	public function setIdProductCategory($idProductCategory){
+		$this->idProductCategory = $idProductCategory;
+	}
+
 	public function getDesName(){
 		return $this->desName;
 	}
@@ -41,6 +53,14 @@ class Product{
 
 	public function getQtStock(){
 		return $this->qtStock;
+	}
+
+	public function getIdProductCategory(){
+		return $this->idProductCategory;
+	}
+
+	public function getIdCompany(){
+		return $this->idCompany;
 	}
 
 	public function listAll(){
@@ -71,8 +91,8 @@ class Product{
 				":DESNOTE"=>$this->getDesNote(),
                 ":QTSTOCK"=>$this->getQtStock(),
                 ":VLUNITY"=>$this->getVlUnity(),
-				":IDCOMPANY"=> $product['idCompany'],
-				":IDPRODUCTCATEGORY"=> $product['idProductCategory']
+				":IDCOMPANY"=> $this->getIdCompany(),
+				":IDPRODUCTCATEGORY"=> $this->getIdProductCategory()
 			]);
 	}
 

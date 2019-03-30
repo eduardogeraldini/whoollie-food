@@ -12,7 +12,7 @@ class User{
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tbEmployees a INNER JOIN tbUsers b ON (a.idLogin = b.idUser) WHERE b.desLogin = :LOGIN", array(
+		$results = $sql->select("SELECT * FROM tbUsers WHERE desLogin = :LOGIN", array(
 			":LOGIN"=>$login
         ));
 
