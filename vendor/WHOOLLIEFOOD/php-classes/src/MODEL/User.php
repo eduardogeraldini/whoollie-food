@@ -59,14 +59,14 @@ class User{
 				exit;
 			} else {
 				if (!$login) {
-					header("Location: /logar");
+					header("Location: /entrar");
 					exit;
 				}	
 			}
 		} else {
 
 			if ($login) {
-				header("Location: /dashboard");
+				header("Location: /inicio");
 				exit;
 			}	
 

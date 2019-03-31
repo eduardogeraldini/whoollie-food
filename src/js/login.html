@@ -6,7 +6,7 @@
 
             $.post('/api/login', $(this).serialize(), function(data) {
                 if (JSON.parse(data).login) {
-                    window.location.href = "/dashboard"; 
+                    window.location.href = "/inicio"; 
                 } else {
                     swal("Erro!", JSON.parse(data).message, "error");
                 }
