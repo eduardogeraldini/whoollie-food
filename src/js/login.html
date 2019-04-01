@@ -8,7 +8,7 @@
                 if (JSON.parse(data).login) {
                     window.location.href = "/dashboard"; 
                 } else {
-                    swal("Erro!", JSON.parse(data).message, "error");
+                    swal("Ops! Ocorreu um Erro!", JSON.parse(data).message, "error");
                 }
             });
 

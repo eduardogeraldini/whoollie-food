@@ -78,6 +78,11 @@ class User{
 
 		$_SESSION[User::SESSION] = NULL;
 
+		echo json_encode([
+			'login' => false,
+			'message' => 'Você foi deslogado!'
+		]);
+
 	}
 
 }
