@@ -32,30 +32,36 @@
             </div>
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="admin/login.html">Logout</a>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button class="btn btn-primary" id="btnLogout">Sair</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="res/admin/vendor/jquery/jquery.min.js"></script>
-<script src="res/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/res/admin/vendor/jquery/jquery.min.js"></script>
+<script src="/res/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="res/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="/res/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="res/admin/js/sb-admin-2.min.js"></script>
+<script src="/res/admin/js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="res/admin/vendor/chart.js/Chart.min.js"></script>
+<script src="/res/admin/js/sweetalert.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="res/admin/js/demo/chart-area-demo.js"></script>
-<script src="res/admin/js/demo/chart-pie-demo.js"></script>
-<script src="res/admin/js/sweetalert.min.js"></script>
+<script>
+    $(function() {
+        $("#btnLogout").click(function() {
+
+            $.get('/api/logout', function() {}).then(() => {
+                window.location.href = "/entrar"; 
+            });
+
+        });
+    });
+</script>
 
 </body>
 
