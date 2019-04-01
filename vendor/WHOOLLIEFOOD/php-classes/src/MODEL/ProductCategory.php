@@ -20,11 +20,15 @@ class ProductCategory{
 
         $sql = new Sql();
 
-		$sql->query("INSERT INTO tbProductsCategories(desName) 
+        if($this->getDesName() != ""){
+
+            $sql->query("INSERT INTO tbProductsCategories(desName) 
 			VALUES (:DESNAME)", [
 				":DESNAME"=>$this->getDesName(),
             ]);
-            
+
+        }
+       
     }
 
 
