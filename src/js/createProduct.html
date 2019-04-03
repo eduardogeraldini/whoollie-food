@@ -1,0 +1,13 @@
+<script>
+    $(function() {
+        $("#btnCreateProduct").click(function(e) {
+            e.preventDefault();
+
+            $.post("/api/products", $("#formCreateProduct").serialize(), function() {
+                
+            }).fail(() => {
+                console.log("Rota não encontrada!");
+            });
+        });
+    });
+</script>

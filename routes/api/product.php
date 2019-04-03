@@ -18,6 +18,8 @@ $app->post('/api/products', function($request, $response, $args) {
 
 	$product = new Product();
 
+	var_dump($input['desName']);
+
 	$product->setDesName($input['desName']);
 	$product->setDesNote($input['desNote']);
 	$product->setVlUnity($input['vlUnity']);

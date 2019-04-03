@@ -94,6 +94,7 @@ class Product{
 				":IDCOMPANY"=> $this->getIdCompany(),
 				":IDPRODUCTCATEGORY"=> $this->getIdProductCategory()
 			]);
+
 	}
 
 

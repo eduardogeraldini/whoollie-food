@@ -6,7 +6,7 @@ $app->get('/produtos', function($request, $response, $args) {
 
 	User::verifyLogin(false);
 
-	renderPage("product", "listProduct");
+	renderPage("product", "listProduct", false, "createProduct");
 	
 });
 
