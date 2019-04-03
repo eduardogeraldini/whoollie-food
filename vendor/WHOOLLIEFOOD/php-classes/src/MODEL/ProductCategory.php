@@ -7,6 +7,13 @@ use \WHOOLLIEFOOD\DB\Sql;
 class ProductCategory{
 
     private $desName;
+    private $idCompany;
+
+    public function __construct(){
+
+		$this->idCompany = $_SESSION['User']['idCompany'];
+
+	}
 
     public function setDesName($desName){
         $this->desName = $desName;
@@ -16,6 +23,10 @@ class ProductCategory{
         return $this->desName;
     }
 
+    public function getIdCompany(){
+		return $this->idCompany;
+	}
+
     public function createProductCategory(){
 
         $sql = new Sql();
@@ -23,7 +34,8 @@ class ProductCategory{
         if($this->getDesName() != ""){
 
             $sql->query("INSERT INTO tbProductsCategories(idCompany, desName) 
-			VALUES (:DESNAME)", [
+			VALUES (:IDCOMPANY, :DESNAME)", [
+				":IDCOMPANY"=>$this->getIdCompany(),
 				":DESNAME"=>$this->getDesName(),
             ]);
 

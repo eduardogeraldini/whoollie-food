@@ -93,9 +93,12 @@ class Product{
 				":DESNOTE"=>$this->getDesNote(),
                 ":QTSTOCK"=>$this->getQtStock(),
                 ":VLUNITY"=>$this->getVlUnity(),
-				":IDCOMPANY"=> $this->getIdCompany(),
-				":IDPRODUCTCATEGORY"=> $this->getIdProductCategory()
+				":IDCOMPANY"=>$this->getIdCompany(),
+				":IDPRODUCTCATEGORY"=>$this->getIdProductCategory()
 			]);
+
+			echo "INSERT INTO tbProducts(desName, desNote, qtStock, vlUnity, idCompany, idProductCategory) 
+			VALUES ('".$this->getDesName()."', '".$this->getDesNote()."', '".$this->getQtStock()."', '".$this->getVlUnity()."', '".$this->getIdCompany()."', '".$this->getIdProductCategory()."')";
 
 		}
 
