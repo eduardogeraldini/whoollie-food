@@ -71,19 +71,21 @@ class Product{
 
     }
 
-    public function listProductById($id){
+    public function listProductById($idProduct){
 
         $sql = new Sql();
 
 		return json_encode($sql->select("SELECT * FROM tbProducts WHERE idProduct = :IDPRODUTO",[
-            ':IDPRODUTO' => $id
+            ':IDPRODUTO' => $idProduct
         ]));
 
     }
 
     public function createProduct(){
 
-        $sql = new Sql();
+		$sql = new Sql();
+		
+		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getQtStock() != "" && $this->getIdCompany() != "" && $this->getIdProductCategory() != ""){
 
 		$sql->query("INSERT INTO tbProducts(desName, desNote, qtStock, vlUnity, idCompany, idProductCategory) 
 			VALUES (:DESNAME, :DESNOTE, :QTSTOCK, :VLUNITY, :IDCOMPANY, :IDPRODUCTCATEGORY)", [
@@ -94,6 +96,8 @@ class Product{
 				":IDCOMPANY"=> $this->getIdCompany(),
 				":IDPRODUCTCATEGORY"=> $this->getIdProductCategory()
 			]);
+
+		}
 
 	}
 

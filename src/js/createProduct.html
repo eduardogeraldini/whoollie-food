@@ -4,7 +4,8 @@
             e.preventDefault();
 
             $.post("/api/products", $("#formCreateProduct").serialize(), function() {
-                
+                $('#addModal').modal('hide');
+                swal("Tudo certo!", "Produto adicionado com sucesso!", "success");
             }).fail(() => {
                 console.log("Rota não encontrada!");
             });
