@@ -1,0 +1,28 @@
+<script>
+
+   $(document).ready(function () {
+
+        $.getJSON('/api/configs/company', function (data) {
+            $("#desName").val(data[0]['desName']);
+            $("#desCNPJ").val(data[0]['desCNPJ']);
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }); 
+
+    $(function () {
+        $("#formEditCompany").submit(function (e) {
+
+            e.preventDefault();
+
+            $.post("/api/configs/company", $("#formEditCompany").serialize(), function (data) {
+                swal("Tudo certo!", "Empresa atualizada com sucesso!", "success");
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+    });
+
+</script>

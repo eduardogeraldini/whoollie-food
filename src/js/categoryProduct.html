@@ -7,7 +7,7 @@
                 $.post('/api/categories/products', $(this).serialize(), function(data) {
                     swal("Tudo certo!", "Categoria para produtos criada com sucesso!", "success");
                 }).fail(function(){
-                    swal("Ops, ocorreu um erro!", "Não foi possivel criar uma categoria para produtos!", "error");
+                    console.log("Rota não encontrada!");
                 });
     
             });
