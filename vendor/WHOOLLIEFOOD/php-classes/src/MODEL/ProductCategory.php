@@ -22,7 +22,7 @@ class ProductCategory{
 
         if($this->getDesName() != ""){
 
-            $sql->query("INSERT INTO tbProductsCategories(desName) 
+            $sql->query("INSERT INTO tbProductsCategories(idCompany, desName) 
 			VALUES (:DESNAME)", [
 				":DESNAME"=>$this->getDesName(),
             ]);
