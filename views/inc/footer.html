@@ -60,7 +60,30 @@
             });
 
         });
+
+        $("input").on("focus", function() {
+            $(this).removeClass("border");
+            $(this).removeClass("border-danger");
+        });
+
     });
+
+    function formValidate(idForm) {
+        
+        let error = false;
+
+        $(`#${idForm} input`).each(function() {
+            if ($(this).data("require") && $(this).val() == "") {
+                $(this).addClass('border');
+                $(this).addClass('border-danger');
+                
+                error = true;
+            }
+        });
+
+        return !error;
+
+    }
 </script>
 
 </body>
