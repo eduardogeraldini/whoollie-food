@@ -53,7 +53,7 @@ class Product{
 			echo json_encode([
 				'error' => false
 			]);
-
+				
 			return;
 		}
 		
