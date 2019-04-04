@@ -6,17 +6,8 @@ $app->get('/produtos', function($request, $response, $args) {
 
 	User::verifyLogin(false);
 
-	renderPage("product", "listProduct", false, "createProduct");
+	renderPage("product", "listProduct", false, "product");
 	
 });
-
-$app->get('/produtos/criar', function($request, $response, $args) {
-
-	User::verifyLogin(false);
-
-	renderPage("product", "createProduct");
-	
-});
-
 
 ?>

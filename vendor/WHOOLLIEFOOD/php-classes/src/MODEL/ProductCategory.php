@@ -43,7 +43,6 @@ class ProductCategory{
        
     }
 
-
     public function listAll(){
 
         $sql = new Sql();

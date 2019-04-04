@@ -1,16 +1,54 @@
 <script>
         $(function() {
-            $("form").submit(function(e) {
+            $("#btnCreateCategorieProduct").click(function(e) {
                     
                 e.preventDefault();
     
-                $.post('/api/categories/products', $(this).serialize(), function(data) {
+                $.post('/api/categories/products', $("#formCreateCategorieProduct").serialize(), function(data) {
+                    $('#addModal').modal('hide');
                     swal("Tudo certo!", "Categoria para produtos criada com sucesso!", "success");
+                    loadCategoriesProducts();
                 }).fail(function(){
                     console.log("Rota não encontrada!");
                 });
     
             });
         });
+
+        function loadCategoriesProducts() {
+
+            $("#viewCategoriesProducts tbody").html("");
+
+            $.getJSON('/api/categories/products', function (data) {
+
+                data.forEach(element => {
+
+                    //ALTERAR QUANDO IMPLEMENTAR IMAGENS
+                    $("#viewCategoriesProducts tbody").append(`
+                        <tr>
+                            <td>
+                                <a href="#edit_${element.idProductCategory}" class="btn btn-info btn-sm btn-circle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#remove_${element.idProductCategory}" class="btn btn-danger btn-sm btn-circle">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                            <td>${element.desName}</td>
+                        </tr>
+                    `);
+
+                    console.log(element.desName);
+                });
+
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        }
+
+        $(document).ready(function () {
+            loadCategoriesProducts();
+        }); 
         
 </script>
