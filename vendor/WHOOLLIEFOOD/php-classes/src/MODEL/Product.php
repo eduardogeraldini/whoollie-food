@@ -153,11 +153,11 @@ class Product{
 
         $sql = new Sql();
 
-		return json_encode($sql->select("SELECT * FROM tbProducts WHERE idProduct = :IDPRODUTO",[
+				return json_encode($sql->select("SELECT * FROM tbProducts WHERE idProduct = :IDPRODUTO",[
             ':IDPRODUTO' => $idProduct
         ]));
 
-	}
+		}
 
     public function createProduct(){
 

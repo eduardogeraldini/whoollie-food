@@ -1,0 +1,125 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h4 mb-4 text-gray-800">Autorização de funcionários <button type="button"
+            class="btn btn-success float-right" data-toggle="modal" data-target="#addModal">Autorizar um
+            funcionário</button></h1>
+    <p>Permite você criar funcionários, e dar privilégios de acesso ao sistema.</p>
+    <p>*Privilégios Básicos: Acesso ao Produtos, Comandas.</p>
+    <p>*Privilégios Gerenciais: Acesso aos Funcionários, Relátorios, Configurações.</p>
+
+
+    <h1 class="h5 mb-4 text-gray-800">Gerenciar funcionários:</h1>
+    <div class="row">
+
+        <br>
+
+        <table class="table table-striped" id="viewEmployees">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Ações</th>
+                    <th style="width: 30%;">Funcionário</th>
+                    <th style="width: 30%;">Departamento</th>
+                    <th style="width: 15%;">Privilégios Básicos</th>
+                    <th style="width: 15%;">Privilégios Gerenciais</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Autorizar funcionário</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formAutEmployee" method="POST">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Nome:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Ex: Nome Sobrenome" name="desName"
+                                data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">CPF:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="desCPF" data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Data de Nascimento:</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="dtBirth" data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Departamento:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="idDepartment" id="idDepartments">
+                            </select>
+                        </div>
+                    </div>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">Ativo ?</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="isActive" value="1" checked>
+                                    <label class="form-check-label">
+                                        Sim
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="isActive" value="0">
+                                    <label class="form-check-label">
+                                        Não
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Login:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Ex: fulano123" name="desLogin"
+                                data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Senha:</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="desPassword" data-require="true">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                    id="btnCancelEmployee">Cancelar</button>
+                <button type="submit" class="btn btn-success" id="btnAutEmployee">Autorizar!</button>
+            </div>
+        </div>
+    </div>
+</div>
