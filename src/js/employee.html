@@ -1,0 +1,73 @@
+<script>
+    $(function () {
+        $("#btnAutEmployee").click(function (e) {
+
+            e.preventDefault();
+
+            if(!formValidate("formAutEmployee")) {
+                return;
+            };
+
+            $.post('/api/employees', $("#formAutEmployee").serialize(), function (data) {
+                $('#addModal').modal('hide');
+                swal("Tudo certo!", "Funcionário autorizado com sucesso!", "success");
+                loadEmployees();
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+    });
+
+    function loadEmployees() {
+
+        $("#viewEmployees tbody").html("");
+
+        $.getJSON('/api/employees', function (data) {
+
+            data.forEach(element => {
+
+                $("#viewEmployees tbody").append(`
+                        <tr>
+                            <td>
+                                <a href="#edit_${element.idEmployees}" class="btn btn-info btn-sm btn-circle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#remove_${element.idEmployees}" class="btn btn-danger btn-sm btn-circle">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                            <td>${element.desNameF}</td>
+                            <td>${element.desNameD}</td>
+                            <td>COLOCAR SWITCHERY</td>
+                            <td>COLOCAR SWITCHERY</td>
+                        </tr>
+                    `);
+            });
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function loadDepartments() {
+        $.getJSON('/api/departments/employees', function (data) {
+
+            data.forEach(element => {
+                $("#idDepartments").append(`
+                <option value="${element.idDepartments}">${element.desName}</option>
+            `);
+            });
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+    }
+
+    $(document).ready(function () {
+        loadEmployees();
+        loadDepartments();
+    });
+
+</script>
