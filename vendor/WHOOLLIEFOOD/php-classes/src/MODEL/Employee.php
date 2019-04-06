@@ -98,17 +98,47 @@ class Employee{
                 ":ISACTIVE"=>$this->getIsActive()
             ]);
 
+            
+            $sql->query("INSERT INTO tbPrivileges(idEmployee) 
+			VALUES (:IDEMPLOYEE)", [
+				":IDEMPLOYEE"=>$this->returnLastEmployee(),
+            ]);
+
         }
        
     }
+
+    public function returnLastEmployee(){
+
+		$sql = new Sql();
+
+		return $sql->select("SELECT MAX(idEmployees) FROM tbEmployees WHERE idCompany = :IDCOMPANY",[
+			":IDCOMPANY" => $_SESSION['User']['idCompany']
+		])[0]['MAX(idEmployees)'];
+
+	}
+
+    public function securePrivileges($idEmployee, $column, $value){
+
+        $sql = new Sql();
+
+        return $sql->query("UPDATE tbPrivileges 
+            SET $column = :VAL
+            WHERE idEmployee = :IDEMPLOYEE", [
+            ":VAL" => $value,
+            ":IDEMPLOYEE" => $idEmployee
+         ]);
+
+    }
+
 
     public function listAll(){
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD' FROM tbEmployees a 
+        return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
-            WHERE a.idCompany = :IDCOMPANY",[
+            INNER JOIN tbPrivileges c ON (a.idEmployees = c.idEmployee) WHERE a.idCompany = :IDCOMPANY",[
                 ":IDCOMPANY"=>$this->getIdCompany()
             ]));
 

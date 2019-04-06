@@ -3,6 +3,17 @@
 use \WHOOLLIEFOOD\MODEL\Employee;
 use \WHOOLLIEFOOD\MODEL\User;
 
+$app->post('/api/privileges/employees', function($request, $response, $args) {
+
+	User::verifyLogin();
+    $input = $request->getParsedBody();
+	
+	$employee = new Employee();
+	$employee->securePrivileges($input['idEmployee'], $input['column'], $input['value']);
+	
+});
+
+
 $app->post('/api/employees', function($request, $response, $args) {
 
 	User::verifyLogin();

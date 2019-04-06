@@ -51,7 +51,10 @@
 
 <script src="/res/admin/js/sweetalert.min.js"></script>
 
+<script type="text/javascript" src="http://abpetkov.github.io/switchery/dist/switchery.min.js"></script>
+
 <script>
+
     $(function () {
         $("#btnLogout").click(function () {
 
@@ -61,7 +64,7 @@
 
         });
 
-        $("input").on("focus", function() {
+        $("input").on("focus", function () {
             $(this).removeClass("border");
             $(this).removeClass("border-danger");
         });
@@ -69,14 +72,14 @@
     });
 
     function formValidate(idForm) {
-        
+
         let error = false;
 
-        $(`#${idForm} input`).each(function() {
+        $(`#${idForm} input`).each(function () {
             if ($(this).data("require") && $(this).val() == "") {
                 $(this).addClass('border');
                 $(this).addClass('border-danger');
-                
+
                 error = true;
             }
         });
