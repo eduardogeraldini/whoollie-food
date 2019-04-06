@@ -69,6 +69,15 @@
             $(this).removeClass("border-danger");
         });
 
+        $.getJSON('/api/products', function (data) {
+
+            console.log(data);
+            //$("#spanCompanyName");
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
     });
 
     function formValidate(idForm) {
@@ -87,6 +96,7 @@
         return !error;
 
     }
+
 </script>
 
 </body>
