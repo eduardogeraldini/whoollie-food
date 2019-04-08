@@ -147,26 +147,26 @@ class Product{
 
 		return json_encode($sql->select("SELECT * FROM tbProducts"));
 
-    }
+	}
 
-    public function listProductById($idProduct){
+	public function listProductById($idProduct){
 
-        $sql = new Sql();
+			$sql = new Sql();
 
-				return json_encode($sql->select("SELECT * FROM tbProducts WHERE idProduct = :IDPRODUTO",[
-            ':IDPRODUTO' => $idProduct
-        ]));
+			return json_encode($sql->select("SELECT * FROM tbProducts WHERE idProduct = :IDPRODUTO",[
+					':IDPRODUTO' => $idProduct
+			]));
 
-		}
+	}
 
-    public function createProduct(){
+	public function createProduct(){
 
 		$sql = new Sql();
 		
 		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getQtStock() != "" && $this->getIdCompany() != "" && $this->getIdProductCategory() != ""){
 
 			$sql->query("INSERT INTO tbProducts(desName, desNote, desImagePath, qtStock, isActive, vlUnity, idCompany, idProductCategory) 
-						 VALUES (:DESNAME, :DESNOTE, :DESIMAGEPATH, :QTSTOCK, :ISACTIVE, :VLUNITY, :IDCOMPANY, :IDPRODUCTCATEGORY)", [
+						VALUES (:DESNAME, :DESNOTE, :DESIMAGEPATH, :QTSTOCK, :ISACTIVE, :VLUNITY, :IDCOMPANY, :IDPRODUCTCATEGORY)", [
 					":DESNAME"=>$this->getDesName(),
 					":DESNOTE"=>$this->getDesNote(),
 					":DESIMAGEPATH"=>$this->getDesImagePath(),
@@ -179,7 +179,6 @@ class Product{
 		}
 
 	}
-
 
 }
 

@@ -1,15 +1,13 @@
 <script>
-    var idForm = "formCreateProduct";
-
     $(function () {
         $("#btnCreateProduct").click(function (e) {
             e.preventDefault();
 
-            if(!formValidate(idForm)) {
+            if(!formValidate("formCreateProduct")) {
                 return;
             };
 
-            let form = $(`#${idForm}`);
+            let form = $(`#formCreateProduct`);
             let formData = new FormData(form[0]);
 
             $.ajax({
@@ -26,13 +24,13 @@
                         $('#addModal').modal('hide');
                         swal("Tudo certo!", "Produto adicionado com sucesso!", "success");
                         loadProducts(); 
-                        $(`#${idForm}`).trigger("reset");
+                        $(`#formCreateProduct`).trigger("reset");
                     }
                     
                 },
                 error: function(data) {
 
-                    $(`#${idForm}`).trigger("reset");
+                    $(`#formCreateProduct`).trigger("reset");
                     console.log(`Erro! Mensagem: ${data}`);
                
                 }
@@ -40,8 +38,8 @@
 
         });
 
-        $("#btnCancelProduct").click(function() {
-            $(`#${idForm}`).trigger("reset");
+        $("#btnCancelCreateProduct").click(function() {
+            $(`#formCreateProduct`).trigger("reset");
         });
 
         loadProducts();
@@ -68,7 +66,7 @@
                         <div class="card-body text-center">
                             <img class="fluid-img mb-1" src="/${element.desImagePath}" alt="" style="width: 100px; height: 100px;">
                             <p> ${((element.desNote == "") ? "Produto sem descrição." : element.desNote)} </p>
-                            <a href="#" class="btn btn-info btn-circle">
+                            <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
                                 <i class="fas fa-edit"></i>
                             </a>
                             <a href="#" class="btn btn-danger btn-circle">
@@ -84,14 +82,44 @@
         });
     }
 
+    function loadEditProduct(idProduct) {
+
+        $.getJSON(`/api/products/${idProduct}`, function (data) {
+
+            $("#formEditProduct #desName").val(data[0].desName);
+            $("#formEditProduct #desNote").val(data[0].desNote);
+            $("#formEditProduct #vlUnity").val(data[0].vlUnity);
+            $("#formEditProduct #qtStock").val(data[0].qtStock);
+
+            $("#formEditProduct #idProductCategory").val(data[0].idProductCategory).change();
+            
+            $("#formEditProduct #isActive").val(data[0].isActive);
+            $("#formEditProduct #image").val(data[0].image);
+
+        }).then(() => {
+            $("#editModal").modal();
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
     function loadCategoriesProducts() {
         $.getJSON('/api/categories/products', function (data) {
 
-        data.forEach(element => {
-            $("#idProductCategory").append(`
-                <option value="${element.idProductCategory}">${element.desName}</option>
-            `);
-        });
+            data.forEach(element => {
+                $("#formCreateProduct #idProductCategory").append(`
+                    <option value="${element.idProductCategory}">${element.desName}</option>
+                `);
+
+                $("#formEditProduct #idProductCategory").append(`
+                    <option value="${element.idProductCategory}">${element.desName}</option>
+                `);
+
+                $("#formFilterProduct #idProductCategory").append(`
+                    <option value="${element.idProductCategory}">${element.desName}</option>
+                `);
+            });
 
         }).fail(function () {
             console.log("Rota não encontrada!");
