@@ -1,10 +1,12 @@
 <script>
+
+
     $(function () {
         $("#btnAutEmployee").click(function (e) {
 
             e.preventDefault();
 
-            if(!formValidate("formAutEmployee")) {
+            if (!formValidate("formAutEmployee")) {
                 return;
             };
 
@@ -17,6 +19,7 @@
             });
 
         });
+
     });
 
     function loadEmployees() {
@@ -39,10 +42,60 @@
                             </td>
                             <td>${element.desNameF}</td>
                             <td>${element.desNameD}</td>
-                            <td>COLOCAR SWITCHERY</td>
-                            <td>COLOCAR SWITCHERY</td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewProducts}" data-name="viewProducts"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewOrders}" data-name="viewOrders"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewEmployees}" data-name="viewEmployees"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewReports}" data-name="viewReports"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewConfigs}" data-name="viewConfigs""/></td>
                         </tr>
                     `);
+            });
+
+        }).then(() => {
+
+            $(".checks").each(function (index) {
+                if ($(this).val() == 1)
+                    $(this).prop('checked', true);
+            });
+
+            $(".checks").on('change', function () {
+
+                let privileges = {};
+
+                if ($(this).prop('checked') == true) {
+                    $(this).val(1)
+                    privileges.idEmployee = $(this).data('id');
+                    privileges.column = $(this).data('name');
+                    privileges.value = $(this).val();
+
+                    //console.log(JSON.stringify(privileges));
+
+                    $.post('/api/privileges/employees', privileges, function (data) {
+                    }).fail(function () {
+                        console.log("Rota não encontrada!");
+                    });
+
+                } else {
+
+                    $(this).val(0)
+                    privileges.idEmployee = $(this).data('id');
+                    privileges.column = $(this).data('name');
+                    privileges.value = $(this).val();
+
+                    //console.log(JSON.stringify(privileges));
+
+                    $.post('/api/privileges/employees', privileges, function (data) {
+                    }).fail(function () {
+                        console.log("Rota não encontrada!");
+                    });
+                }
+
+            });
+
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+            elems.forEach(function (html) {
+                var switchery = new Switchery(html, { size: 'small' });
             });
 
         }).fail(function () {
@@ -68,6 +121,7 @@
     $(document).ready(function () {
         loadEmployees();
         loadDepartments();
+
     });
 
 </script>
