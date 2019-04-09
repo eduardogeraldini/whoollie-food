@@ -15,9 +15,9 @@
         <table class="table table-striped table-bordered text-center" id="viewEmployees">
             <thead>
                 <tr>
-                    <th style="width: 10%;">Ações</th>
+                    <th style="width: 15%;">Ações</th>
                     <th style="width: 30%;">Funcionário</th>
-                    <th style="width: 20%;">Departamento</th>
+                    <th style="width: 15%;">Departamento</th>
                     <th style="width: 8%;">Produtos</th>
                     <th style="width: 8%;">Comandas</th>
                     <th style="width: 8%;">Funcionários</th>
@@ -118,6 +118,78 @@
                 <button class="btn btn-secondary" type="button" data-dismiss="modal"
                     id="btnCancelEmployee">Cancelar</button>
                 <button type="submit" class="btn btn-success" id="btnAutEmployee">Autorizar!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar funcionário</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditEmployee" method="POST">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Nome:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Ex: Nome Sobrenome" name="desName"
+                                data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">CPF:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="desCPF" data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Data de Nascimento:</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="dtBirth" data-require="true">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Departamento:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="idDepartment" id="idDepartments">
+                            </select>
+                        </div>
+                    </div>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">Ativo ?</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="checkYes" type="radio" name="isActive" value="1" checked>
+                                    <label class="form-check-label">
+                                        Sim
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" id="checkNo" type="radio" name="isActive" value="0">
+                                    <label class="form-check-label">
+                                        Não
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <input type="hidden" name="idHidden" id="idHidden">
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal"
+                    id="btnCancelEmployee">Cancelar</button>
+                <button type="submit" class="btn btn-success" id="btnEditEmployee">Editar!</button>
             </div>
         </div>
     </div>

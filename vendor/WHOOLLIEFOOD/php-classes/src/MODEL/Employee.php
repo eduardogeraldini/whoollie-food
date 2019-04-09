@@ -138,11 +138,59 @@ class Employee{
 
         return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
-            INNER JOIN tbPrivileges c ON (a.idEmployees = c.idEmployee) WHERE a.idCompany = :IDCOMPANY",[
-                ":IDCOMPANY"=>$this->getIdCompany()
+            INNER JOIN tbPrivileges c ON (a.idEmployees = c.idEmployee) WHERE a.idCompany = :IDCOMPANY AND a.isDeleted = :ISDELETED",[
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":ISDELETED"=> 0
             ]));
 
     }
+
+    public function listEmployeeById($idEmployee){
+
+        $sql = new Sql();
+
+		return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', a.desCPF, a.isActive, a.dtBirth FROM tbEmployees a
+            INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment)
+            WHERE a.idEmployees = :IDEMPLOYEE",[
+            ':IDEMPLOYEE' => $idEmployee
+        ]));
+
+        }
+        
+    
+    public function editEmployee($idEmployee){
+
+        $sql = new Sql();
+
+        if($this->getDesName() != "" && $this->getDesCPF() != "" && $this->getDtBirth() != ""){
+
+            return $sql->query("UPDATE tbEmployees SET desName = :DESNAME, desCPF = :DESCPF, dtBirth = :DTBIRTH, isActive = :ISACTIVE, idDepartment = :IDDEPARTMENT
+                WHERE idCompany = :IDCOMPANY AND idEmployees = :IDEMPLOYEE", [
+                ":DESNAME"=>$this->getDesName(),
+                ":DESCPF"=>$this->getDesCPF(),
+                ":DTBIRTH"=>$this->getDtBirth(),
+                ":ISACTIVE"=>$this->getIsActive(),
+                ":IDDEPARTMENT"=>$this->getIdDepartment(),
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":IDEMPLOYEE"=>$idEmployee                       
+            ]);
+                
+        } 
+    
+    }  
+    
+    public function deleteEmployee($idEmployee){
+
+        $sql = new Sql();
+
+        return $sql->query("UPDATE tbEmployees SET isDeleted = :ISDELETED
+                WHERE idCompany = :IDCOMPANY AND idEmployees = :IDEMPLOYEE", [
+                ":ISDELETED"=>$this->getIsDeleted(),
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":IDEMPLOYEE"=>$idEmployee                       
+            ]);
+    
+    } 
 
 }
 
