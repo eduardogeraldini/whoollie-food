@@ -86,12 +86,12 @@ class User{
 	}
 
 	public static function createUser($desLogin, $desPassword){
-
+		
 		$sql = new Sql();
 
-		if($desLogin != "" && $desPassword != ""){
+		if($desLogin != "" && $desPassword != "") {
 
-		$sql->query("INSERT INTO tbUsers(desLogin, desPassword, idCompany) 
+			return $sql->query("INSERT INTO tbUsers(desLogin, desPassword, idCompany) 
 						VALUES (:DESLOGIN, :DESPASSWORD, :IDCOMPANY)", [
 				":DESLOGIN"=>$desLogin,
 				":DESPASSWORD"=>sha1($desPassword),
@@ -101,18 +101,6 @@ class User{
 		}
 		
 	}
-
-	public static function returnLastUser(){
-
-		$sql = new Sql();
-
-		return $sql->select("SELECT MAX(idUser) FROM tbUsers WHERE idCompany = :IDCOMPANY",[
-			":IDCOMPANY" => $_SESSION['User']['idCompany']
-		])[0]['MAX(idUser)'];
-
-	}
-
-
 
 }
 

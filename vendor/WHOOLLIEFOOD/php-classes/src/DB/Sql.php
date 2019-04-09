@@ -61,6 +61,8 @@ class Sql {
 
 		$stmt->execute();
 
+		return $this->conn->lastInsertId();
+
 	}
 
 	public function select($rawQuery, $params = array()):array

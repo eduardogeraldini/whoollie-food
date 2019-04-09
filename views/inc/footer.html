@@ -50,54 +50,7 @@
 <script src="/res/admin/js/sb-admin-2.min.js"></script>
 
 <script src="/res/admin/js/sweetalert.min.js"></script>
-
-<script type="text/javascript" src="http://abpetkov.github.io/switchery/dist/switchery.min.js"></script>
-
-<script>
-
-    $(function () {
-        $("#btnLogout").click(function () {
-
-            $.get('/api/logout', function () { }).then(() => {
-                window.location.href = "/entrar";
-            });
-
-        });
-
-        $("input").on("focus", function () {
-            $(this).removeClass("border");
-            $(this).removeClass("border-danger");
-        });
-
-        $.getJSON('/api/products', function (data) {
-
-            console.log(data);
-            //$("#spanCompanyName");
-
-        }).fail(function () {
-            console.log("Rota não encontrada!");
-        });
-
-    });
-
-    function formValidate(idForm) {
-
-        let error = false;
-
-        $(`#${idForm} input`).each(function () {
-            if ($(this).data("require") && $(this).val() == "") {
-                $(this).addClass('border');
-                $(this).addClass('border-danger');
-
-                error = true;
-            }
-        });
-
-        return !error;
-
-    }
-
-</script>
+<script src="/src/js/main.js"></script>
 
 </body>
 

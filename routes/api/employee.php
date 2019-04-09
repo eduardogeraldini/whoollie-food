@@ -55,9 +55,7 @@ $app->post('/api/employees', function($request, $response, $args) {
 	User::verifyLogin();
     $input = $request->getParsedBody();
     
-    User::createUser($input['desLogin'],$input['desPassword']);
-    $idUser = User::returnLastUser();
-
+    $idUser = User::createUser($input['desLogin'],$input['desPassword']);
     $employee = new Employee();
 
 	$employee->setDesName($input['desName']);
@@ -65,9 +63,9 @@ $app->post('/api/employees', function($request, $response, $args) {
 	$employee->setDtBirth($input['dtBirth']);
 	$employee->setIsActive($input['isActive']);
     $employee->setIdDepartment($input['idDepartment']);
-    $employee->setIdLogin($idUser);    
+    $employee->setIdUser($idUser);    
 
-	$employee->createEmployeer();
+	$employee->createEmployee();
 	
 });
 
@@ -79,6 +77,16 @@ $app->get('/api/employees', function($request, $response, $args) {
     $employee = new Employee(); 
 
 	echo $employee->listAll();
+	
+});
+
+$app->get('/api/currentEmployee', function($request, $response, $args) {
+
+	User::verifyLogin();
+
+	$employee = new Employee(); 
+
+	echo $employee->listCurrentEmployee();
 	
 });
 

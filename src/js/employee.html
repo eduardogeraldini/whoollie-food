@@ -10,7 +10,7 @@
                 return;
             };
 
-            $.post('/api/employees', $("#formAutEmployee").serialize(), function (data) {
+            $.post('/api/employee', $("#formAutEmployee").serialize(), function (data) {
                 $('#addModal').modal('hide');
                 swal("Tudo certo!", "Funcionário autorizado com sucesso!", "success");
                 loadEmployees();
@@ -151,8 +151,8 @@
 
             data.forEach(element => {
                 $("#idDepartments").append(`
-                <option value="${element.idDepartment}">${element.desName}</option>
-            `);
+                    <option value="${element.idDepartment}">${element.desName}</option>
+                `);
             });
 
             data.forEach(element => {

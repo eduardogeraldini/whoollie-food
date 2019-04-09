@@ -9,7 +9,7 @@ $app->get('/api/currentCompany', function($request, $response, $args) {
 
 	$company = new Company();
 
-	echo $category->listCurrentCompany();
+	echo $company->listCurrentCompany();
 	
 });
 

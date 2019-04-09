@@ -12,7 +12,7 @@ class Employee{
     private $isActive;
     private $isDeleted;
     private $idDepartment;
-    private $idLogin;
+    private $idUser;
     private $idCompany;
 
     public function __construct(){
@@ -37,8 +37,8 @@ class Employee{
         $this->idDepartment = $idDepartment;
     }
 
-    public function setIdLogin($idLogin){
-        $this->idLogin = $idLogin;
+    public function setIdUser($idUser){
+        $this->idUser = $idUser;
     }
 
     public function setIsActive($isActive){
@@ -65,8 +65,8 @@ class Employee{
         return $this->idDepartment;
     }
 
-    public function getIdLogin(){
-        return $this->idLogin;
+    public function getIdUser(){
+        return $this->idUser;
     }
 
     public function getIsActive(){
@@ -81,17 +81,17 @@ class Employee{
 		return $this->idCompany;
     }
 
-    public function createEmployeer(){
+    public function createEmployee(){
 
         $sql = new Sql();
 
         if($this->getDesName() != "" && $this->getDesCPF() != "" && $this->getDtBirth() != ""){
 
-            $sql->query("INSERT INTO tbEmployees(idCompany, idDepartment, idLogin, desName, desCPF, dtBirth, isActive) 
-			VALUES (:IDCOMPANY, :IDDEPARTMENT, :IDLOGIN, :DESNAME, :DESCPF, :DTBIRTH, :ISACTIVE)", [
+            $sql->query("INSERT INTO tbEmployees(idCompany, idDepartment, idUser, desName, desCPF, dtBirth, isActive) 
+			VALUES (:IDCOMPANY, :IDDEPARTMENT, :IDUSER, :DESNAME, :DESCPF, :DTBIRTH, :ISACTIVE)", [
 				":IDCOMPANY"=>$this->getIdCompany(),
                 ":IDDEPARTMENT"=>$this->getIdDepartment(),
-                ":IDLOGIN"=>$this->getIdLogin(),
+                ":IDUSER"=>$this->getIdUser(),
                 ":DESNAME"=>$this->getDesName(),
                 ":DESCPF"=>$this->getDesCPF(),
                 ":DTBIRTH"=>$this->getDtBirth(),
@@ -145,6 +145,7 @@ class Employee{
 
     }
 
+<<<<<<< HEAD
     public function listEmployeeById($idEmployee){
 
         $sql = new Sql();
@@ -191,6 +192,20 @@ class Employee{
             ]);
     
     } 
+=======
+    public function listCurrentEmployee() {
+        
+        $sql = new Sql();
+
+		return json_encode($sql->select("SELECT e.* FROM tbEmployees e
+                                         INNER JOIN tbUsers u ON (e.idUser = u.idUser)
+                                         WHERE 
+                                         e.idEmployee = :IDCOMPANY ", [
+            ":IDCOMPANY" => $this->getIdCompany()
+        ]));
+
+    }
+>>>>>>> 977708af8f628488428d12b5367bcea942ec6f9f
 
 }
 
