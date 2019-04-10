@@ -136,7 +136,7 @@ class Employee{
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs FROM tbEmployees a 
+        return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.idLogin, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
             INNER JOIN tbPrivileges c ON (a.idEmployees = c.idEmployee) WHERE a.idCompany = :IDCOMPANY AND a.isDeleted = :ISDELETED",[
                 ":IDCOMPANY"=>$this->getIdCompany(),
@@ -145,7 +145,6 @@ class Employee{
 
     }
 
-<<<<<<< HEAD
     public function listEmployeeById($idEmployee){
 
         $sql = new Sql();
@@ -192,20 +191,6 @@ class Employee{
             ]);
     
     } 
-=======
-    public function listCurrentEmployee() {
-        
-        $sql = new Sql();
-
-		return json_encode($sql->select("SELECT e.* FROM tbEmployees e
-                                         INNER JOIN tbUsers u ON (e.idUser = u.idUser)
-                                         WHERE 
-                                         e.idEmployee = :IDCOMPANY ", [
-            ":IDCOMPANY" => $this->getIdCompany()
-        ]));
-
-    }
->>>>>>> 977708af8f628488428d12b5367bcea942ec6f9f
 
 }
 

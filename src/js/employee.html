@@ -1,6 +1,5 @@
 <script>
 
-
     $(function () {
         $("#btnAutEmployee").click(function (e) {
 
@@ -36,7 +35,7 @@
                                 <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployees}" class="btn btn-info btn-sm btn-circle">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#remove_${element.idEmployees}" class="btn btn-success btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idLogin}" class="btn btn-success btn-sm btn-circle">
                                     <i class="fas fa-key"></i>
                                 </a>
                                 <a href="#" data-id="${element.idEmployees}" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
@@ -60,6 +59,7 @@
             loadSwitcherrys();
             loadEditEmployee();
             loadRemoveEmployee();
+            loadEditPasswordEmployee();
 
         }).fail(function () {
             console.log("Rota não encontrada!");
@@ -81,7 +81,7 @@
                 dangerMode: true,
             })
                 .then((willDelete) => {
-                    
+
                     if (willDelete) {
                         $.post("/api/employees/delete/" + idEmployee + "", function (data) {
                             swal("Deletado com sucesso!", {
@@ -199,6 +199,10 @@
 
             e.preventDefault();
 
+            if (!formValidate("formEditEmployee")) {
+                return;
+            };
+
             let idEmployee = $("#editModal [name='idHidden']").val();
 
             $.post("/api/employees/update/" + idEmployee + "", $("#formEditEmployee").serialize(), function (data) {
@@ -212,9 +216,65 @@
 
     }
 
+    function loadEditPasswordEmployee() {
+
+        $('#editPasswordModal').on('show.bs.modal', function (e) {
+
+            let button = $(e.relatedTarget);
+            let idLogin = button.data("id");
+
+            $("#editPasswordModal [name='idLoginHidden']").val(idLogin);
+
+            $.getJSON('COLOCAR GET USER', function (data) {
+                // $("#editPasswordModal [name='desLogin']").val(data[0]['desNameF']);
+                // $("#editPasswordModal [name='desPassword']").val(data[0]['desCPF']);
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+        $("#btnEditPassword").on('click', function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formEditPassword")) {
+                return;
+            };
+
+            let idLogin = $("#editPasswordModal [name='idLoginHidden']").val();
+
+            $.post("//COLOCAR UPDATE PASS", $("#formEditPassword").serialize(), function (data) {
+                swal("Tudo certo!", "Informações atualizadas com sucesso!", "success");
+                $('#editPasswordModal').modal('hide');
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+    }
+
+    function btnAllowEditLogin() {
+
+        $("#btnAllowEditLogin").on('click', function (e) {
+
+            $("#allowEditLogin").prop('readonly', false);
+
+        });
+
+        $('#editPasswordModal').on('hidden.bs.modal', function (e) {
+           
+            $("#allowEditLogin").prop('readonly', true);
+
+        })
+
+    }
+
     $(document).ready(function () {
         loadEmployees();
         loadDepartments();
+        btnAllowEditLogin();
     });
 
 </script>
