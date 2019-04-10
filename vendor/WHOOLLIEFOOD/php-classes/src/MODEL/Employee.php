@@ -136,18 +136,52 @@ class Employee{
 
     }
 
-    public function listCurrentEmployee() {
-        
+    public function listEmployeeById($idEmployee){
+
         $sql = new Sql();
 
-		return json_encode($sql->select("SELECT e.* FROM tbEmployees e
-                                         INNER JOIN tbUsers u ON (e.idUser = u.idUser)
-                                         WHERE 
-                                         e.idUser = :IDUSER", [
-            ":IDUSER" => $this->getIdUser()
+		return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', a.desCPF, a.isActive, a.dtBirth FROM tbEmployees a
+            INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment)
+            WHERE a.idEmployee = :IDEMPLOYEE",[
+            ':IDEMPLOYEE' => $idEmployee
         ]));
 
-    }
+        }
+        
+    
+    public function editEmployee($idEmployee){
+
+        $sql = new Sql();
+
+        if($this->getDesName() != "" && $this->getDesCPF() != "" && $this->getDtBirth() != ""){
+
+            return $sql->query("UPDATE tbEmployees SET desName = :DESNAME, desCPF = :DESCPF, dtBirth = :DTBIRTH, isActive = :ISACTIVE, idDepartment = :IDDEPARTMENT
+                WHERE idCompany = :IDCOMPANY AND idEmployee = :IDEMPLOYEE", [
+                ":DESNAME"=>$this->getDesName(),
+                ":DESCPF"=>$this->getDesCPF(),
+                ":DTBIRTH"=>$this->getDtBirth(),
+                ":ISACTIVE"=>$this->getIsActive(),
+                ":IDDEPARTMENT"=>$this->getIdDepartment(),
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":IDEMPLOYEE"=>$idEmployee                       
+            ]);
+                
+        } 
+    
+    }  
+    
+    public function deleteEmployee($idEmployee){
+
+        $sql = new Sql();
+
+        return $sql->query("UPDATE tbEmployees SET isDeleted = :ISDELETED
+                WHERE idCompany = :IDCOMPANY AND idEmployee = :IDEMPLOYEE", [
+                ":ISDELETED"=>$this->getIsDeleted(),
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":IDEMPLOYEE"=>$idEmployee                       
+            ]);
+    
+    } 
 
 }
 

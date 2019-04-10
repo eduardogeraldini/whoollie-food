@@ -1,6 +1,5 @@
 <script>
 
-
     $(function () {
         $("#btnAutEmployee").click(function (e) {
 
@@ -33,10 +32,13 @@
                 $("#viewEmployees tbody").append(`
                         <tr>
                             <td>
-                                <a href="#edit_${element.idEmployees}" class="btn btn-info btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployees}" class="btn btn-info btn-sm btn-circle">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#remove_${element.idEmployees}" class="btn btn-danger btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idLogin}" class="btn btn-success btn-sm btn-circle">
+                                    <i class="fas fa-key"></i>
+                                </a>
+                                <a href="#" data-id="${element.idEmployees}" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -53,55 +55,95 @@
 
         }).then(() => {
 
-            $(".checks").each(function (index) {
-                if ($(this).val() == 1)
-                    $(this).prop('checked', true);
-            });
-
-            $(".checks").on('change', function () {
-
-                let privileges = {};
-
-                if ($(this).prop('checked') == true) {
-                    $(this).val(1)
-                    privileges.idEmployee = $(this).data('id');
-                    privileges.column = $(this).data('name');
-                    privileges.value = $(this).val();
-
-                    //console.log(JSON.stringify(privileges));
-
-                    $.post('/api/privileges/employees', privileges, function (data) {
-                    }).fail(function () {
-                        console.log("Rota não encontrada!");
-                    });
-
-                } else {
-
-                    $(this).val(0)
-                    privileges.idEmployee = $(this).data('id');
-                    privileges.column = $(this).data('name');
-                    privileges.value = $(this).val();
-
-                    //console.log(JSON.stringify(privileges));
-
-                    $.post('/api/privileges/employees', privileges, function (data) {
-                    }).fail(function () {
-                        console.log("Rota não encontrada!");
-                    });
-                }
-
-            });
-
-            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-            elems.forEach(function (html) {
-                var switchery = new Switchery(html, { size: 'small' });
-            });
+            loadPrivileges();
+            loadSwitcherrys();
+            loadEditEmployee();
+            loadRemoveEmployee();
+            loadEditPasswordEmployee();
 
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
 
+    }
+
+    function loadRemoveEmployee() {
+
+        $(".btnRemove").on('click', function (e) {
+
+            let idEmployee = $(this).data("id");
+
+            swal({
+                title: "Você tem certeza ?",
+                text: "Após deletado você não poderá mais recupera-lo!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+
+                    if (willDelete) {
+                        $.post("/api/employees/delete/" + idEmployee + "", function (data) {
+                            swal("Deletado com sucesso!", {
+                                icon: "success",
+                            });
+                            loadEmployees();
+                        }).fail(function () {
+                            console.log("Rota não encontrada!");
+                        });
+                    } else {
+                        swal("A ação de deletar foi cancelada!");
+                    }
+                });
+
+        });
+    }
+
+    function loadPrivileges() {
+
+        $(".checks").each(function (index) {
+            if ($(this).val() == 1)
+                $(this).prop('checked', true);
+        });
+
+        $(".checks").on('change', function () {
+
+            let privileges = {};
+
+            if ($(this).prop('checked') == true) {
+                $(this).val(1)
+                privileges.idEmployee = $(this).data('id');
+                privileges.column = $(this).data('name');
+                privileges.value = $(this).val();
+
+                $.post('/api/privileges/employees', privileges, function (data) {
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+
+            } else {
+
+                $(this).val(0)
+                privileges.idEmployee = $(this).data('id');
+                privileges.column = $(this).data('name');
+                privileges.value = $(this).val();
+
+                $.post('/api/privileges/employees', privileges, function (data) {
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+            }
+
+        });
+
+    }
+
+    function loadSwitcherrys() {
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, { size: 'small' });
+        });
     }
 
     function loadDepartments() {
@@ -113,15 +155,126 @@
                 `);
             });
 
+            data.forEach(element => {
+                $("#editModal #idDepartments").append(`
+                <option value="${element.idDepartment}">${element.desName}</option>
+            `);
+            });
+
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
     }
 
+    function loadEditEmployee() {
+
+        $('#editModal').on('show.bs.modal', function (e) {
+
+            let button = $(e.relatedTarget);
+            let idEmployee = button.data("id");
+
+            $("#editModal [name='idHidden']").val(idEmployee);
+
+            $.getJSON('/api/employees/' + idEmployee + '', function (data) {
+                $("#editModal [name='desName']").val(data[0]['desNameF']);
+                $("#editModal [name='desCPF']").val(data[0]['desCPF']);
+                $("#editModal [name='dtBirth']").val(data[0]['dtBirth']);
+
+                if ((data[0]['isActive']) == 1) {
+                    $("#editModal [name='isActive']").val(data[0]['isActive']);
+                    $("#checkYes").prop("checked", true);
+                } else {
+                    $("#editModal [name='isActive']").val(data[0]['isActive']);
+                    $("#checkNo").prop("checked", true);
+                }
+
+                $("#editModal [name='idDepartment']").val(data[0]['idDepartment']);
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+        $("#btnEditEmployee").on('click', function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formEditEmployee")) {
+                return;
+            };
+
+            let idEmployee = $("#editModal [name='idHidden']").val();
+
+            $.post("/api/employees/update/" + idEmployee + "", $("#formEditEmployee").serialize(), function (data) {
+                swal("Tudo certo!", "Funcionário atualizado com sucesso!", "success");
+                $('#editModal').modal('hide');
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+    }
+
+    function loadEditPasswordEmployee() {
+
+        $('#editPasswordModal').on('show.bs.modal', function (e) {
+
+            let button = $(e.relatedTarget);
+            let idLogin = button.data("id");
+
+            $("#editPasswordModal [name='idLoginHidden']").val(idLogin);
+
+            $.getJSON('COLOCAR GET USER', function (data) {
+                // $("#editPasswordModal [name='desLogin']").val(data[0]['desNameF']);
+                // $("#editPasswordModal [name='desPassword']").val(data[0]['desCPF']);
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+        $("#btnEditPassword").on('click', function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formEditPassword")) {
+                return;
+            };
+
+            let idLogin = $("#editPasswordModal [name='idLoginHidden']").val();
+
+            $.post("//COLOCAR UPDATE PASS", $("#formEditPassword").serialize(), function (data) {
+                swal("Tudo certo!", "Informações atualizadas com sucesso!", "success");
+                $('#editPasswordModal').modal('hide');
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+    }
+
+    function btnAllowEditLogin() {
+
+        $("#btnAllowEditLogin").on('click', function (e) {
+
+            $("#allowEditLogin").prop('readonly', false);
+
+        });
+
+        $('#editPasswordModal').on('hidden.bs.modal', function (e) {
+           
+            $("#allowEditLogin").prop('readonly', true);
+
+        })
+
+    }
+
     $(document).ready(function () {
         loadEmployees();
         loadDepartments();
-
+        btnAllowEditLogin();
     });
 
 </script>
