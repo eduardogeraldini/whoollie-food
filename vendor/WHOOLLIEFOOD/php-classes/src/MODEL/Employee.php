@@ -155,7 +155,7 @@ class Employee{
 
         $sql = new Sql();
 
-		return json_encode($sql->select("SELECT a.desName 
+		return json_encode($sql->select("SELECT a.desName, a.idEmployee 
             FROM tbEmployees a
             INNER JOIN tbUsers b ON (a.idUser = b.idUser)
             WHERE a.idUser = :IDUSER",[
@@ -197,6 +197,57 @@ class Employee{
             ]);
     
     } 
+
+    public static function verifyPrivileges($module){
+
+        $sql = new Sql();
+        $employee = new Employee();
+        $idEmployee = json_decode($employee->listCurrentEmployee(), true);
+    
+
+        $results = $sql->select("SELECT * FROM tbPrivileges 
+            WHERE idEmployee = :IDEMPLOYEE", [
+            ":IDEMPLOYEE" => $idEmployee[0]['idEmployee']
+         ]);
+
+        $data = $results[0];
+
+        switch ($module) {
+        case 'products':
+            if($data["viewProducts"] == 0){
+                return false;
+            }
+            else {
+                return true;
+            }  
+        case 'orders':
+            if($data["viewOrders"] == 0){
+                return false;
+            } else {
+                return true;
+            }              
+        case 'employees':
+            if($data["viewEmployees"] == 0){
+                return false;
+            } else {
+                return true;
+            } 
+        case 'reports':
+            if($data["viewReports"] == 0){
+                return false;
+            } else {
+                return true;
+            }   
+        case 'configs':
+            if($data["viewConfigs"] == 0){
+                return false;
+            } else {
+                return true;
+            }                                                        
+
+        }
+
+    }
 
 }
 

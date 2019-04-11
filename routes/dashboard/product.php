@@ -1,12 +1,17 @@
 <?php
 
 use \WHOOLLIEFOOD\MODEL\User;
+use \WHOOLLIEFOOD\MODEL\Employee;
 
 $app->get('/produtos', function($request, $response, $args) {
 
 	User::verifyLogin(false);
 
-	renderPage("product", "listProduct", false, "product");
+	if(Employee::verifyPrivileges("products")){
+        renderPage("product", "listProduct", false, "product");
+    } else {
+        renderPage("errors", "errorPrivileges", false);
+    }
 	
 });
 
