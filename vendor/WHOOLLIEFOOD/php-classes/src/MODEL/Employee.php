@@ -128,7 +128,7 @@ class Employee{
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.idUser, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs 
+        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.idUser, a.isActive, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs 
             FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
             INNER JOIN tbPrivileges c ON (a.idEmployee = c.idEmployee) 

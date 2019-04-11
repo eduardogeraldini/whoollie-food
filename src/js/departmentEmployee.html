@@ -1,0 +1,129 @@
+<script>
+    $(function () {
+        $("#btnCreateDepartment").click(function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formCreateDepartments")) {
+                return;
+            };
+
+            $.post('/api/departments/employees', $("#formCreateDepartments").serialize(), function (data) {
+                $('#addModal').modal('hide');
+                swal("Tudo certo!", "Departamento criado com sucesso!", "success");
+                loadDepartments();
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+    });
+
+    function loadDepartments() {
+
+        $("#viewDepartments tbody").html("");
+
+        $.getJSON('/api/departments/employees', function (data) {
+
+            data.forEach(element => {
+
+                $("#viewDepartments tbody").append(`
+                        <tr>
+                            <td>
+                                <a href="#" data-id="${element.idDepartment}" data-toggle="modal" data-target="#editModal" class="btn btn-info btn-sm btn-circle">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" data-id="${element.idDepartment}" class="btn btn-danger btn-sm btn-circle btnRemove">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </td>
+                            <td>${element.desName}</td>
+                        </tr>
+                    `);
+            });
+
+        }).then(() => {
+            loadRemoveDepartments();
+            loadEditDepartments();
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function loadRemoveDepartments() {
+
+        $(".btnRemove").on('click', function (e) {
+
+            let idDepartment = $(this).data("id");
+
+            swal({
+                title: "Você tem certeza ?",
+                text: "Após deletado você não poderá mais recupera-lo!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+
+                    if (willDelete) {
+                        $.post("/api/departments/employees/delete/" + idDepartment + "", function (data) {
+                            swal("Deletado com sucesso!", {
+                                icon: "success",
+                            });
+                            loadDepartments();
+                        }).fail(function () {
+                            console.log("Rota não encontrada!");
+                        });
+                    } else {
+                        swal("A ação de deletar foi cancelada!");
+                    }
+                });
+
+        });
+    }
+
+    function loadEditDepartments() {
+
+        $('#editModal').on('show.bs.modal', function (e) {
+
+            let button = $(e.relatedTarget);
+            let idDepartment = button.data("id");
+
+            $("#editModal [name='idHidden']").val(idDepartment);
+
+            $.getJSON('/api/departments/employees/' + idDepartment + '', function (data) {
+                $("#editModal [name='desName']").val(data[0]['desName']);
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+        $("#btnEditDepartment").on('click', function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formEditDepartments")) {
+                return;
+            };
+
+            let idDepartment = $("#editModal [name='idHidden']").val();
+
+            $.post("/api/departments/employees/update/" + idDepartment + "", $("#formEditDepartments").serialize(), function (data) {
+                swal("Tudo certo!", "Informações do departamento atualizadas com sucesso!", "success");
+                $('#editModal').modal('hide');
+                loadDepartments();
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+    }
+
+    $(document).ready(function () {
+        loadDepartments();
+    });
+
+</script>

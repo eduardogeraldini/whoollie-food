@@ -1,0 +1,92 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h4 mb-4 text-gray-800">Lista de Departamentos dos Funcinários <button type="button"
+            class="btn btn-success float-right" data-toggle="modal" data-target="#addModal">Criar Departamento</button>
+    </h1>
+    <p>Permite você visualizar, buscar e gerenciar departamentos de funcionários de forma simples.</p>
+
+    <br>
+
+    <table class="table table-striped table-bordered" id="viewDepartments">
+        <thead>
+            <tr>
+                <th style="width: 20%;">Ações</th>
+                <th style="width: 80%;">Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cadastrar departamento</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCreateDepartments" method="POST">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Nome:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="desName"
+                                placeholder="Ex: Departamento de T.I." data-require="true">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" id="btnCreateDepartment">Cadastrar!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar departamento</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditDepartments" method="POST">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Nome:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="desName"
+                                placeholder="Ex: Departamento de T.I." data-require="true">
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="idHidden" id="idHidden">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" id="btnEditDepartment">Editar!</button>
+            </div>
+        </div>
+    </div>
+</div>
