@@ -153,38 +153,30 @@ class Product{
 
 		$sql = new Sql();
 
-		$query = "";
+		$query = "SELECT * FROM tbProducts ";
 		$array = [];
 
-		if (isset($args["desName"])) {
-			if ($args["desName"] != "") {
-
-				if ($query == "") {
-					$query .= " WHERE ";
-				}
-
-				$query .= " UPPER(desName) LIKE :DESNAME ";
-				$array = [":DESNAME" => "%".strtoupper($args["desName"])."%"];
-			
-			}
+		if (count($args) > 0) {
+			$query .= " WHERE ";
 		}
 
-		if (isset($args["idProductCategory"])) {
-			if ($args["idProductCategory"] != "") {
-				if ($query == "") {
-					$query .= " WHERE ";
-				} else {
-					$query .= " AND ";
-				}
+		$i = 0;
 
-				$query .= " idProductCategory = :IDPRODUCTCATEGORY ";
-				$array = [":IDPRODUCTCATEGORY" => $args["idProductCategory"]];
-			}
-		}	
+		foreach ($args as $key => $value) {
+			
+			$query .= " UPPER($key) LIKE :".strtoupper($key);
+			$query .=  ($i != count($args)) ? " AND " : "";
+
+			$array[":".strtoupper($key)] = "%".strtoupper($value)."%";
 		
-		return json_encode($sql->select("
-			SELECT * 
-			FROM tbProducts " . $query, $array));		
+			$i++;
+		}
+
+		if (count($args) > 0) {
+			$query .= " 1 = 1 ";
+		}
+
+		return json_encode($sql->select($query, $array));		
 
 	}
 

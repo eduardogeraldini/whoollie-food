@@ -32,10 +32,10 @@
                 $("#viewEmployees tbody").append(`
                         <tr>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployee}" class="btn btn-info btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployee}" class="btn btn-info btn-sm btn-circle btnEditModal">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idUser}" class="btn btn-success btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idUser}" class="btn btn-success btn-sm btn-circle btnEditPassword">
                                     <i class="fas fa-key"></i>
                                 </a>
                                 <a href="#" data-id="${element.idEmployee}" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
@@ -68,6 +68,8 @@
     }
 
     function loadRemoveEmployee() {
+
+        $('.btnRemove').off();
 
         $(".btnRemove").on('click', function (e) {
 
@@ -168,9 +170,12 @@
 
     function loadEditEmployee() {
 
-        $('#editModal').on('show.bs.modal', function (e) {
+        $('.btnEditModal').off();
+        $("#btnEditEmployee").off();
 
-            let button = $(e.relatedTarget);
+        $('.btnEditModal').bind('click', function (e) {
+
+            let button = $(this);
             let idEmployee = button.data("id");
 
             $("#editModal [name='idHidden']").val(idEmployee);
@@ -217,9 +222,12 @@
 
     function loadEditPasswordEmployee() {
 
-        $('#editPasswordModal').on('show.bs.modal', function (e) {
+        $('.btnEditModal').off();
+        $("#btnEditPassword").off();
 
-            let button = $(e.relatedTarget);
+        $('.btnEditPassword').bind('click', function (e) {
+
+            let button = $(this);
             let idLogin = button.data("id");
 
             $("#editPasswordModal [name='idLoginHidden']").val(idLogin);
@@ -255,6 +263,8 @@
 
     function btnAllowEditLogin() {
 
+        $('#editPasswordModal').off();
+
         $("#btnAllowEditLogin").on('click', function (e) {
 
             $("#allowEditLogin").prop('readonly', false);
@@ -265,7 +275,7 @@
            
             $("#allowEditLogin").prop('readonly', true);
 
-        })
+        });
 
     }
 
