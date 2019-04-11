@@ -149,6 +149,45 @@ class Product{
 
 	}
 
+	public function listFilterProducts($args) {
+
+		$sql = new Sql();
+
+		$query = "";
+		$array = [];
+
+		if (isset($args["desName"])) {
+			if ($args["desName"] != "") {
+
+				if ($query == "") {
+					$query .= " WHERE ";
+				}
+
+				$query .= " UPPER(desName) LIKE :DESNAME ";
+				$array = [":DESNAME" => "%".strtoupper($args["desName"])."%"];
+			
+			}
+		}
+
+		if (isset($args["idProductCategory"])) {
+			if ($args["idProductCategory"] != "") {
+				if ($query == "") {
+					$query .= " WHERE ";
+				} else {
+					$query .= " AND ";
+				}
+
+				$query .= " idProductCategory = :IDPRODUCTCATEGORY ";
+				$array = [":IDPRODUCTCATEGORY" => $args["idProductCategory"]];
+			}
+		}	
+		
+		return json_encode($sql->select("
+			SELECT * 
+			FROM tbProducts " . $query, $array));		
+
+	}
+
 	public function listProductById($idProduct){
 
 			$sql = new Sql();

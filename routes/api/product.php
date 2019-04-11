@@ -3,6 +3,18 @@
 use \WHOOLLIEFOOD\MODEL\Product;
 use \WHOOLLIEFOOD\MODEL\User;
 
+$app->post('/api/filter/products', function($request, $response, $args) {
+
+	User::verifyLogin();
+
+	$input = $request->getParsedBody();
+
+	$product = new Product();
+
+	echo $product->listFilterProducts($input);
+	
+});
+
 $app->get('/api/products/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
