@@ -9,7 +9,7 @@
                 return;
             };
 
-            $.post('/api/employee', $("#formAutEmployee").serialize(), function (data) {
+            $.post('/api/employees', $("#formAutEmployee").serialize(), function (data) {
                 $('#addModal').modal('hide');
                 swal("Tudo certo!", "Funcionário autorizado com sucesso!", "success");
                 loadEmployees();
@@ -32,23 +32,23 @@
                 $("#viewEmployees tbody").append(`
                         <tr>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployees}" class="btn btn-info btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployee}" class="btn btn-info btn-sm btn-circle">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idLogin}" class="btn btn-success btn-sm btn-circle">
+                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idUser}" class="btn btn-success btn-sm btn-circle">
                                     <i class="fas fa-key"></i>
                                 </a>
-                                <a href="#" data-id="${element.idEmployees}" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
+                                <a href="#" data-id="${element.idEmployee}" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
                             <td>${element.desNameF}</td>
                             <td>${element.desNameD}</td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewProducts}" data-name="viewProducts"/></td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewOrders}" data-name="viewOrders"/></td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewEmployees}" data-name="viewEmployees"/></td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewReports}" data-name="viewReports"/></td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployees}" value="${element.viewConfigs}" data-name="viewConfigs""/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewOrders}" data-name="viewOrders"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewEmployees}" data-name="viewEmployees"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewReports}" data-name="viewReports"/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewConfigs}" data-name="viewConfigs""/></td>
                         </tr>
                     `);
             });
@@ -181,10 +181,8 @@
                 $("#editModal [name='dtBirth']").val(data[0]['dtBirth']);
 
                 if ((data[0]['isActive']) == 1) {
-                    $("#editModal [name='isActive']").val(data[0]['isActive']);
                     $("#checkYes").prop("checked", true);
                 } else {
-                    $("#editModal [name='isActive']").val(data[0]['isActive']);
                     $("#checkNo").prop("checked", true);
                 }
 
@@ -225,9 +223,8 @@
 
             $("#editPasswordModal [name='idLoginHidden']").val(idLogin);
 
-            $.getJSON('COLOCAR GET USER', function (data) {
-                // $("#editPasswordModal [name='desLogin']").val(data[0]['desNameF']);
-                // $("#editPasswordModal [name='desPassword']").val(data[0]['desCPF']);
+            $.getJSON('/api/users/'+idLogin+'', function (data) {
+                $("#editPasswordModal [name='desLogin']").val(data[0]['desLogin']);
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });
@@ -244,7 +241,7 @@
 
             let idLogin = $("#editPasswordModal [name='idLoginHidden']").val();
 
-            $.post("//COLOCAR UPDATE PASS", $("#formEditPassword").serialize(), function (data) {
+            $.post("/api/users/update/"+ idLogin +"", $("#formEditPassword").serialize(), function (data) {
                 swal("Tudo certo!", "Informações atualizadas com sucesso!", "success");
                 $('#editPasswordModal').modal('hide');
             }).fail(function () {

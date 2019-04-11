@@ -102,6 +102,36 @@ class User{
 		
 	}
 
+	public static function returnUserLoginById($idLogin){
+
+		$sql = new Sql();
+
+		if($idLogin != "") {
+
+			return json_encode($sql->select("SELECT idUser, desLogin FROM tbUsers WHERE idUser = :IDLOGIN", array(
+				":IDLOGIN"=>$idLogin
+			)));
+
+		}
+
+	}
+
+	public static function updatePassword($idUser, $login, $password){
+
+		$sql = new Sql();
+
+		if($idUser != "") {
+
+			return $sql->query("UPDATE tbUsers SET desLogin = :DESLOGIN, desPassword = :DESPASSWORD WHERE idUser = :IDUSER", array(
+				":DESLOGIN"=>$login,
+				":DESPASSWORD"=>sha1($password),
+				":IDUSER"=>$idUser
+			));
+
+		}
+
+	}
+
 }
 
 ?>

@@ -128,9 +128,12 @@ class Employee{
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs FROM tbEmployees a 
+        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.idUser, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs 
+            FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
-            INNER JOIN tbPrivileges c ON (a.idEmployee = c.idEmployee) WHERE a.idCompany = :IDCOMPANY",[
+            INNER JOIN tbPrivileges c ON (a.idEmployee = c.idEmployee) 
+            WHERE a.idCompany = :IDCOMPANY AND
+            a.isDeleted = 0",[
                 ":IDCOMPANY"=>$this->getIdCompany()
             ]));
 
@@ -146,8 +149,20 @@ class Employee{
             ':IDEMPLOYEE' => $idEmployee
         ]));
 
-        }
-        
+    }
+    
+    public function listCurrentEmployee(){
+
+        $sql = new Sql();
+
+		return json_encode($sql->select("SELECT a.desName 
+            FROM tbEmployees a
+            INNER JOIN tbUsers b ON (a.idUser = b.idUser)
+            WHERE a.idUser = :IDUSER",[
+            ':IDUSER' => $this->getIdUser()
+        ]));
+
+    }
     
     public function editEmployee($idEmployee){
 
