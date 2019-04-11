@@ -14,10 +14,12 @@ class Employee{
     private $idDepartment;
     private $idUser;
     private $idCompany;
+    private $idEmployee;
 
     public function __construct(){
 
         $this->idCompany = $_SESSION['User']['idCompany'];
+        $this->idUser = $_SESSION['User']["idUser"];
 
 	}
 
@@ -87,7 +89,7 @@ class Employee{
 
         if($this->getDesName() != "" && $this->getDesCPF() != "" && $this->getDtBirth() != ""){
 
-            $sql->query("INSERT INTO tbEmployees(idCompany, idDepartment, idUser, desName, desCPF, dtBirth, isActive) 
+            $lastId = $sql->query("INSERT INTO tbEmployees(idCompany, idDepartment, idUser, desName, desCPF, dtBirth, isActive) 
 			VALUES (:IDCOMPANY, :IDDEPARTMENT, :IDUSER, :DESNAME, :DESCPF, :DTBIRTH, :ISACTIVE)", [
 				":IDCOMPANY"=>$this->getIdCompany(),
                 ":IDDEPARTMENT"=>$this->getIdDepartment(),
@@ -101,22 +103,12 @@ class Employee{
             
             $sql->query("INSERT INTO tbPrivileges(idEmployee) 
 			VALUES (:IDEMPLOYEE)", [
-				":IDEMPLOYEE"=>$this->returnLastEmployee(),
+				":IDEMPLOYEE"=>$lastId
             ]);
 
         }
        
     }
-
-    public function returnLastEmployee(){
-
-		$sql = new Sql();
-
-		return $sql->select("SELECT MAX(idEmployees) FROM tbEmployees WHERE idCompany = :IDCOMPANY",[
-			":IDCOMPANY" => $_SESSION['User']['idCompany']
-		])[0]['MAX(idEmployees)'];
-
-	}
 
     public function securePrivileges($idEmployee, $column, $value){
 
@@ -136,11 +128,13 @@ class Employee{
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.idLogin, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs FROM tbEmployees a 
+        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.idUser, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs 
+            FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
-            INNER JOIN tbPrivileges c ON (a.idEmployees = c.idEmployee) WHERE a.idCompany = :IDCOMPANY AND a.isDeleted = :ISDELETED",[
-                ":IDCOMPANY"=>$this->getIdCompany(),
-                ":ISDELETED"=> 0
+            INNER JOIN tbPrivileges c ON (a.idEmployee = c.idEmployee) 
+            WHERE a.idCompany = :IDCOMPANY AND
+            a.isDeleted = 0",[
+                ":IDCOMPANY"=>$this->getIdCompany()
             ]));
 
     }
@@ -149,14 +143,26 @@ class Employee{
 
         $sql = new Sql();
 
-		return json_encode($sql->select("SELECT a.idEmployees, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', a.desCPF, a.isActive, a.dtBirth FROM tbEmployees a
+		return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.desName AS 'desNameF', b.desName AS 'desNameD', a.desCPF, a.isActive, a.dtBirth FROM tbEmployees a
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment)
-            WHERE a.idEmployees = :IDEMPLOYEE",[
+            WHERE a.idEmployee = :IDEMPLOYEE",[
             ':IDEMPLOYEE' => $idEmployee
         ]));
 
-        }
-        
+    }
+    
+    public function listCurrentEmployee(){
+
+        $sql = new Sql();
+
+		return json_encode($sql->select("SELECT a.desName 
+            FROM tbEmployees a
+            INNER JOIN tbUsers b ON (a.idUser = b.idUser)
+            WHERE a.idUser = :IDUSER",[
+            ':IDUSER' => $this->getIdUser()
+        ]));
+
+    }
     
     public function editEmployee($idEmployee){
 
@@ -165,7 +171,7 @@ class Employee{
         if($this->getDesName() != "" && $this->getDesCPF() != "" && $this->getDtBirth() != ""){
 
             return $sql->query("UPDATE tbEmployees SET desName = :DESNAME, desCPF = :DESCPF, dtBirth = :DTBIRTH, isActive = :ISACTIVE, idDepartment = :IDDEPARTMENT
-                WHERE idCompany = :IDCOMPANY AND idEmployees = :IDEMPLOYEE", [
+                WHERE idCompany = :IDCOMPANY AND idEmployee = :IDEMPLOYEE", [
                 ":DESNAME"=>$this->getDesName(),
                 ":DESCPF"=>$this->getDesCPF(),
                 ":DTBIRTH"=>$this->getDtBirth(),
@@ -184,7 +190,7 @@ class Employee{
         $sql = new Sql();
 
         return $sql->query("UPDATE tbEmployees SET isDeleted = :ISDELETED
-                WHERE idCompany = :IDCOMPANY AND idEmployees = :IDEMPLOYEE", [
+                WHERE idCompany = :IDCOMPANY AND idEmployee = :IDEMPLOYEE", [
                 ":ISDELETED"=>$this->getIsDeleted(),
                 ":IDCOMPANY"=>$this->getIdCompany(),
                 ":IDEMPLOYEE"=>$idEmployee                       

@@ -30,6 +30,7 @@ $app->post('/api/employees/delete/{id}', function($request, $response, $args) {
 	
 });
 
+
 $app->post('/api/privileges/employees', function($request, $response, $args) {
 
 	User::verifyLogin();
@@ -48,6 +49,7 @@ $app->get('/api/employees/{id}', function($request, $response, $args) {
 	echo $employee->listEmployeeById($args['id']);
 	
 });
+
 
 
 $app->post('/api/employees', function($request, $response, $args) {
