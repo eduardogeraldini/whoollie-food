@@ -92,6 +92,10 @@
             let formData = new FormData(form[0]);
             let idProduct = $("#formEditProduct").data('id');
 
+            $(form).find(':checkbox:checked, :radio:checked').each(function () {
+                formData.append(this.name, $(this).val());
+            });
+
             $.ajax({
                 type: "POST",
                 url: `/api/product/update/${idProduct}`,
@@ -170,7 +174,12 @@
             $("#formEditProduct #desNote").val(data[0].desNote);
             $("#formEditProduct #vlUnity").val(data[0].vlUnity);
             $("#formEditProduct #idProductCategory").val(data[0].idProductCategory).change();
-            $("#formEditProduct #isActive").val(data[0].isActive);
+
+            if (data[0].isActive == 1) {
+                $("#formEditProduct #checkYes").prop("checked",true);
+            } else {
+                $("#formEditProduct #checkNo").prop("checked",true);
+            }
 
             $("#formEditProduct #desOldImagePath").val(data[0].desImagePath);
             $("#formEditProduct #image").attr("src", data[0].desImagePath);

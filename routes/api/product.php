@@ -62,7 +62,6 @@ $app->post('/api/products', function($request, $response, $args) {
 	$product->setDesName($input['desName']);
 	$product->setDesNote($input['desNote']);
 	$product->setVlUnity($input['vlUnity']);
-	$product->setQtStock($input['qtStock']);
 	$product->setIsActive($input['isActive']);
 	$product->setIdProductCategory($input['idProductCategory']);
 	$product->setDesImagePath($_FILES);
