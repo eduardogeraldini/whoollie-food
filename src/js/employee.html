@@ -44,11 +44,20 @@
                             </td>
                             <td>${element.desNameF} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
                             <td>${element.desNameD}</td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts"/></td>
+                            ${((element.idEmployee == $("#spanCompanyName").data("id")) ?
+                            //SE ID FOR O MESMO DO USUARIO LOGADO - DESABILITA OS CHECKS
+                            `<td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts" disabled/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewOrders}" data-name="viewOrders" disabled/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewEmployees}" data-name="viewEmployees" disabled/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewReports}" data-name="viewReports" disabled/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewConfigs}" data-name="viewConfigs" disabled/></td>` :
+                            //SE ID FOR O MESMO DO USUARIO LOGADO - HABILITA OS CHECKS
+                            `<td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewOrders}" data-name="viewOrders"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewEmployees}" data-name="viewEmployees"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewReports}" data-name="viewReports"/></td>
-                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewConfigs}" data-name="viewConfigs""/></td>
+                            <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewConfigs}" data-name="viewConfigs"/></td>`
+                            )}
                         </tr>
                     `);
             });
@@ -234,7 +243,7 @@
 
             $("#editPasswordModal [name='idLoginHidden']").val(idLogin);
 
-            $.getJSON('/api/users/'+idLogin+'', function (data) {
+            $.getJSON('/api/users/' + idLogin + '', function (data) {
                 $("#editPasswordModal [name='desLogin']").val(data[0]['desLogin']);
             }).fail(function () {
                 console.log("Rota não encontrada!");
@@ -252,7 +261,7 @@
 
             let idLogin = $("#editPasswordModal [name='idLoginHidden']").val();
 
-            $.post("/api/users/update/"+ idLogin +"", $("#formEditPassword").serialize(), function (data) {
+            $.post("/api/users/update/" + idLogin + "", $("#formEditPassword").serialize(), function (data) {
                 swal("Tudo certo!", "Informações atualizadas com sucesso!", "success");
                 $('#editPasswordModal').modal('hide');
             }).fail(function () {
@@ -275,7 +284,7 @@
         });
 
         $('#editPasswordModal').on('hidden.bs.modal', function (e) {
-           
+
             $("#allowEditLogin").prop('readonly', true);
 
         });
