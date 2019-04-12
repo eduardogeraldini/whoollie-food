@@ -103,6 +103,8 @@
 
     function loadPrivileges() {
 
+        $(".checks").off();
+
         $(".checks").each(function (index) {
             if ($(this).val() == 1)
                 $(this).prop('checked', true);
@@ -173,7 +175,7 @@
         $('.btnEditModal').off();
         $("#btnEditEmployee").off();
 
-        $('.btnEditModal').bind('click', function (e) {
+        $('.btnEditModal').on('click', function (e) {
 
             let button = $(this);
             let idEmployee = button.data("id");
@@ -225,7 +227,7 @@
         $('.btnEditPassword').off();
         $("#btnEditPassword").off();
 
-        $('.btnEditPassword').bind('click', function (e) {
+        $('.btnEditPassword').on('click', function (e) {
 
             let button = $(this);
             let idLogin = button.data("id");
