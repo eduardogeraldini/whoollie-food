@@ -11,6 +11,7 @@ class Product{
 	private $desImagePath;
 	private $vlUnity;
 	private $isActive;
+	private $isDeleted;
 	private $idCompany;
 	private $idProductCategory;
 
@@ -40,22 +41,13 @@ class Product{
 		$this->isActive = $isActive;
 	}
 
+	public function setIsDeleted($isDeleted) {
+		$this->isDeleted = $isDeleted;
+	}
+
 	public function setDesImagePath($files, $desOldImagePath = "") {
 
-		if ($desOldImagePath != "" && $files["desImagePath"]["name"] == "") {
-			
-			if ($desOldImagePath != "res/admin/img/sem_foto.png")
-				deleteFile($desOldImagePath);
-
-			$this->desImagePath = "res/admin/img/sem_foto.png";
-			
-			echo json_encode([
-				'error' => false
-			]);
-				
-			return;
-
-		} elseif ($desOldImagePath == "" && $files["desImagePath"]["name"] == "") {
+		if ($desOldImagePath == "" && $files["desImagePath"]["name"] == "") {
 
 			$this->desImagePath = "res/admin/img/sem_foto.png";
 			
@@ -66,20 +58,23 @@ class Product{
 			return;
 
 		} elseif ($files["desImagePath"]["name"] != "") {
+		
 			if ($desOldImagePath != "res/admin/img/sem_foto.png")
 				deleteFile($desOldImagePath);
-		}
+		
+		} elseif ($desOldImagePath != "" && $files["desImagePath"]["name"] == "") {
 
-		if ($files["desImagePath"]["name"] == "") {
-			$this->desImagePath = "res/admin/img/sem_foto.png";
-			
+			$this->desImagePath = $desOldImagePath;
+
 			echo json_encode([
 				'error' => false
 			]);
 				
 			return;
-		}
-		
+
+		} 
+
+
 		$target_dir = "res/uploads/products/";
 		$target_file = $target_dir . time() . "_" . basename($files["desImagePath"]["name"]);
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -156,6 +151,10 @@ class Product{
 		return $this->isActive;
 	}
 
+	public function getIsDeleted(){
+		return $this->isDeleted;
+	}
+
 	public function getDesImagePath() {
 		return $this->desImagePath;
 	}
@@ -164,7 +163,14 @@ class Product{
 
 		$sql = new Sql();
 
-		return json_encode($sql->select("SELECT * FROM tbProducts"));
+		return json_encode($sql->select("
+			SELECT * 
+			FROM tbProducts
+			WHERE 
+			isDeleted = 0 AND
+			idCompany = :IDCOMPANY", [
+				":IDCOMPANY" => $this->getIdCompany()
+			]));
 
 	}
 
@@ -257,6 +263,19 @@ class Product{
 		}
 
 	}
+
+	public function deleteProduct($idProduct){
+
+        $sql = new Sql();
+
+        return $sql->query("UPDATE tbProducts SET isDeleted = :ISDELETED
+                WHERE idCompany = :IDCOMPANY AND idProduct = :IDPRODUCT", [
+                ":ISDELETED"=>$this->getIsDeleted(),
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":IDPRODUCT"=>$idProduct                       
+            ]);
+    
+    } 
 
 }
 
