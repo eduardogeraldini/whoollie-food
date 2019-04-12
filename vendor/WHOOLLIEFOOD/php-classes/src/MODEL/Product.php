@@ -10,7 +10,6 @@ class Product{
 	private $desNote;
 	private $desImagePath;
 	private $vlUnity;
-	private $qtStock;
 	private $isActive;
 	private $idCompany;
 	private $idProductCategory;
@@ -33,10 +32,6 @@ class Product{
 		$this->vlUnity = $vlUnity;
 	}
 
-	public function setQtStock($qtStock){
-		$this->qtStock = $qtStock;
-	}
-
 	public function setIdProductCategory($idProductCategory){
 		$this->idProductCategory = $idProductCategory;
 	}
@@ -45,9 +40,37 @@ class Product{
 		$this->isActive = $isActive;
 	}
 
-	public function setDesImagePath($files) {
+	public function setDesImagePath($files, $desOldImagePath = "") {
 
-		if ($files["image"]["name"] == "") {
+		if ($desOldImagePath != "" && $files["desImagePath"]["name"] == "") {
+			
+			if ($desOldImagePath != "res/admin/img/sem_foto.png")
+				deleteFile($desOldImagePath);
+
+			$this->desImagePath = "res/admin/img/sem_foto.png";
+			
+			echo json_encode([
+				'error' => false
+			]);
+				
+			return;
+
+		} elseif ($desOldImagePath == "" && $files["desImagePath"]["name"] == "") {
+
+			$this->desImagePath = "res/admin/img/sem_foto.png";
+			
+			echo json_encode([
+				'error' => false
+			]);
+				
+			return;
+
+		} elseif ($files["desImagePath"]["name"] != "") {
+			if ($desOldImagePath != "res/admin/img/sem_foto.png")
+				deleteFile($desOldImagePath);
+		}
+
+		if ($files["desImagePath"]["name"] == "") {
 			$this->desImagePath = "res/admin/img/sem_foto.png";
 			
 			echo json_encode([
@@ -58,10 +81,10 @@ class Product{
 		}
 		
 		$target_dir = "res/uploads/products/";
-		$target_file = $target_dir . time() . "_" . basename($files["image"]["name"]);
+		$target_file = $target_dir . time() . "_" . basename($files["desImagePath"]["name"]);
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 		
-		if(getimagesize($files["image"]["tmp_name"]) === false) {
+		if(getimagesize($files["desImagePath"]["tmp_name"]) === false) {
 			echo json_encode([
 				'error' => true,
 				"message" => "Arquivo não é uma imagem válida!"
@@ -77,7 +100,7 @@ class Product{
 			exit;
 		}
 
-		if ($files["image"]["size"] > 5 * 1024 * 1024) {
+		if ($files["desImagePath"]["size"] > 5 * 1024 * 1024) {
 			echo json_encode([
 				'error' => true,
 				"message" => "Imagem muito grande. Insira uma imagem de até 5MB!"
@@ -93,7 +116,7 @@ class Product{
 			exit;
 		}
 
-		if (move_uploaded_file($files["image"]["tmp_name"], $target_file)) {
+		if (move_uploaded_file($files["desImagePath"]["tmp_name"], $target_file)) {
 			$this->desImagePath = $target_file;
 			echo json_encode([
 				'error' => false
@@ -119,10 +142,6 @@ class Product{
 
 	public function getVlUnity(){
 		return $this->vlUnity;
-	}
-
-	public function getQtStock(){
-		return $this->qtStock;
 	}
 
 	public function getIdProductCategory(){
@@ -194,18 +213,46 @@ class Product{
 
 		$sql = new Sql();
 		
-		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getQtStock() != "" && $this->getIdCompany() != "" && $this->getIdProductCategory() != ""){
+		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getIdCompany() != "" && $this->getIdProductCategory() != ""){
 
-			$sql->query("INSERT INTO tbProducts(desName, desNote, desImagePath, qtStock, isActive, vlUnity, idCompany, idProductCategory) 
-						VALUES (:DESNAME, :DESNOTE, :DESIMAGEPATH, :QTSTOCK, :ISACTIVE, :VLUNITY, :IDCOMPANY, :IDPRODUCTCATEGORY)", [
+			$sql->query("INSERT INTO tbProducts(desName, desNote, desImagePath, isActive, vlUnity, idCompany, idProductCategory) 
+						VALUES (:DESNAME, :DESNOTE, :DESIMAGEPATH, :ISACTIVE, :VLUNITY, :IDCOMPANY, :IDPRODUCTCATEGORY)", [
 					":DESNAME"=>$this->getDesName(),
 					":DESNOTE"=>$this->getDesNote(),
 					":DESIMAGEPATH"=>$this->getDesImagePath(),
-					":QTSTOCK"=>$this->getQtStock(),
 					":VLUNITY"=>$this->getVlUnity(),
 					":ISACTIVE"=>$this->getIsActive(),
 					":IDCOMPANY"=>$this->getIdCompany(),
 					":IDPRODUCTCATEGORY"=>$this->getIdProductCategory()
+				]);
+		}
+
+	}
+
+	public function editProduct($id) {
+
+		$sql = new Sql();
+		
+		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getIdCompany() != "" && $this->getIdProductCategory() != ""){
+
+			$sql->query("UPDATE tbProducts SET
+							desName = :DESNAME, 
+							desNote = :DESNOTE, 
+							desImagePath = :DESIMAGEPATH, 
+							isActive = :ISACTIVE, 
+							vlUnity = :VLUNITY,
+							idCompany = :IDCOMPANY,
+							idProductCategory = :IDPRODUCTCATEGORY
+						 WHERE
+						 	idProduct = :IDPRODUCT", [
+					":DESNAME"=>$this->getDesName(),
+					":DESNOTE"=>$this->getDesNote(),
+					":DESIMAGEPATH"=>$this->getDesImagePath(),
+					":VLUNITY"=>$this->getVlUnity(),
+					":ISACTIVE"=>$this->getIsActive(),
+					":IDCOMPANY"=>$this->getIdCompany(),
+					":IDPRODUCTCATEGORY"=>$this->getIdProductCategory(),
+					":IDPRODUCT"=>$id
 				]);
 		}
 

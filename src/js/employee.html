@@ -222,7 +222,7 @@
 
     function loadEditPasswordEmployee() {
 
-        $('.btnEditModal').off();
+        $('.btnEditPassword').off();
         $("#btnEditPassword").off();
 
         $('.btnEditPassword').bind('click', function (e) {
@@ -264,6 +264,7 @@
     function btnAllowEditLogin() {
 
         $('#editPasswordModal').off();
+        $("#btnAllowEditLogin").off();
 
         $("#btnAllowEditLogin").on('click', function (e) {
 

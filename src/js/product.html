@@ -38,7 +38,7 @@
 
         });
 
-        $("#formFilterProduct").bind("submit", function(e) {
+        $("#formFilterProduct").on("submit", function(e) {
 
             e.preventDefault();
 
@@ -77,8 +77,49 @@
 
         });
 
-        $("#btnCancelCreateProduct").click(function() {
+        $("#btnCancelCreateProduct").on('click', function() {
             $(`#formCreateProduct`).trigger("reset");
+        });
+
+        $("#btnEditProduct").on('click', function(e) {
+
+            e.preventDefault();
+            
+            if(!formValidate("formEditProduct")) {
+                return;
+            };
+
+            let form = $('#formEditProduct');
+            let formData = new FormData(form[0]);
+            let idProduct = $("#formEditProduct").data('id');
+
+            $.ajax({
+                type: "POST",
+                url: `/api/product/update/${idProduct}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+
+                    if(JSON.parse(data).error) {
+                        swal("Erro!", JSON.parse(data).message, "error");
+                    } else {
+                        $('#editProductModal').modal('hide');
+                        swal("Tudo certo!", "Produto editado com sucesso!", "success");
+                        loadProducts(); 
+                        $(`#formEditProduct`).trigger("reset");
+                    }
+                    
+                },
+                error: function(data) {
+
+                    $('#editProductModal').modal('hide');
+                    $(`#formEditProduct`).trigger("reset");
+                    console.log(`Erro! Mensagem: ${data}`);
+               
+                }
+            });
+
         });
 
         loadProducts();
@@ -125,18 +166,19 @@
 
         $.getJSON(`/api/products/${idProduct}`, function (data) {
 
+            $("#formEditProduct").data("id", idProduct);
+
             $("#formEditProduct #desName").val(data[0].desName);
             $("#formEditProduct #desNote").val(data[0].desNote);
             $("#formEditProduct #vlUnity").val(data[0].vlUnity);
-            $("#formEditProduct #qtStock").val(data[0].qtStock);
-
             $("#formEditProduct #idProductCategory").val(data[0].idProductCategory).change();
-            
             $("#formEditProduct #isActive").val(data[0].isActive);
-            $("#formEditProduct #image").val(data[0].image);
+
+            $("#formEditProduct #desOldImagePath").val(data[0].desImagePath);
+            $("#formEditProduct #image").attr("src", data[0].desImagePath);
 
         }).then(() => {
-            $("#editModal").modal();
+            $("#editProductModal").modal();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
