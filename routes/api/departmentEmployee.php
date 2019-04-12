@@ -11,6 +11,7 @@ $app->post('/api/departments/employees/update/{id}', function($request, $respons
 	$dept = new DepartmentEmployee();
 
 	$dept->setDesName($input['desName']); 
+	$dept->setIsActive($input['isActive']);
 
 	$dept->updateDepartmentEmployee($args['id']);
 	
@@ -56,6 +57,7 @@ $app->post('/api/departments/employees', function($request, $response, $args) {
 	$department = new DepartmentEmployee();
 
 	$department->setDesName($input['desName']);
+	$department->setIsActive($input['isActive']);
 
 	$department->createDepartmentEmployee();
 	

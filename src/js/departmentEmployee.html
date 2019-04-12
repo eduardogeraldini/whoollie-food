@@ -30,14 +30,14 @@
                 $("#viewDepartments tbody").append(`
                         <tr>
                             <td>
-                                <a href="#" data-id="${element.idDepartment}" data-toggle="modal" data-target="#editModal" class="btn btn-info btn-sm btn-circle">
+                                <a href="#" data-id="${element.idDepartment}" data-toggle="modal" data-target="#editModal" class="btn btn-info btn-sm btn-circle btnEditModal">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a href="#" data-id="${element.idDepartment}" class="btn btn-danger btn-sm btn-circle btnRemove">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
-                            <td>${element.desName}</td>
+                            <td>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
                         </tr>
                     `);
             });
@@ -52,6 +52,8 @@
     }
 
     function loadRemoveDepartments() {
+
+        $(".btnRemove").off();
 
         $(".btnRemove").on('click', function (e) {
 
@@ -85,15 +87,25 @@
 
     function loadEditDepartments() {
 
-        $('#editModal').on('show.bs.modal', function (e) {
+        $(".btnEditModal").off();
+        $("#btnEditDepartment").off();
 
-            let button = $(e.relatedTarget);
+        $('.btnEditModal').on('click', function (e) {
+
+            let button = $(this);
             let idDepartment = button.data("id");
 
             $("#editModal [name='idHidden']").val(idDepartment);
 
             $.getJSON('/api/departments/employees/' + idDepartment + '', function (data) {
                 $("#editModal [name='desName']").val(data[0]['desName']);
+
+                if ((data[0]['isActive']) == 1) {
+                    $("#checkYes").prop("checked", true);
+                } else {
+                    $("#checkNo").prop("checked", true);
+                }
+                
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });

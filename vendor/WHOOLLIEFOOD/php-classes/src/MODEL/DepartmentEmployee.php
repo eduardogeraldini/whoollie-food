@@ -8,6 +8,7 @@ class DepartmentEmployee{
 
     private $desName;
     private $idCompany;
+    private $isActive;
 
     public function __construct(){
 
@@ -19,13 +20,21 @@ class DepartmentEmployee{
         $this->desName = $desName;
     }
 
+    public function setIsActive($isActive){
+        $this->isActive = $isActive;
+    }
+
     public function getDesName(){
         return $this->desName;
     }
 
     public function getIdCompany(){
 		return $this->idCompany;
-	}
+    }
+    
+    public function getIsActive(){
+        return $this->isActive;
+    }
 
     public function createDepartmentEmployee(){
 
@@ -33,10 +42,11 @@ class DepartmentEmployee{
 
         if($this->getDesName() != ""){
 
-            $sql->query("INSERT INTO tbDepartments (idCompany, desName) 
-			VALUES (:IDCOMPANY, :DESNAME)", [
+            $sql->query("INSERT INTO tbDepartments (idCompany, desName, isActive) 
+			VALUES (:IDCOMPANY, :DESNAME, :ISACTIVE)", [
 				":IDCOMPANY"=>$this->getIdCompany(),
-				":DESNAME"=>$this->getDesName(),
+                ":DESNAME"=>$this->getDesName(),
+                ":ISACTIVE"=>$this->getIsActive()
             ]);
 
         }
@@ -49,9 +59,11 @@ class DepartmentEmployee{
 
         if($this->getDesName() != ""){
 
-            $sql->query("UPDATE tbDepartments SET desName = :DESNAME WHERE idDepartment = :IDDEPARTMENT", [
+            $sql->query("UPDATE tbDepartments SET desName = :DESNAME, isActive = :ISACTIVE WHERE idDepartment = :IDDEPARTMENT", [
                 ":DESNAME"=>$this->getDesName(),
+                ":ISACTIVE"=>$this->getIsActive(),
                 ":IDDEPARTMENT"=> $idDepartment
+            
             ]);
 
         }
