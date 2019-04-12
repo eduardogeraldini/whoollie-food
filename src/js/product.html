@@ -61,7 +61,7 @@
                                 <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" class="btn btn-danger btn-circle">
+                                <a href="#" class="btn btn-danger btn-circle" onclick="removeProduct(${element.idProduct});">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
@@ -147,7 +147,7 @@
                             <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-circle">
+                            <a href="#" class="btn btn-danger btn-circle" onclick='removeProduct(${element.idProduct});'>
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>
@@ -179,6 +179,32 @@
             $("#editProductModal").modal();
         }).fail(function () {
             console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function removeProduct(idProduct) {
+
+        swal({
+            title: "Você tem certeza ?",
+            text: "Após deletado você não poderá mais recupera-lo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+
+                if (willDelete) {
+                    $.post("/api/product/delete/" + idProduct, function (data) {
+                        swal("Deletado com sucesso!", {
+                            icon: "success",
+                        });
+                        loadProducts();
+                    }).fail(function () {
+                        console.log("Rota não encontrada!");
+                    });
+                } else {
+                    swal("A ação de deletar foi cancelada!");
+                }
         });
 
     }

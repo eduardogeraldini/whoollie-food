@@ -3,6 +3,16 @@
 use \WHOOLLIEFOOD\MODEL\Product;
 use \WHOOLLIEFOOD\MODEL\User;
 
+$app->post('/api/product/delete/{id}', function($request, $response, $args) {
+	
+	User::verifyLogin();
+
+	$product = new Product();
+	$product->setIsDeleted(1);  
+	$product->deleteProduct($args['id']);
+	
+});
+
 $app->post('/api/product/update/{id}', function($request, $response, $args) {
 	
 	User::verifyLogin();
