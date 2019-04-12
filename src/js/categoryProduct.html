@@ -1,54 +1,139 @@
 <script>
-        $(function() {
-            $("#btnCreateCategorieProduct").click(function(e) {
-                    
-                e.preventDefault();
-    
-                $.post('/api/categories/products', $("#formCreateCategorieProduct").serialize(), function(data) {
-                    $('#addModal').modal('hide');
-                    swal("Tudo certo!", "Categoria para produtos criada com sucesso!", "success");
-                    loadCategoriesProducts();
-                }).fail(function(){
-                    console.log("Rota não encontrada!");
-                });
-    
+    $(function () {
+        $("#btnCreateCategorieProduct").click(function (e) {
+
+            e.preventDefault();
+
+            $.post('/api/categories/products', $("#formCreateCategorieProduct").serialize(), function (data) {
+                $('#addModal').modal('hide');
+                swal("Tudo certo!", "Categoria para produtos criada com sucesso!", "success");
+                loadCategoriesProducts();
+            }).fail(function () {
+                console.log("Rota não encontrada!");
             });
+
         });
+    });
 
-        function loadCategoriesProducts() {
+    function loadCategoriesProducts() {
 
-            $("#viewCategoriesProducts tbody").html("");
+        $("#viewCategoriesProducts tbody").html("");
 
-            $.getJSON('/api/categories/products', function (data) {
+        $.getJSON('/api/categories/products', function (data) {
 
-                data.forEach(element => {
+            data.forEach(element => {
 
-                    //ALTERAR QUANDO IMPLEMENTAR IMAGENS
-                    $("#viewCategoriesProducts tbody").append(`
+                $("#viewCategoriesProducts tbody").append(`
                         <tr>
                             <td>
-                                <a href="#edit_${element.idProductCategory}" class="btn btn-info btn-sm btn-circle">
+                                <a href="#" data-id="${element.idProductCategory}" data-toggle="modal" data-target="#editModal" class="btn btn-info btn-sm btn-circle btnEditModal">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#remove_${element.idProductCategory}" class="btn btn-danger btn-sm btn-circle">
+                                <a href="#" data-id="${element.idProductCategory}" class="btn btn-danger btn-sm btn-circle btnRemove">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
-                            <td>${element.desName}</td>
+                            <td>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
                         </tr>
                     `);
 
-                    console.log(element.desName);
+            });
+
+        }).then(() =>{
+            loadRemoveProductsCategories();
+            loadEditProductsCategories();
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function loadRemoveProductsCategories() {
+
+        $(".btnRemove").off();
+        $(".btnRemove").on('click', function (e) {
+
+            let idProductCategory = $(this).data("id");
+
+            swal({
+                title: "Você tem certeza ?",
+                text: "Após deletado você não poderá mais recupera-lo!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+
+                    if (willDelete) {
+                        $.post("/api/categories/products/delete/" + idProductCategory + "", function (data) {
+                            swal("Deletado com sucesso!", {
+                                icon: "success",
+                            });
+                            loadCategoriesProducts();
+                        }).fail(function () {
+                            console.log("Rota não encontrada!");
+                        });
+                    } else {
+                        swal("A ação de deletar foi cancelada!");
+                    }
                 });
+
+        });
+    }
+
+    function loadEditProductsCategories() {
+
+        $(".btnEditModal").off();
+        $("#btnEditCategoryProduct").off();
+
+        $('.btnEditModal').on('click', function (e) {
+
+            let button = $(this);
+            let idProductCategory = button.data("id");
+
+            console.log(idProductCategory);
+
+            $("#editModal [name='idHidden']").val(idProductCategory);
+
+            $.getJSON('/api/categories/products/' + idProductCategory + '', function (data) {
+                $("#editModal [name='desName']").val(data[0]['desName']);
+
+                if ((data[0]['isActive']) == 1) {
+                    $("#checkYes").prop("checked", true);
+                } else {
+                    $("#checkNo").prop("checked", true);
+                }
 
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });
 
-        }
+        });
 
-        $(document).ready(function () {
-            loadCategoriesProducts();
-        }); 
-        
+        $("#btnEditCategoryProduct").on('click', function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formEditCategories")) {
+                return;
+            };
+
+            let idProductCategory = $("#editModal [name='idHidden']").val();
+
+            $.post("/api/categories/products/update/" + idProductCategory + "", $("#formEditCategories").serialize(), function (data) {
+                swal("Tudo certo!", "Informações da categoria atualizadas com sucesso!", "success");
+                $('#editModal').modal('hide');
+                loadCategoriesProducts();
+            }).fail(function () {
+                console.log("Rota não encontrada!");
+            });
+
+        });
+
+    }
+
+    $(document).ready(function () {
+        loadCategoriesProducts();
+    });
+
 </script>
