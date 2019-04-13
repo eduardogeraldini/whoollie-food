@@ -12,8 +12,10 @@ class User{
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tbUsers WHERE desLogin = :LOGIN", array(
-			":LOGIN"=>$login
+		$results = $sql->select("SELECT * FROM tbUsers a INNER JOIN tbEmployees b ON(a.idUser = b.idUser) WHERE a.desLogin = :LOGIN AND b.isDeleted = :ISDELETED AND b.isActive = :ISACTIVE", array(
+			":LOGIN"=>$login,
+			":ISDELETED" => 0,
+			":ISACTIVE" =>  1
 		));
 
 		if(count($results) === 0){
