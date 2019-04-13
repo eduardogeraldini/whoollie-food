@@ -12,6 +12,7 @@ class Product{
 	private $vlUnity;
 	private $isActive;
 	private $isDeleted;
+	private $idProduct;
 	private $idCompany;
 	private $idProductCategory;
 
@@ -43,6 +44,10 @@ class Product{
 
 	public function setIsDeleted($isDeleted) {
 		$this->isDeleted = $isDeleted;
+	}
+
+	public function setIdProduct($idProduct) {
+		$this->idProduct = $idProduct;
 	}
 
 	public function setDesImagePath($files, $desOldImagePath = "") {
@@ -159,6 +164,10 @@ class Product{
 		return $this->desImagePath;
 	}
 
+	public function getIdProduct() {
+		return $this->idProduct;
+	}
+
 	public function listAll(){
 
 		$sql = new Sql();
@@ -167,8 +176,10 @@ class Product{
 			SELECT * 
 			FROM tbProducts
 			WHERE 
-			isDeleted = 0 AND
-			idCompany = :IDCOMPANY", [
+			isDeleted = :ISDELETED AND
+			idCompany = :IDCOMPANY
+			ORDER BY desName ASC", [
+				":ISDELETED" => 0,
 				":IDCOMPANY" => $this->getIdCompany()
 			]));
 
@@ -198,8 +209,14 @@ class Product{
 		}
 
 		if (count($args) > 0) {
-			$query .= " 1 = 1 ";
+			$query .= " isDeleted = :ISDELETED ";
+		} else {
+			$query .= " WHERE isDeleted = :ISDELETED ";
 		}
+
+		$array[":ISDELETED"] = 0;
+
+		$query .= " ORDER BY desName ASC ";
 
 		return json_encode($sql->select($query, $array));		
 
@@ -275,7 +292,38 @@ class Product{
                 ":IDPRODUCT"=>$idProduct                       
             ]);
     
-    } 
+	} 
+	
+	public function setAllPropertiesById($idProduct) {
+
+		$sql = new Sql();
+
+        $res = $sql->select("SELECT * FROM tbProducts 
+                WHERE idCompany = :IDCOMPANY AND 
+				idProduct = :IDPRODUCT", [
+                ":IDCOMPANY"=>$this->getIdCompany(),
+                ":IDPRODUCT"=>$idProduct                       
+			])[0];
+		
+		$this->setIdProduct($idProduct);
+		$this->setDesName($res['desName']);
+		$this->setDesNote($res['desNote']);
+		$this->setVlUnity($res['vlUnity']);
+		$this->setIsActive($res['isActive']);
+		$this->setIdProductCategory($res['idProductCategory']);
+		
+		/*$arr = [];
+
+		$arr['idProduct'] = $idProduct;
+		$arr['desName'] = $res['desName'];
+		$arr['desNote'] = $res['desNote'];
+		$arr['vlUnity'] = $res['vlUnity'];
+		$arr['isActive'] = $res['isActive'];
+		$arr['idProductCategory'] = $res['idProductCategory'];
+
+		return $arr;*/
+
+	}
 
 }
 

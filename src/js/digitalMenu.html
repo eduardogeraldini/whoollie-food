@@ -1,0 +1,173 @@
+<script>
+
+$(function() {
+
+    verifyOrderIsOpen();
+    loadProducts();
+    loadProductsCart();
+
+    $("#openOrderModal").on('hidden.bs.modal', function() {
+        verifyOrderIsOpen();
+    });
+
+});
+
+function loadProducts() {
+
+    $("#viewProducts").html("");
+
+    $.getJSON('/api/products', function (data) {
+
+        let i = 1;
+        let html = "";
+
+        data.forEach(element => {
+
+            if ((i-1)%4 == 0 || i == 1) {
+                html += `<div class="card-deck mb-3">`;   
+            }
+
+            html += `
+                <div class="card text-center" style="width: 15.8rem;">
+                    <div class="container-image">
+                        <img class="card-img-top" src="/${element.desImagePath}" alt="${element.desName}" style="width: 100%; height: 250px;">   
+                        <button class="btn btn-success btn-image" onclick="addProductCart(${element.idProduct});"><i class="fa fa-plus"></i></button>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">${element.desName} <b class="float-right">R$ ${element.vlUnity}</b></p>
+                        <p class="card-text">${element.desNote}</p>
+                    </div>
+                </div>
+            `;
+
+            if (i%4 == 0) {
+                html += `</div>`;
+            }
+
+            i++;
+        
+        });
+
+        if (i%4 != 0) {
+            html += `</div>`;
+        }
+
+        $("#viewProducts").html(html);
+
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+}
+
+function addProductCart(idProduct) {
+
+    $.post(`/api/cart/add/${idProduct}`, function (data) {
+        loadProductsCart();
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function removeProductCart(idProduct) {
+
+    $.post(`/api/cart/remove/${idProduct}`, function (data) {
+        loadProductsCart();
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function removeAllProductsCart(idProduct) {
+
+    $.post(`/api/cart/remove/all/${idProduct}`, function (data) {
+        loadProductsCart();
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function loadProductsCart() {
+
+    $.getJSON('/api/cart', function (data) {
+
+        $("#tableCart tbody").html("");
+
+        let vlTotalCart = 0;
+
+        $.each(data, function(index, element) {
+            $("#tableCart tbody").append(`
+                <tr>
+                    <td>${element.desName}</td>    
+                    <td class="text-center">${element.qtTotal}</td>    
+                    <td>${numberToReal((parseFloat(element.vlUnity) * parseInt(element.qtTotal)))}</td>    
+                    <td class="text-center">
+                        <i onclick="addProductCart(${index});" class="fa fa-plus-square fa-button text-success" data-toggle="tooltip" data-placement="left" title="Acrescenta mais um deste produto."></i>
+                        <i onclick="removeProductCart(${index});" class="fa fa-times-circle fa-button text-danger" data-toggle="tooltip" data-placement="left" title="Remove um deste produto."></i>
+                        <i onclick="removeAllProductsCart(${index});" class="fa fa-trash fa-button text-dark" data-toggle="tooltip" data-placement="left" title="Remove todos deste produto."></i>
+                    </td>    
+                </tr>
+            `);
+
+            vlTotalCart += (parseFloat(element.vlUnity) * parseInt(element.qtTotal));
+        });
+
+        $("#vlTotalCart").html(numberToReal(vlTotalCart));
+
+        if (vlTotalCart <= 0) {
+            $("#btnSendRequest").prop("disabled", true);
+        } else {
+            $("#btnSendRequest").prop("disabled", "");
+        }
+
+    }).then(() => {
+
+        // Reload nos Tooltips, pois quando renderizo novamente as linhas ele travas os tooltips antigos
+        $('[data-toggle="tooltip"]').tooltip();
+        $(".tooltip-inner").hide();
+        $(".arrow").hide();
+        $('[data-toggle="tooltip"]').tooltip('enable');
+
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function verifyOrderIsOpen() {
+
+    $.post(`/api/order/isOpen`, function (data) {
+
+        if (!JSON.parse(data).open) {
+            $("#openOrderModal").modal('toggle');
+        }
+
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function openNewOrder() {
+
+    $.post(`/api/order/open`, $("#formOpenOrder").serialize(), function (data) {
+        $("#openOrderModal").modal('toggle');
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function sendNewRequest() {
+
+    $.post(`/api/request`, function (data) {
+        loadProductsCart();
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+</script>

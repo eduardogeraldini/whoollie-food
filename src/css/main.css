@@ -1,0 +1,11 @@
+.container-image .btn-image {
+    position: absolute;
+    top: 08%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.fa-button {
+    cursor: pointer;
+}
