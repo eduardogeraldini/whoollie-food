@@ -164,6 +164,7 @@ function sendNewRequest() {
 
     $.post(`/api/request`, function (data) {
         loadProductsCart();
+        swal("Tudo certo!", "Pedido enviado com sucesso!", "success");
     }).fail(function () {
         console.log("Rota não encontrada!");
     });

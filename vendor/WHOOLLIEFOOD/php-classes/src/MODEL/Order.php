@@ -37,7 +37,7 @@ class Order {
 
     public function setIdOrder($value) {
         $this->idOrder = $value;
-        $_SESSION["Order"]["id"] = $value;
+        $_SESSION["Order"]["id"] = $this->idOrder;
     }
 
     public function getIdOrder() {
@@ -70,10 +70,12 @@ class Order {
 
     public function orderIsOpen() {
 
-        if (isset($_SESSION["Order"]["id"])) 
-            return ["open" => true];
-        else 
+        if (isset($_SESSION["Order"]["id"])) {
+            if ($_SESSION["Order"]["id"] != 0)
+                return ["open" => true];
+        } else { 
             return ["open" => false];
+        }
 
     }
 
