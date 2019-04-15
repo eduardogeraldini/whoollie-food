@@ -50,6 +50,9 @@
 
                     $("#viewProduct").append(`<div class="col-sm-3 mb-2">
                     <div class="card shadow">
+                        <div class="active">
+                            ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
+                        </div>
                         <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title font-weight-bold">${element.desName}</h5>
@@ -60,7 +63,6 @@
                             <h5 class="font-weight-bold">R$ ${element.vlUnity} </h5>
                         </div>
                         <div class="float-right mt-1">
-                            ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
                             <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
                             <i class="fas fa-edit"></i>
                             </a>
@@ -165,11 +167,13 @@
 
                 $("#viewProduct").append(`<div class="col-sm-3 mb-2">
                     <div class="card shadow">
+                        <div class="active">
+                            ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
+                        </div>
                         <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title font-weight-bold">${element.desName}</h5>
                         <p class="card-text">${((element.desNote == "") ? "Sem descrição." : element.desNote)}</p>
-                        ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
                     </div>
                     <div class="card-footer">
                         <div class="float-left mt-2">

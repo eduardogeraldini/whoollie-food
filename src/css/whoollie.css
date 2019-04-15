@@ -1,4 +1,10 @@
 .img-ajust{
     height: 180px;
     object-fit: cover;
-  }
+}
+
+.active {
+    position: absolute;
+    margin-top: 3px;
+    margin-left: 5px;
+}
