@@ -3,7 +3,7 @@
         $("#btnCreateProduct").click(function (e) {
             e.preventDefault();
 
-            if(!formValidate("formCreateProduct")) {
+            if (!formValidate("formCreateProduct")) {
                 return;
             };
 
@@ -16,29 +16,29 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(data) {
+                success: function (data) {
 
-                    if(JSON.parse(data).error) {
+                    if (JSON.parse(data).error) {
                         swal("Erro!", JSON.parse(data).message, "error");
                     } else {
                         $('#addModal').modal('hide');
                         swal("Tudo certo!", "Produto adicionado com sucesso!", "success");
-                        loadProducts(); 
+                        loadProducts();
                         $(`#formCreateProduct`).trigger("reset");
                     }
-                    
+
                 },
-                error: function(data) {
+                error: function (data) {
 
                     $(`#formCreateProduct`).trigger("reset");
                     console.log(`Erro! Mensagem: ${data}`);
-               
+
                 }
             });
 
         });
 
-        $("#formFilterProduct").on("submit", function(e) {
+        $("#formFilterProduct").on("submit", function (e) {
 
             e.preventDefault();
 
@@ -48,7 +48,31 @@
 
                 JSON.parse(data).forEach(element => {
 
-                    $("#viewProduct").append(`
+                    $("#viewProduct").append(`<div class="col-sm-3 mb-2">
+                    <div class="card shadow">
+                        <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
+                        <div class="card-body">
+                        <h5 class="card-title font-weight-bold">${element.desName}</h5>
+                        <p class="card-text">${((element.desNote == "") ? "Sem descrição." : element.desNote)}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-left mt-2">
+                            <h5 class="font-weight-bold">R$ ${element.vlUnity} </h5>
+                        </div>
+                        <div class="float-right mt-1">
+                            ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
+                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
+                            <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
+                            <i class="fas fa-trash"></i>
+                             </a>
+                        </div>
+                    </div>
+                    </div>
+                    </div>`);
+
+                    /*$("#viewProduct").append(`
                     <div class="col-lg-3"> 
                         <div class="card shadow mb-4 border-left-${element.isActive == 1 ? "success" : "danger"}"> 
                             <div class="card-header py-3"> 
@@ -66,7 +90,8 @@
                                 </a>
                             </div>
                         </div>
-                    </div>`);
+                    </div>`);*/
+
 
                 });
 
@@ -76,15 +101,15 @@
 
         });
 
-        $("#btnCancelCreateProduct").on('click', function() {
+        $("#btnCancelCreateProduct").on('click', function () {
             $(`#formCreateProduct`).trigger("reset");
         });
 
-        $("#btnEditProduct").on('click', function(e) {
+        $("#btnEditProduct").on('click', function (e) {
 
             e.preventDefault();
-            
-            if(!formValidate("formEditProduct")) {
+
+            if (!formValidate("formEditProduct")) {
                 return;
             };
 
@@ -102,24 +127,24 @@
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(data) {
+                success: function (data) {
 
-                    if(JSON.parse(data).error) {
+                    if (JSON.parse(data).error) {
                         swal("Erro!", JSON.parse(data).message, "error");
                     } else {
                         $('#editProductModal').modal('hide');
                         swal("Tudo certo!", "Produto editado com sucesso!", "success");
-                        loadProducts(); 
+                        loadProducts();
                         $(`#formEditProduct`).trigger("reset");
                     }
-                    
+
                 },
-                error: function(data) {
+                error: function (data) {
 
                     $('#editProductModal').modal('hide');
                     $(`#formEditProduct`).trigger("reset");
                     console.log(`Erro! Mensagem: ${data}`);
-               
+
                 }
             });
 
@@ -138,25 +163,30 @@
 
             data.forEach(element => {
 
-                $("#viewProduct").append(`
-                <div class="col-lg-3"> 
-                    <div class="card shadow mb-4 border-left-${element.isActive == 1 ? "success" : "danger"}"> 
-                        <div class="card-header py-3"> 
-                            <h6 class="m-0 font-weight-bold text-primary float-left"> ${element.desName} </h6>
-                            <span class="badge badge-success float-right">R$  ${element.vlUnity} </span>
+                $("#viewProduct").append(`<div class="col-sm-3 mb-2">
+                    <div class="card shadow">
+                        <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
+                        <div class="card-body">
+                        <h5 class="card-title font-weight-bold">${element.desName}</h5>
+                        <p class="card-text">${((element.desNote == "") ? "Sem descrição." : element.desNote)}</p>
+                        ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-left mt-2">
+                            <h5 class="font-weight-bold">R$ ${element.vlUnity} </h5>
                         </div>
-                        <div class="card-body text-center">
-                            <img class="fluid-img mb-1" src="/${element.desImagePath}" alt="" style="width: 100px; height: 100px;">
-                            <p> ${((element.desNote == "") ? "Produto sem descrição." : element.desNote)} </p>
-                            <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
-                                <i class="fas fa-edit"></i>
+                        <div class="float-right mt-1">
+                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
+                            <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-circle" onclick='removeProduct(${element.idProduct});'>
-                                <i class="fas fa-trash"></i>
-                            </a>
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
+                            <i class="fas fa-trash"></i>
+                             </a>
                         </div>
                     </div>
-                </div>`);
+                    </div>
+                    </div>`);
+
             });
 
         }).fail(function () {
@@ -176,9 +206,9 @@
             $("#formEditProduct #idProductCategory").val(data[0].idProductCategory).change();
 
             if (data[0].isActive == 1) {
-                $("#formEditProduct #checkYes").prop("checked",true);
+                $("#formEditProduct #checkYes").prop("checked", true);
             } else {
-                $("#formEditProduct #checkNo").prop("checked",true);
+                $("#formEditProduct #checkNo").prop("checked", true);
             }
 
             $("#formEditProduct #desOldImagePath").val(data[0].desImagePath);
@@ -202,18 +232,18 @@
             dangerMode: true,
         }).then((willDelete) => {
 
-                if (willDelete) {
-                    $.post("/api/product/delete/" + idProduct, function (data) {
-                        swal("Deletado com sucesso!", {
-                            icon: "success",
-                        });
-                        loadProducts();
-                    }).fail(function () {
-                        console.log("Rota não encontrada!");
+            if (willDelete) {
+                $.post("/api/product/delete/" + idProduct, function (data) {
+                    swal("Deletado com sucesso!", {
+                        icon: "success",
                     });
-                } else {
-                    swal("A ação de deletar foi cancelada!");
-                }
+                    loadProducts();
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+            } else {
+                swal("A ação de deletar foi cancelada!");
+            }
         });
 
     }
