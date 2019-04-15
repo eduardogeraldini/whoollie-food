@@ -2,12 +2,12 @@
 
 $(function() {
 
-    verifyOrderIsOpen();
+    verifyOrderIsOpened();
     loadProducts();
     loadProductsCart();
 
     $("#openOrderModal").on('hidden.bs.modal', function() {
-        verifyOrderIsOpen();
+        verifyOrderIsOpened();
     });
 
 });
@@ -18,39 +18,46 @@ function loadProducts() {
 
     $.getJSON('/api/products', function (data) {
 
-        let i = 1;
-        let html = "";
+        let html = `<div class="row">`;
 
-        data.forEach(element => {
+        data.forEach(element => {   
 
-            if ((i-1)%4 == 0 || i == 1) {
-                html += `<div class="card-deck mb-3">`;   
-            }
+            // html += `
+            //     <div class="card text-center col-sm-4" style="width: 15.8rem;">
+            //         <div class="container-image">
+            //             <img class="card-img-top" src="/${element.desImagePath}" alt="${element.desName}" style="width: 100%; max-height: 200px;">   
+            //             <button class="btn btn-success btn-image" onclick="addProductCart(${element.idProduct});"><i class="fa fa-plus"></i></button>
+            //         </div>
+            //         <div class="card-body">
+            //             <p class="card-text">${element.desName} <b class="float-right">R$ ${element.vlUnity}</b></p>
+            //             <p class="card-text">${element.desNote}</p>
+            //         </div>
+            //     </div>
+            // `;
 
             html += `
-                <div class="card text-center" style="width: 15.8rem;">
+            <div class="col-lg-4 col-md-3 col-sm-2 mb-2">
+                <div class="card shadow">
                     <div class="container-image">
-                        <img class="card-img-top" src="/${element.desImagePath}" alt="${element.desName}" style="width: 100%; height: 250px;">   
+                        <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
                         <button class="btn btn-success btn-image" onclick="addProductCart(${element.idProduct});"><i class="fa fa-plus"></i></button>
-                    </div>
+                    </div>                    
                     <div class="card-body">
-                        <p class="card-text">${element.desName} <b class="float-right">R$ ${element.vlUnity}</b></p>
-                        <p class="card-text">${element.desNote}</p>
+                        <h5 class="card-title font-weight-bold">${element.desName}</h5>
+                        <p class="card-text">${((element.desNote == "") ? "Sem descrição." : element.desNote)}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-left mt-2">
+                            <h5 class="font-weight-bold">R$ ${element.vlUnity}</h5>
+                        </div>
                     </div>
                 </div>
+            </div>
             `;
 
-            if (i%4 == 0) {
-                html += `</div>`;
-            }
-
-            i++;
-        
         });
 
-        if (i%4 != 0) {
-            html += `</div>`;
-        }
+        html += `</div>`;
 
         $("#viewProducts").html(html);
 
@@ -136,14 +143,12 @@ function loadProductsCart() {
 
 }
 
-function verifyOrderIsOpen() {
+function verifyOrderIsOpened() {
 
-    $.post(`/api/order/isOpen`, function (data) {
-
+    $.post(`/api/opened/order`, function (data) {
         if (!JSON.parse(data).open) {
             $("#openOrderModal").modal('toggle');
         }
-
     }).fail(function () {
         console.log("Rota não encontrada!");
     });
@@ -152,8 +157,11 @@ function verifyOrderIsOpen() {
 
 function openNewOrder() {
 
-    $.post(`/api/order/open`, $("#formOpenOrder").serialize(), function (data) {
+    $.post(`/api/open/order`, $("#formOpenOrder").serialize(), function (data) {
         $("#openOrderModal").modal('toggle');
+        $("#btnCloseOrder").data("idOrder", JSON.parse(data).idOrder);
+
+        $("#formOpenOrder")[0].reset()
     }).fail(function () {
         console.log("Rota não encontrada!");
     });
@@ -165,6 +173,21 @@ function sendNewRequest() {
     $.post(`/api/request`, function (data) {
         loadProductsCart();
         swal("Tudo certo!", "Pedido enviado com sucesso!", "success");
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function closeOrder() {
+    
+    let id = $("#btnCloseOrder").data("idOrder");
+
+    $.post(`/api/close/order/${id}`, function (data) {
+        loadProductsCart();
+        swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+    }).done(() => {
+        verifyOrderIsOpened();
     }).fail(function () {
         console.log("Rota não encontrada!");
     });

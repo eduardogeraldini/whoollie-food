@@ -6,14 +6,14 @@
 
         <div class="row">
 
-            <div class="col-sm-8" style="height: 740px; overflow-y: scroll; overflow-x: hidden;">
+            <div class="col-sm-8 container-view-products">
                 <div class="row" id="viewProducts">
 
                 </div>
             </div>
 
             <div class="col-sm-4 bg-white">
-                <table class="table table-bordered" id="tableCart">
+                <table class="table table-bordered table-cart" id="tableCart">
                     <thead>
                         <tr>
                             <th>Produto</th>
@@ -27,18 +27,23 @@
                     </tbody>
                 </table>
 
-                <div class="text-center position-absolute fixed-bottom">
+                <div class="text-center position-absolute fixed-bottom container-acoes">
                     <div class="card">
                         <div class="card-body">
 
                             <div class="row">
-                                <div class="col-sm-8 mt-1">
-                                    <h3>Total: <b id="vlTotalCart"></b></h3>
+                                <div class="col-sm-8 mt-2">
+                                    <h5>Total: <b id="vlTotalCart"></b></h5>
                                 </div>
                                 <div class="col-sm-4">
-                                    <button class="btn btn-success" disabled="true" id="btnSendRequest" onclick="sendNewRequest();">Enviar Pedido!</button>
+                                    <button class="btn btn-success" disabled="true" id="btnSendRequest" onclick="sendNewRequest();">Enviar!</button>
                                 </div>
                             </div>
+                            <br>
+                            <div class="row">
+                                <button class="btn btn-danger btn-block" id="btnCloseOrder" onclick="closeOrder();">Fechar Comanda!</button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
