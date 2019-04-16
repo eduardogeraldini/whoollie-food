@@ -1,0 +1,116 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h4 mb-4 text-gray-800">Lista de Dispositivos <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#addDeviceModal">Adicionar Dispositivo</button></h1>
+    <p>Permite você visualizar, buscar e gerenciar seus dispositivos.</p>
+  
+    <div class="row">
+      <div class="col">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Dispositivos</h6>
+          </div>
+          <div class="card-body">
+  
+            <div class="row" id="viewDevice">
+              
+  
+            </div>
+  
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  </div>
+  <!-- /.container-fluid -->
+  
+  </div>
+  <!-- End of Main Content -->
+  
+  <div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Adicionar novo dispositvo</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formCreateDevice">
+
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nome do dispositivo:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Mesa - 01" name="desName" data-require="true">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Login:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="mesa01" name="desLogin" data-require="true">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Senha:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" name="desPassword" data-require="true">
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal"
+            id="btnCancelCreateDevice">Cancelar</button>
+          <button type="submit" class="btn btn-success" onclick="createDevice();">Cadastrar!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="editDeviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar dispositivo</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditDevice">
+            
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nome do dispositivo:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Mesa - 01" name="desName" data-require="true">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Login:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="mesa01" name="desLogin" data-require="true">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Senha:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" name="desPassword" data-require="true">
+              </div>
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" id="btnCancelEditDevice">Cancelar</button>
+          <button type="submit" class="btn btn-success" id="btnEditDevice">Editar!</button>
+        </div>
+      </div>
+    </div>
+  </div>

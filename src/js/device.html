@@ -1,0 +1,19 @@
+<script>
+
+function createDevice() {
+
+    $.post("/api/devices", $("#formCreateDevice").serialize(), function (data) {
+
+        if(!JSON.parse(data).error) {
+            swal("Tudo certo!", "Dispositivo cadastrado com sucesso!", "success");
+            $("#formCreateDevice")[0].reset();
+            $("#addDeviceModal").modal("toggle");
+        } else {
+            console.log(JSON.parse(data).message);
+        }
+
+    });
+
+}
+
+</script>
