@@ -68,7 +68,7 @@ class Device {
     public function createDevice() {
 
         $sql = new Sql();
-        
+
 		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword) 
 						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD)", [
                             ":IDCOMPANY"=>$this->getIdCompany(),
@@ -91,6 +91,30 @@ class Device {
         }
 		
     }
+
+    public function editDevice() {
+
+        $sql = new Sql();
+        
+		$sql->query("UPDATE tbDevices
+                    SET 
+                    desName = :DESNAME, 
+                    desLogin = :DESLOGIN, 
+                    desPassword = :DESPASSWORD
+                    WHERE
+                    idDevice = :IDDEVICE", [
+                            ":IDDEVICE"=>$this->getIdDevice(),
+                            ":DESNAME"=>$this->getDesName(),
+                            ":DESLOGIN"=>$this->getDesLogin(),
+                            ":DESPASSWORD"=>$this->getDesPassword()
+        ]);
+
+        echo json_encode([
+            'error' => false
+        ]);
+		
+
+    }
     
     public function listAllDevices() {
 
@@ -99,6 +123,20 @@ class Device {
         return json_encode($sql->select("SELECT *
                              FROM tbDevices
                              ORDER BY desName"));
+
+    }
+
+    public function listDeviceById() {
+
+        $sql = new Sql();
+
+        return json_encode($sql->select("SELECT *
+                                        FROM tbDevices
+                                        WHERE 
+                                        idDevice = :IDDEVICE
+                                        ORDER BY desName", [
+                                            ":IDDEVICE"=>$this->getIdDevice()
+                                        ]));
 
     }
 
