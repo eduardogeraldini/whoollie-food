@@ -1,5 +1,9 @@
 <script>
 
+$(function() {
+    loadDevices();
+});
+
 function createDevice() {
 
     $.post("/api/devices", $("#formCreateDevice").serialize(), function (data) {
@@ -12,7 +16,77 @@ function createDevice() {
             console.log(JSON.parse(data).message);
         }
 
+    }).then(() => {
+        loadDevices();
     });
+
+}
+
+function loadDevices() {
+
+    $.getJSON('/api/devices', function (data) {
+
+        $("#viewDevice tbody").html("");
+
+        data.forEach(element => {
+
+            $("#viewDevice tbody").append(`
+                    <tr>
+                        <td>
+                            <a href="#" onclick="loadEditDeviceModal(${element.idDevice});" class="btn btn-success btn-sm btn-circle btnEditPassword">
+                                <i class="fas fa-key"></i>
+                            </a>
+                            <a href="#" onclick="removeDevice(${element.idDevice});" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                        <td>${element.desName}</td>
+                        <td>${element.desLogin}</td>
+                    </tr>
+                `);
+        });
+
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function loadEditDeviceModal(idDevice) {
+
+    $.getJSON(`/api/device/${idDevice}`, function (data) {
+
+        $("#editDeviceModal").modal("toggle");
+
+        $("#formEditDevice #desName").val(data[0].desName);
+        $("#formEditDevice #desLogin").val(data[0].desLogin);
+        $("#formEditDevice #desPassword").val("");
+
+        $("#btnEditDevice").data("id", idDevice);
+
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+
+}
+
+function editDeviceModal(idDevice) {
+    $.post(`/api/device/edit/${idDevice}`, $("#formEditDevice").serialize(), function (data) {
+
+        if(!JSON.parse(data).error) {
+            swal("Tudo certo!", "Dispositivo editado com sucesso!", "success");
+            $("#formEditDevice")[0].reset();
+            $("#editDeviceModal").modal("toggle");
+        } else {
+            console.log(JSON.parse(data).message);
+        }
+
+    }).then(() => {
+        loadDevices();
+    });
+}
+
+function removeDevice(idDevice) {
 
 }
 
