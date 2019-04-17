@@ -33,7 +33,7 @@ $app->get('/api/device/{id}', function($request, $response, $args) {
 
 
 $app->post('/api/devices', function($request, $response, $args) {
-
+    
     User::verifyLogin();
     
     $input = $request->getParsedBody();
@@ -50,7 +50,7 @@ $app->post('/api/devices', function($request, $response, $args) {
 
 
 $app->get('/api/devices', function($request, $response, $args) {
-
+    
     User::verifyLogin();
 
     $device = new Device();

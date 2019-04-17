@@ -26,6 +26,7 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
+            'PUSHER\\' => 7,
         ),
         'I' => 
         array (
@@ -61,6 +62,10 @@ class ComposerStaticInit18152a448217e828090a8369506d21e7
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'PUSHER\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pusher/pusher-php-server/src',
         ),
         'Interop\\Container\\' => 
         array (

@@ -12,7 +12,13 @@ class User{
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tbUsers a INNER JOIN tbEmployees b ON(a.idUser = b.idUser) WHERE a.desLogin = :LOGIN AND b.isDeleted = :ISDELETED AND b.isActive = :ISACTIVE", array(
+		$results = $sql->select("SELECT * FROM tbUsers a 
+								 INNER JOIN tbEmployees b ON(a.idUser = b.idUser)
+								 INNER JOIN tbCompanies c ON(b.idCompany = c.idCompany) 
+								 WHERE 
+								 a.desLogin = :LOGIN AND 
+								 b.isDeleted = :ISDELETED AND 
+								 b.isActive = :ISACTIVE", array(
 			":LOGIN"=>$login,
 			":ISDELETED" => 0,
 			":ISACTIVE" =>  1
