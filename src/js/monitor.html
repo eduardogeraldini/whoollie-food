@@ -13,7 +13,34 @@
         channel = pusher.subscribe(data[0].desChannel);
     }).then(() => {
         channel.bind('new-request', function(data) {
-            alert(JSON.stringify(data));
+            $("body .row").append(`
+            <div class="col-sm-3 mb-2">
+                <div class="card shadow">
+                <h5 class="card-header">MESA nº 01 -- PEDIDO nº 25</h5>
+                <div class="card-body">
+                    <div class="requests">
+                    <h5 class="card-text">2 X - PICANHA</h5>
+                    <p>* Sem alface, sem molhos.</p>
+                    <h5 class="card-text">2 X - PICANHA</h5>
+                    <p>* Sem alface, sem molhos.</p>
+                    <h5 class="card-text">2 X - PICANHA</h5>
+                    <p>* Sem alface, sem molhos.</p>
+                    </div>
+                    <div class="text-center">
+                    <a href="#" class="btn btn-success">PRONTO</a>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="float-left">
+                    <small><i class="fas fa-user"></i> EDUARDO GERALDINI</small>
+                    </div>
+                    <div class="float-right">
+                    <small><i class="fas fa-clock"></i> 13/04/2019 18:08h</small>
+                    </div>
+                </div>
+                </div>
+            </div>
+            `);
         });
     });
 </script>

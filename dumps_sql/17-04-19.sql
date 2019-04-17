@@ -17,9 +17,9 @@ DROP DATABASE IF EXISTS `u672842222_food`;
 CREATE DATABASE IF NOT EXISTS `u672842222_food` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `u672842222_food`;
 
--- Copiando estrutura para tabela u672842222_food.tbboards
-DROP TABLE IF EXISTS `tbboards`;
-CREATE TABLE IF NOT EXISTS `tbboards` (
+-- Copiando estrutura para tabela u672842222_food.tbBoards
+DROP TABLE IF EXISTS `tbBoards`;
+CREATE TABLE IF NOT EXISTS `tbBoards` (
   `idBoard` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `vlBoard` text NOT NULL,
@@ -29,18 +29,18 @@ CREATE TABLE IF NOT EXISTS `tbboards` (
   `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idBoard`),
   KEY `fk_tbMesas_tbEmpresas1_idx` (`idCompany`),
-  CONSTRAINT `fk_tbMesas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbMesas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbboards: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbboards` DISABLE KEYS */;
-REPLACE INTO `tbboards` (`idBoard`, `idCompany`, `vlBoard`, `qtPlaces`, `isActive`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbBoards: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbBoards` DISABLE KEYS */;
+REPLACE INTO `tbBoards` (`idBoard`, `idCompany`, `vlBoard`, `qtPlaces`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 1, '1', 4, 1, '2019-04-13 14:55:22', 0);
-/*!40000 ALTER TABLE `tbboards` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbBoards` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbcompanies
-DROP TABLE IF EXISTS `tbcompanies`;
-CREATE TABLE IF NOT EXISTS `tbcompanies` (
+-- Copiando estrutura para tabela u672842222_food.tbCompanies
+DROP TABLE IF EXISTS `tbCompanies`;
+CREATE TABLE IF NOT EXISTS `tbCompanies` (
   `idCompany` int(11) NOT NULL AUTO_INCREMENT,
   `desName` varchar(60) NOT NULL,
   `desCNPJ` varchar(15) NOT NULL,
@@ -51,15 +51,15 @@ CREATE TABLE IF NOT EXISTS `tbcompanies` (
   PRIMARY KEY (`idCompany`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbcompanies: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbcompanies` DISABLE KEYS */;
-REPLACE INTO `tbcompanies` (`idCompany`, `desName`, `desCNPJ`, `desChannel`, `isActive`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbCompanies: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbCompanies` DISABLE KEYS */;
+REPLACE INTO `tbCompanies` (`idCompany`, `desName`, `desCNPJ`, `desChannel`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 'Whoollie Services - ME', '147258369147257', 'whoollie', 1, '2019-04-01 21:43:30', 0);
-/*!40000 ALTER TABLE `tbcompanies` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbCompanies` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbdepartments
-DROP TABLE IF EXISTS `tbdepartments`;
-CREATE TABLE IF NOT EXISTS `tbdepartments` (
+-- Copiando estrutura para tabela u672842222_food.tbDepartments
+DROP TABLE IF EXISTS `tbDepartments`;
+CREATE TABLE IF NOT EXISTS `tbDepartments` (
   `idDepartment` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desName` varchar(45) NOT NULL,
@@ -68,18 +68,18 @@ CREATE TABLE IF NOT EXISTS `tbdepartments` (
   `isActive` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idDepartment`),
   KEY `fk_tbDepartamentos_tbEmpresas1_idx` (`idCompany`),
-  CONSTRAINT `fk_tbDepartamentos_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbDepartamentos_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbdepartments: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbdepartments` DISABLE KEYS */;
-REPLACE INTO `tbdepartments` (`idDepartment`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbDepartments: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbDepartments` DISABLE KEYS */;
+REPLACE INTO `tbDepartments` (`idDepartment`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
 	(1, 1, 'TI', '2019-04-01 21:43:39', 0, 0);
-/*!40000 ALTER TABLE `tbdepartments` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbDepartments` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbdevices
-DROP TABLE IF EXISTS `tbdevices`;
-CREATE TABLE IF NOT EXISTS `tbdevices` (
+-- Copiando estrutura para tabela u672842222_food.tbDevices
+DROP TABLE IF EXISTS `tbDevices`;
+CREATE TABLE IF NOT EXISTS `tbDevices` (
   `idDevice` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desName` text NOT NULL,
@@ -90,19 +90,19 @@ CREATE TABLE IF NOT EXISTS `tbdevices` (
   `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idDevice`),
   KEY `FK1_companys` (`idCompany`),
-  CONSTRAINT `FK1_companys` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`)
+  CONSTRAINT `FK1_companys` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbdevices: ~0 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbdevices` DISABLE KEYS */;
-REPLACE INTO `tbdevices` (`idDevice`, `idCompany`, `desName`, `desLogin`, `desPassword`, `isActive`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbDevices: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbDevices` DISABLE KEYS */;
+REPLACE INTO `tbDevices` (`idDevice`, `idCompany`, `desName`, `desLogin`, `desPassword`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(2, 1, 'Mesa - 01', 'mesa01', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 0, '2019-04-15 22:02:39', 0),
 	(3, 1, 'Mesa - 02', 'mesa01', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 0, '2019-04-15 22:05:03', 0);
-/*!40000 ALTER TABLE `tbdevices` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbDevices` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbemployees
-DROP TABLE IF EXISTS `tbemployees`;
-CREATE TABLE IF NOT EXISTS `tbemployees` (
+-- Copiando estrutura para tabela u672842222_food.tbEmployees
+DROP TABLE IF EXISTS `tbEmployees`;
+CREATE TABLE IF NOT EXISTS `tbEmployees` (
   `idEmployee` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `idDepartment` int(11) NOT NULL,
@@ -116,15 +116,15 @@ CREATE TABLE IF NOT EXISTS `tbemployees` (
   PRIMARY KEY (`idEmployee`),
   KEY `fk_tbFuncionarios_tbDepartamentos1_idx` (`idDepartment`),
   KEY `fk_tbFuncionarios_tbUsuarios1_idx` (`idUser`),
-  KEY `fk_tbEmployees_tbCompanies1_idx` (`idCompany`),
-  CONSTRAINT `fk_tbEmployees_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbFuncionarios_tbDepartamentos1` FOREIGN KEY (`idDepartment`) REFERENCES `tbdepartments` (`idDepartment`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbFuncionarios_tbUsuarios1` FOREIGN KEY (`idUser`) REFERENCES `tbusers` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fkEtbEmployees_tbCompanies1_idx` (`idCompany`),
+  CONSTRAINT `fkEtbEmployees_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbFuncionarios_tbDepartamentos1` FOREIGN KEY (`idDepartment`) REFERENCES `tbDepartments` (`idDepartment`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbFuncionarios_tbUsuarios1` FOREIGN KEY (`idUser`) REFERENCES `tbUsers` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbemployees: ~8 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbemployees` DISABLE KEYS */;
-REPLACE INTO `tbemployees` (`idEmployee`, `idCompany`, `idDepartment`, `idUser`, `desName`, `desCPF`, `dtBirth`, `isActive`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbEmployees: ~8 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbEmployees` DISABLE KEYS */;
+REPLACE INTO `tbEmployees` (`idEmployee`, `idCompany`, `idDepartment`, `idUser`, `desName`, `desCPF`, `dtBirth`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 1, 1, 1, 'Matheus1', '47169948800', '1999-03-01', 1, '2019-04-01 21:43:56', 0),
 	(10, 1, 1, 18, 'Eduardo12', '44694640827', '1996-12-05', 1, '2019-04-04 13:57:00', 0),
 	(11, 1, 1, 19, 'Neli', '34567890', '4567-03-12', 0, '2019-04-04 17:35:09', 0),
@@ -133,11 +133,11 @@ REPLACE INTO `tbemployees` (`idEmployee`, `idCompany`, `idDepartment`, `idUser`,
 	(16, 1, 1, 24, 'fxgfcg64654646465464564', '23123123', '1222-12-12', 0, '2019-04-06 08:27:52', 1),
 	(17, 1, 1, 25, 'Everaldo', '1234567', '4555-03-12', 1, '2019-04-06 09:02:46', 1),
 	(18, 1, 1, 26, 'czxcklj', '12345', '5666-04-23', 0, '2019-04-10 20:47:51', 0);
-/*!40000 ALTER TABLE `tbemployees` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbEmployees` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tborders
-DROP TABLE IF EXISTS `tborders`;
-CREATE TABLE IF NOT EXISTS `tborders` (
+-- Copiando estrutura para tabela u672842222_food.tbOrders
+DROP TABLE IF EXISTS `tbOrders`;
+CREATE TABLE IF NOT EXISTS `tbOrders` (
   `idOrder` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
@@ -151,21 +151,21 @@ CREATE TABLE IF NOT EXISTS `tborders` (
   KEY `fk_tbComandas_tbFuncionarios1_idx` (`idUser`),
   KEY `fk_tbComandas_tbEmpresas1_idx` (`idCompany`),
   KEY `fk_tbComandas_tbMesas1_idx` (`idBoard`),
-  CONSTRAINT `fk_tbComandas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbComandas_tbFuncionarios1` FOREIGN KEY (`idUser`) REFERENCES `tbemployees` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbComandas_tbMesas1` FOREIGN KEY (`idBoard`) REFERENCES `tbboards` (`idBoard`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbComandas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbComandas_tbFuncionarios1` FOREIGN KEY (`idUser`) REFERENCES `tbEmployees` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbComandas_tbMesas1` FOREIGN KEY (`idBoard`) REFERENCES `tbBoards` (`idBoard`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tborders: ~1 rows (aproximadamente)
-/*!40000 ALTER TABLE `tborders` DISABLE KEYS */;
-REPLACE INTO `tborders` (`idOrder`, `idCompany`, `idUser`, `idBoard`, `desName`, `vlDiscount`, `vlStatus`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbOrders: ~1 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbOrders` DISABLE KEYS */;
+REPLACE INTO `tbOrders` (`idOrder`, `idCompany`, `idUser`, `idBoard`, `desName`, `vlDiscount`, `vlStatus`, `dtRegister`, `isDeleted`) VALUES
 	(3, 1, 1, 1, 'Matheus', 0.0, 0, '2019-04-13 15:45:40', 0),
 	(4, 1, 1, 1, 'Elder', 0.0, 2, '2019-04-15 21:02:53', 0);
-/*!40000 ALTER TABLE `tborders` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbOrders` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbprivileges
-DROP TABLE IF EXISTS `tbprivileges`;
-CREATE TABLE IF NOT EXISTS `tbprivileges` (
+-- Copiando estrutura para tabela u672842222_food.tbPrivileges
+DROP TABLE IF EXISTS `tbPrivileges`;
+CREATE TABLE IF NOT EXISTS `tbPrivileges` (
   `idPrivilege` int(11) NOT NULL AUTO_INCREMENT,
   `idEmployee` int(11) NOT NULL,
   `viewProducts` int(11) NOT NULL DEFAULT '1',
@@ -174,13 +174,13 @@ CREATE TABLE IF NOT EXISTS `tbprivileges` (
   `viewReports` int(11) NOT NULL,
   `viewConfigs` int(11) NOT NULL,
   PRIMARY KEY (`idPrivilege`),
-  KEY `fk_tbPrivileges_tbEmployees1_idx` (`idEmployee`),
-  CONSTRAINT `fk_tbPrivileges_tbEmployees1` FOREIGN KEY (`idEmployee`) REFERENCES `tbemployees` (`idEmployee`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fkEtbPrivileges_tbEmployees1_idx` (`idEmployee`),
+  CONSTRAINT `fkEtbPrivileges_tbEmployees1` FOREIGN KEY (`idEmployee`) REFERENCES `tbEmployees` (`idEmployee`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbprivileges: ~8 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbprivileges` DISABLE KEYS */;
-REPLACE INTO `tbprivileges` (`idPrivilege`, `idEmployee`, `viewProducts`, `viewOrders`, `viewEmployees`, `viewReports`, `viewConfigs`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbPrivileges: ~8 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbPrivileges` DISABLE KEYS */;
+REPLACE INTO `tbPrivileges` (`idPrivilege`, `idEmployee`, `viewProducts`, `viewOrders`, `viewEmployees`, `viewReports`, `viewConfigs`) VALUES
 	(1, 1, 1, 1, 1, 1, 1),
 	(2, 10, 1, 1, 1, 1, 0),
 	(3, 11, 1, 1, 1, 0, 1),
@@ -189,11 +189,11 @@ REPLACE INTO `tbprivileges` (`idPrivilege`, `idEmployee`, `viewProducts`, `viewO
 	(6, 16, 0, 1, 1, 1, 1),
 	(7, 17, 1, 1, 1, 1, 0),
 	(8, 18, 1, 1, 0, 0, 0);
-/*!40000 ALTER TABLE `tbprivileges` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbPrivileges` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbproducts
-DROP TABLE IF EXISTS `tbproducts`;
-CREATE TABLE IF NOT EXISTS `tbproducts` (
+-- Copiando estrutura para tabela u672842222_food.tbProducts
+DROP TABLE IF EXISTS `tbProducts`;
+CREATE TABLE IF NOT EXISTS `tbProducts` (
   `idProduct` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `idProductCategory` int(11) NOT NULL,
@@ -207,13 +207,13 @@ CREATE TABLE IF NOT EXISTS `tbproducts` (
   PRIMARY KEY (`idProduct`),
   KEY `fk_tbProdutos_tbCategoriasProdutos1_idx` (`idProductCategory`),
   KEY `fk_tbProdutos_tbEmpresas1_idx` (`idCompany`),
-  CONSTRAINT `fk_tbProdutos_tbCategoriasProdutos1` FOREIGN KEY (`idProductCategory`) REFERENCES `tbproductscategories` (`idProductCategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbProdutos_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbProdutos_tbCategoriasProdutos1` FOREIGN KEY (`idProductCategory`) REFERENCES `tbProductsCategories` (`idProductCategory`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbProdutos_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbproducts: ~18 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbproducts` DISABLE KEYS */;
-REPLACE INTO `tbproducts` (`idProduct`, `idCompany`, `idProductCategory`, `vlUnity`, `desName`, `desNote`, `desImagePath`, `isActive`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbProducts: ~18 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbProducts` DISABLE KEYS */;
+REPLACE INTO `tbProducts` (`idProduct`, `idCompany`, `idProductCategory`, `vlUnity`, `desName`, `desNote`, `desImagePath`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(12, 1, 8, 0.00, 'jhjkh', 'jkhkjhkj', 'res/uploads/products/1554344672_UseCase Diagram0.jpg', 1, '2019-04-03 23:24:32', 1),
 	(13, 1, 11, 890.00, 'Diego', '20938', 'res/uploads/products/1555108931_unnamed.jpg', 1, '2019-04-03 23:27:55', 0),
 	(14, 1, 8, 98.00, 'Lanche da Ma', 'kljlk', 'res/uploads/products/1555030650_images.jpg', 1, '2019-04-03 23:28:44', 0),
@@ -232,11 +232,11 @@ REPLACE INTO `tbproducts` (`idProduct`, `idCompany`, `idProductCategory`, `vlUni
 	(27, 1, 8, 12.00, 'teste4', 'teste4', 'res/admin/img/sem_foto.png', 1, '2019-04-12 21:29:57', 0),
 	(28, 1, 8, 10.00, 'teste5', 'teste5', 'res/admin/img/sem_foto.png', 1, '2019-04-12 21:30:07', 0),
 	(29, 1, 8, 20.00, 'teste6', 'teste6', 'res/admin/img/sem_foto.png', 1, '2019-04-12 21:30:17', 0);
-/*!40000 ALTER TABLE `tbproducts` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbProducts` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbproductscategories
-DROP TABLE IF EXISTS `tbproductscategories`;
-CREATE TABLE IF NOT EXISTS `tbproductscategories` (
+-- Copiando estrutura para tabela u672842222_food.tbProductsCategories
+DROP TABLE IF EXISTS `tbProductsCategories`;
+CREATE TABLE IF NOT EXISTS `tbProductsCategories` (
   `idProductCategory` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desName` varchar(45) NOT NULL,
@@ -245,21 +245,21 @@ CREATE TABLE IF NOT EXISTS `tbproductscategories` (
   `isActive` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idProductCategory`),
   KEY `fk_tbProductsCategories_tbCompanies1_idx` (`idCompany`),
-  CONSTRAINT `fk_tbProductsCategories_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbProductsCategories_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbproductscategories: ~4 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbproductscategories` DISABLE KEYS */;
-REPLACE INTO `tbproductscategories` (`idProductCategory`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbProductsCategories: ~4 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbProductsCategories` DISABLE KEYS */;
+REPLACE INTO `tbProductsCategories` (`idProductCategory`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
 	(8, 1, 'Bebidas', '2019-04-03 19:13:57', 0, 1),
 	(9, 1, 'Massas', '2019-04-03 19:14:01', 0, 1),
 	(10, 1, 'PorÃ§Ãµes', '2019-04-03 23:33:04', 0, 1),
 	(11, 1, 'Teste', '2019-04-04 10:58:56', 0, 1);
-/*!40000 ALTER TABLE `tbproductscategories` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbProductsCategories` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbrequests
-DROP TABLE IF EXISTS `tbrequests`;
-CREATE TABLE IF NOT EXISTS `tbrequests` (
+-- Copiando estrutura para tabela u672842222_food.tbRequests
+DROP TABLE IF EXISTS `tbRequests`;
+CREATE TABLE IF NOT EXISTS `tbRequests` (
   `idRequest` int(11) NOT NULL AUTO_INCREMENT,
   `idOrder` int(11) NOT NULL,
   `desNote` varchar(250) DEFAULT NULL,
@@ -268,12 +268,12 @@ CREATE TABLE IF NOT EXISTS `tbrequests` (
   `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idRequest`),
   KEY `fk_tbPedidos_tbComandas_idx` (`idOrder`),
-  CONSTRAINT `fk_tbPedidos_tbComandas` FOREIGN KEY (`idOrder`) REFERENCES `tborders` (`idOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbPedidos_tbComandas` FOREIGN KEY (`idOrder`) REFERENCES `tbOrders` (`idOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbrequests: ~7 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbrequests` DISABLE KEYS */;
-REPLACE INTO `tbrequests` (`idRequest`, `idOrder`, `desNote`, `vlStatus`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbRequests: ~7 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbRequests` DISABLE KEYS */;
+REPLACE INTO `tbRequests` (`idRequest`, `idOrder`, `desNote`, `vlStatus`, `dtRegister`, `isDeleted`) VALUES
 	(1, 3, NULL, 0, '2019-04-13 16:08:39', 0),
 	(2, 3, NULL, 0, '2019-04-13 16:08:53', 0),
 	(3, 3, NULL, 0, '2019-04-13 16:09:14', 0),
@@ -281,11 +281,11 @@ REPLACE INTO `tbrequests` (`idRequest`, `idOrder`, `desNote`, `vlStatus`, `dtReg
 	(5, 3, NULL, 0, '2019-04-13 16:10:09', 0),
 	(6, 3, NULL, 0, '2019-04-13 16:10:18', 0),
 	(7, 4, NULL, 0, '2019-04-15 21:03:20', 0);
-/*!40000 ALTER TABLE `tbrequests` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbRequests` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbrequestsproducts
-DROP TABLE IF EXISTS `tbrequestsproducts`;
-CREATE TABLE IF NOT EXISTS `tbrequestsproducts` (
+-- Copiando estrutura para tabela u672842222_food.tbRequestsProducts
+DROP TABLE IF EXISTS `tbRequestsProducts`;
+CREATE TABLE IF NOT EXISTS `tbRequestsProducts` (
   `idRequestProduct` int(11) NOT NULL AUTO_INCREMENT,
   `idRequest` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
@@ -296,13 +296,13 @@ CREATE TABLE IF NOT EXISTS `tbrequestsproducts` (
   PRIMARY KEY (`idRequestProduct`),
   KEY `fk_tbPedidos_has_tbProdutos_tbProdutos1_idx` (`idProduct`),
   KEY `fk_tbPedidos_has_tbProdutos_tbPedidos1_idx` (`idRequest`),
-  CONSTRAINT `fk_tbPedidos_has_tbProdutos_tbPedidos1` FOREIGN KEY (`idRequest`) REFERENCES `tbrequests` (`idRequest`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tbPedidos_has_tbProdutos_tbProdutos1` FOREIGN KEY (`idProduct`) REFERENCES `tbproducts` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbPedidos_has_tbProdutos_tbPedidos1` FOREIGN KEY (`idRequest`) REFERENCES `tbRequests` (`idRequest`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbPedidos_has_tbProdutos_tbProdutos1` FOREIGN KEY (`idProduct`) REFERENCES `tbProducts` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbrequestsproducts: ~13 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbrequestsproducts` DISABLE KEYS */;
-REPLACE INTO `tbrequestsproducts` (`idRequestProduct`, `idRequest`, `idProduct`, `qtProduct`, `vlUnity`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbRequestsProducts: ~13 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbRequestsProducts` DISABLE KEYS */;
+REPLACE INTO `tbRequestsProducts` (`idRequestProduct`, `idRequest`, `idProduct`, `qtProduct`, `vlUnity`, `dtRegister`, `isDeleted`) VALUES
 	(1, 4, 25, 1, 15.00, '2019-04-13 16:09:28', 0),
 	(2, 4, 29, 1, 20.00, '2019-04-13 16:09:28', 0),
 	(3, 4, 14, 1, 98.00, '2019-04-13 16:09:28', 0),
@@ -316,11 +316,11 @@ REPLACE INTO `tbrequestsproducts` (`idRequestProduct`, `idRequest`, `idProduct`,
 	(11, 7, 13, 1, 890.00, '2019-04-15 21:03:20', 0),
 	(12, 7, 14, 1, 98.00, '2019-04-15 21:03:20', 0),
 	(13, 7, 27, 1, 12.00, '2019-04-15 21:03:20', 0);
-/*!40000 ALTER TABLE `tbrequestsproducts` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbRequestsProducts` ENABLE KEYS */;
 
--- Copiando estrutura para tabela u672842222_food.tbusers
-DROP TABLE IF EXISTS `tbusers`;
-CREATE TABLE IF NOT EXISTS `tbusers` (
+-- Copiando estrutura para tabela u672842222_food.tbUsers
+DROP TABLE IF EXISTS `tbUsers`;
+CREATE TABLE IF NOT EXISTS `tbUsers` (
   `idUser` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desLogin` varchar(45) NOT NULL,
@@ -329,12 +329,12 @@ CREATE TABLE IF NOT EXISTS `tbusers` (
   `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idUser`),
   KEY `fk_tbUsers_tbCompanies1_idx` (`idCompany`),
-  CONSTRAINT `fk_tbUsers_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbcompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_tbUsers_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbusers: ~10 rows (aproximadamente)
-/*!40000 ALTER TABLE `tbusers` DISABLE KEYS */;
-REPLACE INTO `tbusers` (`idUser`, `idCompany`, `desLogin`, `desPassword`, `dtRegister`, `isDeleted`) VALUES
+-- Copiando dados para a tabela u672842222_food.tbUsers: ~10 rows (aproximadamente)
+/*!40000 ALTER TABLE `tbUsers` DISABLE KEYS */;
+REPLACE INTO `tbUsers` (`idUser`, `idCompany`, `desLogin`, `desPassword`, `dtRegister`, `isDeleted`) VALUES
 	(1, 1, 'dev', 'a30c3ada16ecb5b34e49211bf06a4ec47e80d75d', '2019-04-01 21:44:28', 0),
 	(18, 1, 'eduardop', '8cb2237d0679ca88db6464eac60da96345513964', '2019-04-04 13:57:00', 0),
 	(19, 1, 'neli', '7631047c2fb847aaf4962e7b895429056ffaf91b', '2019-04-04 17:35:09', 0),
@@ -345,7 +345,7 @@ REPLACE INTO `tbusers` (`idUser`, `idCompany`, `desLogin`, `desPassword`, `dtReg
 	(24, 1, '23123132', '85fb9fc6ec34636068825b73feb70acdc6eac9ac', '2019-04-06 08:27:52', 0),
 	(25, 1, 'everaldo', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2019-04-06 09:02:46', 0),
 	(26, 1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', '2019-04-10 20:47:51', 0);
-/*!40000 ALTER TABLE `tbusers` ENABLE KEYS */;
+/*!40000 ALTER TABLE `tbUsers` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
