@@ -8,3 +8,7 @@
     margin-top: 3px;
     margin-left: 5px;
 }
+
+.card-boards:hover{
+    cursor: pointer;
+}
