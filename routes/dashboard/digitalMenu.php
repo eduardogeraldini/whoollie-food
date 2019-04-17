@@ -4,7 +4,7 @@ use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Employee;
 
 $app->get('/cardapio-digital', function($request, $response, $args) {
-    
+
     User::verifyLogin(false);
     
     if(Employee::verifyPrivileges("products")){
