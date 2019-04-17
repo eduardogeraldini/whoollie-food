@@ -4,7 +4,7 @@ use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Device;
 
 $app->post('/api/devices', function($request, $response, $args) {
-
+    
     User::verifyLogin();
     
     $input = $request->getParsedBody();
@@ -21,7 +21,7 @@ $app->post('/api/devices', function($request, $response, $args) {
 
 
 $app->get('/api/devices', function($request, $response, $args) {
-
+    
     User::verifyLogin();
 
     echo $device->listAllDevices();

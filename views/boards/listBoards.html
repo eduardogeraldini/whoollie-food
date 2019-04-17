@@ -1,0 +1,105 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+  <!-- Page Heading -->
+  <h1 class="h4 mb-4 text-gray-800">Lista de Mesas <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#addBoardModal">Adicionar Mesa</button></h1>
+  <p>Permite você visualizar, buscar e gerenciar suas Mesas.</p>
+
+  <div class="row">
+    <div class="col">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Mesas</h6>
+        </div>
+        <div class="card-body">
+
+          <div class="row" id="viewBoard">
+            
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<div class="modal fade" id="addBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Adicionar nova mesa</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formCreateBoard">
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nome da mesa:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" placeholder="Mesa - 01" name="vlBoard" data-require="true">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">qtd. Lugares:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" placeholder="mesa01" name="qtPlaces" data-require="true">
+            </div>
+          </div>
+  
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal"
+          id="btnCancelCreateBoard">Cancelar</button>
+        <button type="submit" class="btn btn-success" onclick="createBoard();">Cadastrar!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar mesa</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditBoard">
+          
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nome da mesa:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" placeholder="Mesa - 01" name="vlBoard" data-require="true">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">qtd. Lugares:</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" placeholder="mesa01" name="qtPlaces" data-require="true">
+            </div>
+          </div>
+  
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal" id="btnCancelEditBoard">Cancelar</button>
+        <button type="submit" class="btn btn-success" id="btnEditBoard">Editar!</button>
+      </div>
+    </div>
+  </div>
+</div>

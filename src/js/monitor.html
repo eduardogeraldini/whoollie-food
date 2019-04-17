@@ -1,0 +1,19 @@
+<script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('7a6218b4df87abcc1c7c', {
+        cluster: 'us2',
+        forceTLS: true
+    });
+
+    var channel;
+
+    $.getJSON('/api/currentCompany', function (data) {
+        channel = pusher.subscribe(data[0].desChannel);
+    }).then(() => {
+        channel.bind('new-request', function(data) {
+            alert(JSON.stringify(data));
+        });
+    });
+</script>

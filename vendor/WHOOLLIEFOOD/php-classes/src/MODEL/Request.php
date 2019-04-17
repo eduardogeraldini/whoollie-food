@@ -4,20 +4,40 @@ namespace WHOOLLIEFOOD\MODEL;
 
 use \WHOOLLIEFOOD\DB\Sql;
 use \WHOOLLIEFOOD\MODEL\Cart;
+use \PUSHER\Pusher;
 
 class Request {
 
 	private $idCompany;
 	private $idOrder;
-	private $idRequest;
+    private $idRequest;
+    
+	private $options;
+	private $pusher;
+	private $desChannel;
     
 	public function __construct() {
-        $this->idCompany = $_SESSION['User']['idCompany'];
-        $this->idOrder = $_SESSION["Order"]["id"];
+        
+        $this->setIdCompany($_SESSION['User']['idCompany']);
+        $this->setIdOrder($_SESSION["Order"]["id"]);
+        $this->setDesChannel($_SESSION["User"]["desChannel"]);
+
+        $this->options = array(
+            'cluster' => 'us2',
+            'useTLS' => true
+        );
+
+        $this->pusher = new Pusher(
+            '7a6218b4df87abcc1c7c',
+            '6a18bec5a755ce4407a2',
+            '746032',
+            $this->options
+        );
+
     }
 
     public function setIdCompany($value) {
-        $this->idCompany = $idCompany;
+        $this->idCompany = $value;
     }
 
     public function getIdCompany() {
@@ -38,6 +58,14 @@ class Request {
 
     public function getIdRequest() {
         return $this->idRequest;
+    }
+
+    public function setDesChannel($value) {
+        $this->desChannel = $value;
+    }
+
+    public function getDesChannel() {
+        return $this->desChannel;
     }
 
     public function openNewRequest() {
@@ -72,6 +100,9 @@ class Request {
             ]);
 
         }
+
+        $data['message'] = 'Novo pedido adicionado';
+        $this->pusher->trigger($this->getDesChannel(), 'new-request', $data);
 
         $cart->clearCart();
 

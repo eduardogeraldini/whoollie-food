@@ -15,7 +15,8 @@
     },
     "autoload": {
         "psr-4": {
-            "WHOOLLIEFOOD\\": "vendor\\WHOOLLIEFOOD\\php-classes\\src"
+            "WHOOLLIEFOOD\\": "vendor\\WHOOLLIEFOOD\\php-classes\\src",
+            "PUSHER\\": "vendor\\pusher\\pusher-php-server\\src"
         }
     }
 }
