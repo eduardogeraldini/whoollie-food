@@ -6,6 +6,8 @@ use \WHOOLLIEFOOD\DB\Sql;
 
 class Device {
 
+    const SESSION = "Device";
+
     private $idDevice;
     private $idCompany;
 	private $desName;
@@ -64,6 +66,70 @@ class Device {
 	public function setIsActive($isActive) {
 		$this->isActive = $isActive;
     }
+
+    public static function login($login, $password) {
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tbDevices 
+								 WHERE 
+								 desLogin = :LOGIN AND 
+								 isDeleted = :ISDELETED AND 
+								 isActive = :ISACTIVE", array(
+			":LOGIN"=>$login,
+			":ISDELETED" => 0,
+			":ISACTIVE" =>  1
+		));
+
+		if(count($results) === 0){
+
+            return json_encode([
+                'login' => false,
+                'message' => 'Credenciais incorretas!',
+            ]);
+			
+		}
+
+		$data = $results[0];
+
+		if(sha1($password) == $data["desPassword"]){
+
+			$_SESSION[Device::SESSION] = $data;
+
+			return json_encode([
+                'login' => true,
+                'message' => 'Logado com sucesso!',
+            ]);
+
+		} else {
+
+			return json_encode([
+                'login' => false,
+                'message' => 'Credenciais incorretas!',
+            ]);
+
+		}
+
+    }
+
+    public static function verifyLogin(){
+
+		if(!isset($_SESSION[Device::SESSION]) || !$_SESSION[Device::SESSION] || !(int)$_SESSION[Device::SESSION]["idDevice"] > 0){
+			
+			return [
+                'login' => false,
+                'message' => 'Não logado!',
+            ];	
+
+		} else {
+
+			return [
+                'login' => true
+            ];	
+
+		}
+
+	}
     
     public function createDevice() {
 
@@ -95,20 +161,29 @@ class Device {
     public function editDevice() {
 
         $sql = new Sql();
-        
-		$sql->query("UPDATE tbDevices
+
+        if ($this->getDesPassword() != "") {
+            $sql->query("UPDATE tbDevices
+                        SET 
+                        desPassword = :DESPASSWORD
+                        WHERE
+                        idDevice = :IDDEVICE", [
+                                ":IDDEVICE"=>$this->getIdDevice(),
+                                ":DESPASSWORD"=>$this->getDesPassword()
+            ]);
+        }
+
+        $sql->query("UPDATE tbDevices
                     SET 
                     desName = :DESNAME, 
-                    desLogin = :DESLOGIN, 
-                    desPassword = :DESPASSWORD
+                    desLogin = :DESLOGIN
                     WHERE
                     idDevice = :IDDEVICE", [
                             ":IDDEVICE"=>$this->getIdDevice(),
                             ":DESNAME"=>$this->getDesName(),
-                            ":DESLOGIN"=>$this->getDesLogin(),
-                            ":DESPASSWORD"=>$this->getDesPassword()
+                            ":DESLOGIN"=>$this->getDesLogin()
         ]);
-
+		
         echo json_encode([
             'error' => false
         ]);

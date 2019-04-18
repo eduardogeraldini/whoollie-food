@@ -70,7 +70,8 @@ function loadEditDeviceModal(idDevice) {
 
 }
 
-function editDeviceModal(idDevice) {
+function editDevice(idDevice) {
+
     $.post(`/api/device/edit/${idDevice}`, $("#formEditDevice").serialize(), function (data) {
 
         if(!JSON.parse(data).error) {
@@ -84,6 +85,7 @@ function editDeviceModal(idDevice) {
     }).then(() => {
         loadDevices();
     });
+
 }
 
 function removeDevice(idDevice) {

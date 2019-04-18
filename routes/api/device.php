@@ -20,6 +20,15 @@ $app->post('/api/device/edit/{id}', function($request, $response, $args) {
 
 });
 
+$app->post('/api/device/login', function ($request, $response, $args) {
+	
+    $login = $request->getParam('desLogin');
+    $senha = $request->getParam('desPassword');
+
+    echo Device::login($login, $senha);
+
+});
+
 $app->get('/api/device/{id}', function($request, $response, $args) {
     
     User::verifyLogin();

@@ -2,6 +2,7 @@
 
 use \WHOOLLIEFOOD\MODEL\ProductCategory;
 use \WHOOLLIEFOOD\MODEL\User;
+use \WHOOLLIEFOOD\MODEL\Device;
 
 $app->post('/api/categories/products/update/{id}', function($request, $response, $args) {
 
@@ -39,7 +40,9 @@ $app->get('/api/categories/products/{id}', function($request, $response, $args) 
 
 $app->get('/api/categories/products', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
 	$category = new ProductCategory();
 
