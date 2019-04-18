@@ -8,7 +8,7 @@ $app->get('/comandas', function($request, $response, $args) {
 	User::verifyLogin(false);
 
 	if(Employee::verifyPrivileges("orders")){
-        renderPage("orders", "orders", false, "order"); //pasta(views), arquivo, false(renderiza menu lateral) arquivo(js)
+        renderPage("orders", "orders", false, "order");
     } else {
         renderPage("errors", "errorPrivileges", false);
     }

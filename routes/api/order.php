@@ -44,4 +44,22 @@ $app->post('/api/close/order/{id}', function($request, $response, $args) {
     
 });
 
+$app->get('/api/orders/{id}', function($request, $response, $args) {
+
+	User::verifyLogin();
+
+    $order = new Order();
+	echo $order->listOrderById($args['id']);
+	
+});
+
+$app->get('/api/orders', function($request, $response, $args) {
+
+    User::verifyLogin();
+    
+    $order = new Order();
+	echo $order->listAll();
+	
+});
+
 ?>

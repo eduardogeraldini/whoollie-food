@@ -125,7 +125,34 @@ class Order {
 
         $this->setIdOrder("");
         
-    }   
+    } 
+    
+    public function listOrderById($idOrder){
+
+        $sql = new Sql();
+
+        return json_encode($sql->select("SELECT * FROM tbOrders WHERE idOrder = :IDORDER",[
+                ':IDORDER' => $idOrder
+        ]));
+
+    }
+
+    public function listAll(){
+
+		$sql = new Sql();
+
+		return json_encode($sql->select("
+			SELECT * 
+			FROM tbOrders
+			WHERE 
+			isDeleted = :ISDELETED AND
+			idCompany = :IDCOMPANY
+			ORDER BY idOrder ASC", [
+				":ISDELETED" => 0,
+				":IDCOMPANY" => $this->getIdCompany()
+			]));
+
+	}
 
 }
 
