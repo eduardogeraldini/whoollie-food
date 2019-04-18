@@ -85,7 +85,7 @@ class Device {
 
             return json_encode([
                 'login' => false,
-                'message' => 'Credenciais incorretas!',
+                'message' => 'Credenciais incorretas (login)!',
             ]);
 			
 		}
@@ -105,7 +105,7 @@ class Device {
 
 			return json_encode([
                 'login' => false,
-                'message' => 'Credenciais incorretas!',
+                'message' => 'Credenciais incorretas (password)!',
             ]);
 
 		}
