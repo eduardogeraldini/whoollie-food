@@ -312,17 +312,6 @@ class Product{
 		$this->setVlUnity($res['vlUnity']);
 		$this->setIsActive($res['isActive']);
 		$this->setIdProductCategory($res['idProductCategory']);
-		
-		/*$arr = [];
-
-		$arr['idProduct'] = $idProduct;
-		$arr['desName'] = $res['desName'];
-		$arr['desNote'] = $res['desNote'];
-		$arr['vlUnity'] = $res['vlUnity'];
-		$arr['isActive'] = $res['isActive'];
-		$arr['idProductCategory'] = $res['idProductCategory'];
-
-		return $arr;*/
 
 	}
 

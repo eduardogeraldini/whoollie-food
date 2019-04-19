@@ -61,6 +61,7 @@ $app->post('/api/categories/products', function($request, $response, $args) {
 
 	$category->setDesName($input['desName']);
 	$category->setIsActive($input['isActive']);
+	$category->setDesImagePath($_FILES);
 
 	$category->createProductCategory();
 	

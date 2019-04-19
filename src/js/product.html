@@ -53,7 +53,7 @@
                         <div class="active">
                             ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
                         </div>
-                        <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
+                        <img class="card-img-top img-ajust" src="${element.desImagePath}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title font-weight-bold">${element.desName}</h5>
                         <p class="card-text">${((element.desNote == "") ? "Sem descrição." : element.desNote)}</p>
@@ -82,7 +82,7 @@
                                 <span class="badge badge-success float-right">R$  ${element.vlUnity} </span>
                             </div>
                             <div class="card-body text-center">
-                                <img class="fluid-img mb-1" src="/${element.desImagePath}" alt="" style="width: 100px; height: 100px;">
+                                <img class="fluid-img mb-1" src="${element.desImagePath}" alt="" style="width: 100px; height: 100px;">
                                 <p> ${((element.desNote == "") ? "Produto sem descrição." : element.desNote)} </p>
                                 <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
                                     <i class="fas fa-edit"></i>
@@ -170,7 +170,7 @@
                         <div class="active">
                             ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}
                         </div>
-                        <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
+                        <img class="card-img-top img-ajust" src="${element.desImagePath}" alt="Card image cap">
                         <div class="card-body">
                         <h5 class="card-title font-weight-bold">${element.desName}</h5>
                         <p class="card-text">${((element.desNote == "") ? "Sem descrição." : element.desNote)}</p>

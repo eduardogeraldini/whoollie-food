@@ -104,6 +104,9 @@
                     $("#checkNo").prop("checked", true);
                 }
 
+                $("#formEditCategories #desOldImagePath").val(data[0].desImagePath);
+                $("#formEditCategories #image").attr("src", data[0].desImagePath);
+
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });
