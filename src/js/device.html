@@ -89,7 +89,28 @@ function editDevice(idDevice) {
 }
 
 function removeDevice(idDevice) {
+    
+    swal({
+            title: "Você tem certeza ?",
+            text: "Após deletado você não poderá mais recupera-lo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
 
+            if (willDelete) {
+                $.post("/api/device/delete/" + idDevice, function (data) {
+                    swal("Deletado com sucesso!", {
+                        icon: "success",
+                    });
+                    loadDevices();
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+            } else {
+                swal("A ação de deletar foi cancelada!");
+            }
+        });
 }
 
 </script>

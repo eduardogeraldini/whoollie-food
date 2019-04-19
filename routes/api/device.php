@@ -3,6 +3,19 @@
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->post('/api/device/delete/{id}', function($request, $response, $args) {
+    
+    User::verifyLogin();
+
+    $device = new Device();
+
+    $device->setIdDevice($args["id"]);
+    $device->setIsDeleted(1);
+
+    echo $device->deleteDevice();
+
+});
+
 $app->post('/api/device/edit/{id}', function($request, $response, $args) {
     
     User::verifyLogin();
@@ -44,7 +57,6 @@ $app->get('/api/device/{id}', function($request, $response, $args) {
 
 });
 
-
 $app->post('/api/devices', function($request, $response, $args) {
     
     User::verifyLogin();
@@ -67,6 +79,7 @@ $app->get('/api/devices', function($request, $response, $args) {
     User::verifyLogin();
 
     $device = new Device();
+    $device->setIsDeleted(0);
     echo $device->listAllDevices();
 	
 });
