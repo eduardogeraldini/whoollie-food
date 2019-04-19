@@ -14,10 +14,7 @@ class Device {
 	private $desLogin;
 	private $desPassword;
 	private $isActive;
-
-    public function __construct(){
-		$this->idCompany = $_SESSION['User']['idCompany'];
-	}
+	private $isDeleted;
 
 	public function getIdDevice() {
 		return $this->idDevice;
@@ -67,7 +64,15 @@ class Device {
 		$this->isActive = $isActive;
     }
 
-    public static function login($login, $password) {
+    public function getIsDeleted() {
+		return $this->isDeleted;
+	}
+
+	public function setIsDeleted($isDeleted) {
+		$this->isDeleted = $isDeleted;
+    }
+
+    public function login() {
 
 		$sql = new Sql();
 
@@ -75,11 +80,11 @@ class Device {
 								 WHERE 
 								 desLogin = :LOGIN AND 
 								 isDeleted = :ISDELETED AND 
-								 isActive = :ISACTIVE", array(
-			":LOGIN"=>$login,
-			":ISDELETED" => 0,
-			":ISACTIVE" =>  1
-		));
+								 isActive = :ISACTIVE", [
+			":LOGIN"=>$this->getDesLogin(),
+			":ISDELETED"=>$this->getIsDeleted(),
+			":ISACTIVE"=>$this->getIsActive()
+        ]);
 
 		if(count($results) === 0){
 
@@ -92,7 +97,7 @@ class Device {
 
 		$data = $results[0];
 
-		if(sha1($password) == $data["desPassword"]){
+		if($this->getDesPassword() == $data["desPassword"]){
 
 			$_SESSION[Device::SESSION] = $data;
 

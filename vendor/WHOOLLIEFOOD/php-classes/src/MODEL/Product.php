@@ -17,9 +17,10 @@ class Product{
 	private $idProductCategory;
 
 	public function __construct(){
-
-		$this->idCompany = $_SESSION['User']['idCompany'];
-
+		if (isset($_SESSION['User']['idCompany']))
+			$this->idCompany = $_SESSION['User']['idCompany'];
+		else
+			$this->idCompany = $_SESSION['Device']['idCompany'];
 	}
 
 	public function setDesName($desName){
@@ -171,7 +172,7 @@ class Product{
 	public function listAll(){
 
 		$sql = new Sql();
-
+		
 		return json_encode($sql->select("
 			SELECT * 
 			FROM tbProducts
@@ -181,7 +182,7 @@ class Product{
 			ORDER BY desName ASC", [
 				":ISDELETED" => 0,
 				":IDCOMPANY" => $this->getIdCompany()
-			]));
+		]));
 
 	}
 
