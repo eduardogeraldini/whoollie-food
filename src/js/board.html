@@ -1,40 +1,43 @@
 <script>
-    $(function () {
+
+
+$(function () {
+           
             loadBoards();
             
-    });
+});
 
     
-    function loadBoards() {
-        $("#viewBoard").html("");
-        $.getJSON('/api/boards', function (data) {
-            data.forEach(element => {
-                $("#viewBoard").append(`<div class="col-sm-3 mb-2">
-                    <div class="card shadow">
-                        
-                        <div class="card-body">
-                            <h5 class="card-title font-weight-bold">Mesa ${element.vlBoard}</h5>
-                            <h5 class="card-title font-weight-bold"> ${element.qtPlaces} lugares</h5>
-                            <div class="float-right mt-1">
-                                <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditBoard(${element.idBoard});'>
-                                <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeBoard(${element.idBoard});">
-                                <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
+function loadBoards() {
+    $("#viewBoard").html("");
+    $.getJSON('/api/boards', function (data) {
+        data.forEach(element => {
+            $("#viewBoard").append(`<div class="col-sm-3 mb-2">
+                <div class="card shadow">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Mesa ${element.vlBoard}</h5>
+                        <h5 class="card-title font-weight-bold"> ${element.qtPlaces} lugares</h5>
+                        <div class="float-right mt-1">
+                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditBoardModal(${element.idBoard});'>
+                            <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeBoard(${element.idBoard});">
+                            <i class="fas fa-trash"></i>
+                            </a>
                         </div>
-                    
-                    
                     </div>
-                    </div>`);
-            });
-        }).fail(function () {
-            console.log("Rota não encontrada!");
+                
+                
+                </div>
+                </div>`);
         });
-    }
+    }).fail(function () {
+        console.log("Rota não encontrada!");
+    });
+}
     
-    // ---------------------------- Cria mesas ----------------
+    // ---------------------------- Cria mesas ----------------------------------------------------
     function createBoard() {
     $.post("/api/boards", $("#formCreateBoard").serialize(), function (data) {
         if(!JSON.parse(data).error) {
@@ -55,78 +58,67 @@
     $("#btnCancelCreateBoard").on('click', function () {
             $(`#formCreateBoard`).trigger("reset");
     });
-    $("#btnEditBoard").on('click', function (e) {
-        e.preventDefault();
-        if (!formValidate("formEditBoard")) {
-            return;
-        };
-        let form = $('#formEditBoard');
-        let formData = new FormData(form[0]);
-        let idBoard = $("#formEditBoard").data('id');
+
+    /*--------------------------------------abre formulario Editar Mesa ------------------------------*/
+    function loadEditBoardModal(idBoard) {
         
-        $.ajax({
-            type: "POST",
-            url: `/api/board/update/${idBoard}`,
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                if (JSON.parse(data).error) {
-                    swal("Erro!", JSON.parse(data).message, "error");
-                } else {
-                    $('#editBoardModal').modal('hide');
-                    swal("Tudo certo!", "Mesa editada com sucesso!", "success");
-                    loadBoards();
-                    $(`#formEditBoard`).trigger("reset");
-                }
-            },
-            error: function (data) {
-                $('#editBoardModal').modal('hide');
-                $(`#formEditBoard`).trigger("reset");
-                console.log(`Erro! Mensagem: ${data}`);
-            }
-        });
-    });
-    // ---------------------------- Edita mesas ----------------
-    function loadEditBoard(idBoard) {
         $.getJSON(`/api/boards/${idBoard}`, function (data) {
-            $("#formEditBoard").data("id", idBoard);
+
+            $("#editBoardModal").modal("toggle");
+
             $("#formEditBoard #vlBoard").val(data[0].vlBoard);
             $("#formEditBoard #qtPlaces").val(data[0].qtPlaces);
-          /*  if (data[0].isActive == 1) {
-                    $("#formEditBoard #checkYes").prop("checked", true);
-                } else {
-                    $("#formEditBoard #checkNo").prop("checked", true);
-                }*/
-        }).then(() => {
-            $("#editBoardModal").modal();
+           
+            $("#btnEditBoard").data("id", idBoard);
+
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
     }
 
-    // ------------------------- Deleta Mesa -------------------
-    function removeBoard(idBoard) {
-    swal({
-        title: "Você tem certeza ?",
-        text: "Após deletado você não poderá mais recupera-lo!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    }).then((willDelete) => {
-        if (willDelete) {
-            $.post("/api/board/delete/" + idBoard, function (data) {
-                swal("Deletado com sucesso!", {
-                    icon: "success",
-                });
-                loadBoards();
-            }).fail(function () {
-                console.log("Rota não encontrada!");
-            });
+    /*-------------------------- Editar Mesa ----------------------------*/
+function editBoard(idBoard) {
+
+    $.post(`/api/board/edit/${idBoard}`, $("#formEditBoard").serialize(), function (data) {
+
+        if(!JSON.parse(data).error) {
+            swal("Tudo certo!", "Mesa editada com sucesso!", "success");
+            $("#formEditBoard")[0].reset();
+            $("#editBoardModal").modal("toggle");
         } else {
-            swal("A ação de deletar foi cancelada!");
+            console.log(JSON.parse(data).message);
         }
+
+    }).then(() => {
+        loadBoards();
     });
+
+}
+
+
+
+// ------------------------- Deleta Mesa -------------------
+function removeBoard(idBoard) {
+swal({
+    title: "Você tem certeza ?",
+    text: "Após deletado você não poderá mais recupera-lo!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+}).then((willDelete) => {
+    if (willDelete) {
+        $.post("/api/board/delete/" + idBoard, function (data) {
+            swal("Deletado com sucesso!", {
+                icon: "success",
+            });
+            loadBoards();
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+    } else {
+        swal("A ação de deletar foi cancelada!");
     }
-        
-        </script>
+});
+}
+    
+</script>

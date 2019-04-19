@@ -93,22 +93,39 @@ class Board {
 								":IDCOMPANY" => $this->getIdCompany()
 							]));
 	}
+
+	public function listBoardById($idBoard){
+
+		$sql = new Sql();
+
+		return json_encode($sql->select("SELECT * FROM tbBoards WHERE idBoard = :IDBOARD",[
+				':IDBOARD' => $idBoard
+		]));
+
+    }
 	
-	public function editBoard($id) {
+	public function editBoard() {
+		
 		$sql = new Sql();
 		
-		if($this->getVlBoard() != "" && $this->getQtPlaces() != "" && $this->getIdCompany() != "" ){
+		if($this->getVlBoard() != "" && $this->getQtPlaces() != "" && $this->getIdCompany() != ""){
 	
-			$sql->query("UPDATE tbBoards SET
-							vlBoard = :VLBOARD, 
-							qtPlaces = :QTPLACES
+			$sql->query("UPDATE tbBoards 
+							SET
+								vlBoard = :VLBOARD, 
+								qtPlaces = :QTPLACES
 					
 						 WHERE
 							 idBoard = :IDBOARD", [
-					":VLBOARD"=>$this->getVlBoard(),
-					":QTPLACES"=>$this->getQtPlaces(),
-					":IDBOARD"=>$id
-				]);
+								":IDBOARD"=>$this->getIdBoard(),
+								":VLBOARD"=>$this->getVlBoard(),
+								":QTPLACES"=>$this->getQtPlaces(),
+						]);
+
+						echo json_encode([
+							'error' => false
+						]);
+
 		}
 	
 	}
