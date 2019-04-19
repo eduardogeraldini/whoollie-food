@@ -34,7 +34,7 @@ $app->post('/api/close/order/{id}', function($request, $response, $args) {
 
     $order = new Order();
 
-    $order->setVlStatus(2);
+    $order->setVlStatus(1);
 	$order->setIdOrder($args['id']);    
 
     $order->closeOrder();

@@ -45,3 +45,4 @@ function numberToReal(number) {
     number[0] = "R$ " + number[0].split(/(?=(?:...)*$)/).join('.');
     return number.join(',');
 }
+
