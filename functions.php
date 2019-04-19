@@ -50,8 +50,8 @@
     }
 
     function deleteFile($filename) {
-        if (file_exists($filename)) {
-            unlink($filename);
+        if (file_exists(substr($filename, 1, strlen($filename) - 1))) {
+            unlink(substr($filename, 1, strlen($filename) - 1));
         }
     }
 

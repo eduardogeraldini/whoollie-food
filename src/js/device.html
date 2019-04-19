@@ -30,6 +30,7 @@ function loadDevices() {
 
         data.forEach(element => {
 
+
             $("#viewDevice tbody").append(`
                     <tr>
                         <td>
@@ -40,7 +41,7 @@ function loadDevices() {
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
-                        <td>${element.desName}</td>
+                        <td>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
                         <td>${element.desLogin}</td>
                     </tr>
                 `);
@@ -61,6 +62,12 @@ function loadEditDeviceModal(idDevice) {
         $("#formEditDevice #desName").val(data[0].desName);
         $("#formEditDevice #desLogin").val(data[0].desLogin);
         $("#formEditDevice #desPassword").val("");
+
+        if ((data[0].isActive) == 1) {
+            $("#checkYes").prop("checked", true);
+        } else {
+            $("#checkNo").prop("checked", true);
+        }
 
         $("#btnEditDevice").data("id", idDevice);
 
@@ -89,7 +96,28 @@ function editDevice(idDevice) {
 }
 
 function removeDevice(idDevice) {
+    
+    swal({
+            title: "Você tem certeza ?",
+            text: "Após deletado você não poderá mais recupera-lo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
 
+            if (willDelete) {
+                $.post("/api/device/delete/" + idDevice, function (data) {
+                    swal("Deletado com sucesso!", {
+                        icon: "success",
+                    });
+                    loadDevices();
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+            } else {
+                swal("A ação de deletar foi cancelada!");
+            }
+        });
 }
 
 </script>

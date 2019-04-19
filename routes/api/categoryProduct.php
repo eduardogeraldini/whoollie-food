@@ -11,10 +11,12 @@ $app->post('/api/categories/products/update/{id}', function($request, $response,
 
 	$category = new ProductCategory();
 
+	$category->setIdProductCategory($args['id']); 
 	$category->setDesName($input['desName']); 
 	$category->setIsActive($input['isActive']);
-
-	$category->updateProductCategory($args['id']);
+	$category->setDesImagePath($_FILES, $input['desOldImagePath']);
+	
+	$category->updateProductCategory();
 	
 });
 
@@ -53,7 +55,9 @@ $app->get('/api/categories/products', function($request, $response, $args) {
 
 $app->post('/api/categories/products', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
 	$input =  $request->getParsedBody();
 
@@ -61,6 +65,7 @@ $app->post('/api/categories/products', function($request, $response, $args) {
 
 	$category->setDesName($input['desName']);
 	$category->setIsActive($input['isActive']);
+	$category->setDesImagePath($_FILES);
 
 	$category->createProductCategory();
 	

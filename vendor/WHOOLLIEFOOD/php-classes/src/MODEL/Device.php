@@ -14,7 +14,15 @@ class Device {
 	private $desLogin;
 	private $desPassword;
 	private $isActive;
-	private $isDeleted;
+    private $isDeleted;
+    
+    public function __construct() {
+        if (isset($_SESSION[Device::SESSION]))
+            $this->idDevice = $_SESSION[Device::SESSION]["idDevice"];
+
+        if (isset($_SESSION[User::SESSION]))
+            $this->idCompany = $_SESSION[User::SESSION]["idCompany"];
+    }
 
 	public function getIdDevice() {
 		return $this->idDevice;
@@ -137,15 +145,16 @@ class Device {
 	}
     
     public function createDevice() {
-
+        
         $sql = new Sql();
 
-		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword) 
-						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD)", [
+		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword, isActive) 
+						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD, :ISACTIVE)", [
                             ":IDCOMPANY"=>$this->getIdCompany(),
                             ":DESNAME"=>$this->getDesName(),
                             ":DESLOGIN"=>$this->getDesLogin(),
-                            ":DESPASSWORD"=>$this->getDesPassword()
+                            ":DESPASSWORD"=>$this->getDesPassword(),
+                            ":ISACTIVE"=>$this->getIsActive()
         ]);
 
         $this->setIdDevice($idDevice);
@@ -181,15 +190,37 @@ class Device {
         $sql->query("UPDATE tbDevices
                     SET 
                     desName = :DESNAME, 
-                    desLogin = :DESLOGIN
+                    desLogin = :DESLOGIN,
+                    isActive = :ISACTIVE
                     WHERE
                     idDevice = :IDDEVICE", [
                             ":IDDEVICE"=>$this->getIdDevice(),
                             ":DESNAME"=>$this->getDesName(),
-                            ":DESLOGIN"=>$this->getDesLogin()
+                            ":DESLOGIN"=>$this->getDesLogin(),
+                            ":ISACTIVE"=>$this->getIsActive()
         ]);
 		
-        echo json_encode([
+        return json_encode([
+            'error' => false
+        ]);
+		
+
+    }
+
+    public function deleteDevice() {
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tbDevices
+                    SET 
+                    isDeleted = :ISDELETED
+                    WHERE
+                    idDevice = :IDDEVICE", [
+                            ":IDDEVICE"=>$this->getIdDevice(),
+                            ":ISDELETED"=>$this->getIsDeleted()
+        ]);
+		
+        return json_encode([
             'error' => false
         ]);
 		
@@ -202,7 +233,10 @@ class Device {
 
         return json_encode($sql->select("SELECT *
                              FROM tbDevices
-                             ORDER BY desName"));
+                             WHERE isDeleted = :ISDELETED
+                             ORDER BY desName", [
+                                 ":ISDELETED"=>$this->getIsDeleted()
+                             ]));
 
     }
 
@@ -211,12 +245,12 @@ class Device {
         $sql = new Sql();
 
         return json_encode($sql->select("SELECT *
-                                        FROM tbDevices
-                                        WHERE 
-                                        idDevice = :IDDEVICE
-                                        ORDER BY desName", [
-                                            ":IDDEVICE"=>$this->getIdDevice()
-                                        ]));
+                            FROM tbDevices
+                            WHERE 
+                            idDevice = :IDDEVICE
+                            ORDER BY desName", [
+                                ":IDDEVICE"=>$this->getIdDevice()
+                            ]));
 
     }
 

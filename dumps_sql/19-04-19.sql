@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `tbBoards` (
   CONSTRAINT `fk_tbMesas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbBoards: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbBoards: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbBoards` DISABLE KEYS */;
 REPLACE INTO `tbBoards` (`idBoard`, `idCompany`, `vlBoard`, `qtPlaces`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 1, '1', 4, 1, '2019-04-13 14:55:22', 0);
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `tbCompanies` (
   PRIMARY KEY (`idCompany`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbCompanies: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbCompanies: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbCompanies` DISABLE KEYS */;
 REPLACE INTO `tbCompanies` (`idCompany`, `desName`, `desCNPJ`, `desChannel`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 'Whoollie Services - ME', '147258369147257', 'whoollie', 1, '2019-04-01 21:43:30', 0);
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `tbDepartments` (
   CONSTRAINT `fk_tbDepartamentos_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbDepartments: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbDepartments: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbDepartments` DISABLE KEYS */;
 REPLACE INTO `tbDepartments` (`idDepartment`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
 	(1, 1, 'TI', '2019-04-01 21:43:39', 0, 0);
@@ -85,19 +85,21 @@ CREATE TABLE IF NOT EXISTS `tbDevices` (
   `desName` text NOT NULL,
   `desLogin` text NOT NULL,
   `desPassword` text NOT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT 0,
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
   `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idDevice`),
   KEY `FK1_companys` (`idCompany`),
   CONSTRAINT `FK1_companys` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbDevices: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbDevices: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbDevices` DISABLE KEYS */;
 REPLACE INTO `tbDevices` (`idDevice`, `idCompany`, `desName`, `desLogin`, `desPassword`, `isActive`, `dtRegister`, `isDeleted`) VALUES
-	(2, 1, 'Mesa - 011', 'ipad01', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2019-04-15 22:02:39', 0),
-	(3, 1, 'Mesa - 02', 'mesa01', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2019-04-15 22:05:03', 0);
+	(2, 1, 'Ipad - 01', 'ipad01', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 1, '2019-04-15 22:02:39', 0),
+	(3, 1, 'Mesa - 02', 'mesa01', '7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 1, '2019-04-15 22:05:03', 1),
+	(4, 1, 'Ipad - 02', 'ipad02', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', 1, '2019-04-19 16:26:01', 0),
+	(5, 1, 'Ipad - 04', 'ipad04', '7c4a8d09ca3762af61e59520943dc26494f8941b', 0, '2019-04-19 17:29:21', 0);
 /*!40000 ALTER TABLE `tbDevices` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela u672842222_food.tbEmployees
@@ -155,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `tbOrders` (
   CONSTRAINT `fk_tbComandas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbComandas_tbFuncionarios1` FOREIGN KEY (`idUser`) REFERENCES `tbEmployees` (`idUser`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbComandas_tbMesas1` FOREIGN KEY (`idBoard`) REFERENCES `tbBoards` (`idBoard`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- Copiando dados para a tabela u672842222_food.tbOrders: ~7 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbOrders` DISABLE KEYS */;
@@ -208,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `tbProducts` (
   `vlUnity` decimal(8,2) NOT NULL DEFAULT 0.00,
   `desName` varchar(45) NOT NULL,
   `desNote` varchar(50) NOT NULL,
-  `desImagePath` varchar(250) DEFAULT NULL,
+  `desImagePath` varchar(250) DEFAULT '/res/admin/img/sem_foto.png',
   `isActive` tinyint(4) NOT NULL DEFAULT 1,
   `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
@@ -222,50 +224,50 @@ CREATE TABLE IF NOT EXISTS `tbProducts` (
 -- Copiando dados para a tabela u672842222_food.tbProducts: ~44 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbProducts` DISABLE KEYS */;
 REPLACE INTO `tbProducts` (`idProduct`, `idCompany`, `idProductCategory`, `vlUnity`, `desName`, `desNote`, `desImagePath`, `isActive`, `dtRegister`, `isDeleted`) VALUES
-	(12, 1, 8, 0.00, 'jhjkh', 'jkhkjhkj', 'res/uploads/products/1554344672_UseCase Diagram0.jpg', 1, '2019-04-03 23:24:32', 1),
-	(13, 1, 11, 890.00, 'Diego', '20938', 'res/uploads/products/1555108931_unnamed.jpg', 1, '2019-04-03 23:27:55', 1),
-	(14, 1, 8, 98.00, 'Lanche da Ma', 'kljlk', 'res/uploads/products/1555030650_images.jpg', 1, '2019-04-03 23:28:44', 1),
-	(15, 1, 8, 897.00, 'djhd', 'ksaljdlkasjdklajsdklasjdklajskldjalksdjaskldjalksd', 'res/admin/img/sem_foto.png', 1, '2019-04-03 23:29:24', 1),
-	(16, 1, 8, 994.69, 'czc', 'jnjknj', 'res/admin/img/sem_foto.png', 1, '2019-04-03 23:31:52', 1),
-	(17, 1, 9, 14.00, 'X - Burguer', 'Big burguer, x-burguer salada especial da Vi', 'res/admin/img/sem_foto.png', 1, '2019-04-04 07:49:24', 1),
-	(18, 1, 11, 70.50, 'X Burguer 2', 'X burger 2 em 1', 'res/uploads/products/1554386244_x-burguer bem feito.png', 1, '2019-04-04 10:57:24', 0),
-	(19, 1, 9, 89.00, 'jkhkj', 'hkjhkjh', 'res/uploads/products/1555030500_download-2.jpeg', 1, '2019-04-04 10:58:34', 1),
-	(20, 1, 8, 78.00, 'kjhjhj', 'hjhjk', 'res/admin/img/sem_foto.png', 1, '2019-04-05 19:04:20', 1),
-	(21, 1, 9, 3156.00, 'Baconn', 'ajsdkj', 'res/uploads/products/1555107351_images.jpg', 0, '2019-04-12 19:15:51', 1),
-	(22, 1, 10, 123.00, 'Testeeeee', 'testeett', 'res/uploads/products/1555107392_adesivo-lanchonete-lanche-hamburguer-artesanal-fast-food-hd-adesivo-food.jpg', 0, '2019-04-12 19:16:32', 1),
-	(23, 1, 11, 25.00, 'X Tudo', 'teste', 'res/uploads/products/1555114808_images.jpg', 1, '2019-04-12 21:20:08', 0),
-	(24, 1, 11, 20.00, 'X Salada', 'salada', 'res/uploads/products/1555114819_images.jpg', 1, '2019-04-12 21:20:19', 0),
-	(25, 1, 11, 15.00, 'Teste1', 'teste1', 'res/uploads/products/1555114834_adesivo-lanchonete-lanche-hamburguer-artesanal-fast-food-hd-adesivo-food.jpg', 1, '2019-04-12 21:20:34', 1),
-	(26, 1, 11, 14.00, 'Hamburguer completo', 'Completo!', 'res/uploads/products/1555114849_adesivo-lanchonete-lanche-hamburguer-artesanal-fast-food-hd-adesivo-food.jpg', 1, '2019-04-12 21:20:49', 0),
-	(27, 1, 8, 12.00, 'teste4', 'teste4', 'res/admin/img/sem_foto.png', 1, '2019-04-12 21:29:57', 1),
-	(28, 1, 8, 10.00, 'teste5', 'teste5', 'res/admin/img/sem_foto.png', 1, '2019-04-12 21:30:07', 1),
-	(29, 1, 8, 20.00, 'teste6', 'teste6', 'res/admin/img/sem_foto.png', 1, '2019-04-12 21:30:17', 1),
-	(30, 1, 8, 30.00, 'Jack Daniels', 'Daniels Jack', 'res/uploads/products/1555553780_ci-jack-daniels-old-no-7-92707d5e737cf4ac.jpeg', 1, '2019-04-18 02:16:20', 0),
-	(31, 1, 8, 22.00, 'Amarula', 'amarula 1 litro', 'res/uploads/products/1555553861_amarula.jpg', 1, '2019-04-18 02:17:41', 0),
-	(32, 1, 8, 28.00, 'Especial Alcool', 'bebida especial da casa', 'res/uploads/products/1555553886_586074.png', 1, '2019-04-18 02:18:06', 0),
-	(33, 1, 8, 20.00, 'Vodka', 'vodka especial', 'res/uploads/products/1555553957_5432286_1GG.jpg', 1, '2019-04-18 02:19:17', 0),
-	(34, 1, 9, 13.00, 'Ramen', 'massa ramen', 'res/uploads/products/1555554175_58931-ramen.jpg', 1, '2019-04-18 02:22:55', 0),
-	(35, 1, 9, 14.00, 'Massa Italiana', 'Massa do tipo italiana', 'res/uploads/products/1555554203_222massa.jpg', 1, '2019-04-18 02:23:23', 0),
-	(36, 1, 9, 11.00, 'Capa Massa', 'Massa capa especial', 'res/uploads/products/1555554230_Capa-Massa.jpg', 1, '2019-04-18 02:23:50', 0),
-	(37, 1, 9, 10.00, 'Massa da casa', 'especial caseira', 'res/uploads/products/1555554277_massa1.jpg', 1, '2019-04-18 02:24:24', 0),
-	(38, 1, 9, 16.00, 'Vernicelli', 'Do tipo vernicelli', 'res/uploads/products/1555554367_vermicelli_upma_semiya_upma_recipe_gluten_free.jpg', 1, '2019-04-18 02:26:07', 0),
-	(39, 1, 9, 18.00, 'Uppa Vernicelli', 'Vernicelli tipo 2', 'res/uploads/products/1555554410_Vermicelli upma1.JPG', 1, '2019-04-18 02:26:50', 0),
-	(40, 1, 10, 22.00, 'Batata Frita', 'Porção comum de batata frita', 'res/uploads/products/1555554500_5716e77f-0da4-4b4a-b492-4064ac1f1305.jpg', 1, '2019-04-18 02:28:20', 0),
-	(41, 1, 10, 24.00, 'Mandioca Frita', 'Porção de mandioca frita', 'res/uploads/products/1555554527_964494000000-Mandioca-frita.jpg', 1, '2019-04-18 02:28:48', 0),
-	(42, 1, 10, 30.00, 'Batata Frita com Bacon', 'Porção de fritas com bacon', 'res/uploads/products/1555554557_porcao-de-batatas-fritas-grande-com-bancon-rechlanches-joinville.jpg', 1, '2019-04-18 02:29:17', 0),
-	(43, 1, 10, 32.00, 'Dupla mista', 'Porção de dupla mista', 'res/uploads/products/1555554612_porcaoduplamistaa.png', 1, '2019-04-18 02:30:12', 0),
-	(44, 1, 10, 27.00, 'Porção Torresmo', 'De torresmo especial', 'res/uploads/products/1555554684_porcao-de-torresmo.jpg', 1, '2019-04-18 02:31:24', 0),
-	(45, 1, 10, 35.00, 'Porção de peixe', 'De peixe', 'res/uploads/products/1555554745_downloadpeixeporcao.jpg', 1, '2019-04-18 02:32:25', 0),
-	(46, 1, 10, 17.00, 'Porção de Frios', 'Apenas frios', 'res/uploads/products/1555554804_58ef6b39-0698-49a0-bde7-0bdeac1f1e06.jpg', 1, '2019-04-18 02:33:24', 0),
-	(47, 1, 10, 24.00, 'Frango a passarinho', 'Porção de frango a passarinho', 'res/uploads/products/1555554862_5716e77f-33f0-40ab-a9e0-4064ac1f1305.jpg', 1, '2019-04-18 02:34:22', 0),
-	(48, 1, 12, 37.00, 'Pizza Italiana', 'Italiana apenas', 'res/uploads/products/1555554955_pizzaita.jpg', 1, '2019-04-18 02:35:55', 0),
-	(49, 1, 12, 33.00, 'Pizza Morango e Chocolate', 'Morango com chocolate', 'res/uploads/products/1555554988_pizza-de-chocolate.jpg', 1, '2019-04-18 02:36:28', 0),
-	(50, 1, 12, 28.00, 'Pizza de Chocolate', 'Apenas chocolate', 'res/uploads/products/1555555022_pizza-chocolate.jpg', 1, '2019-04-18 02:37:02', 0),
-	(51, 1, 12, 35.00, 'Pizza de Morango', 'Com morango apenas', 'res/uploads/products/1555555052_1506701024-massa-de-pizza_616x462.jpg', 1, '2019-04-18 02:37:32', 0),
-	(52, 1, 12, 31.00, 'Pizza 3 queijos', 'De 3 queijos', 'res/uploads/products/1555555086_pizza-de-3-queijos-15244.jpg', 1, '2019-04-18 02:38:06', 0),
-	(53, 1, 12, 34.00, 'Pizza Requeijão', 'Com Requeijão', 'res/uploads/products/1555555131_pizzademilhoerequeijao-2.jpg', 1, '2019-04-18 02:38:52', 0),
-	(54, 1, 10, 31.00, 'Mandioca e carne seca', 'Mandioca com carne seca!', 'res/uploads/products/1555555211_Mandiocacarneseca.jpg', 1, '2019-04-18 02:40:11', 0),
-	(55, 1, 11, 21.00, 'Burguer Vegano', 'Com carne de soja', 'res/uploads/products/1555555331_roasted-veggie-burgers-with-carrot-ketchup-XL-RECIPE0517.jpg', 1, '2019-04-18 02:42:11', 0);
+	(12, 1, 8, 0.00, 'jhjkh', 'jkhkjhkj', '/res/uploads/products/1554344672_UseCase Diagram0.jpg', 1, '2019-04-03 23:24:32', 1),
+	(13, 1, 11, 890.00, 'Diego', '20938', '/res/uploads/products/1555108931_unnamed.jpg', 1, '2019-04-03 23:27:55', 1),
+	(14, 1, 8, 98.00, 'Lanche da Ma', 'kljlk', '/res/uploads/products/1555030650_images.jpg', 1, '2019-04-03 23:28:44', 1),
+	(15, 1, 8, 897.00, 'djhd', 'ksaljdlkasjdklajsdklasjdklajskldjalksdjaskldjalksd', '/res/admin/img/sem_foto.png', 1, '2019-04-03 23:29:24', 1),
+	(16, 1, 8, 994.69, 'czc', 'jnjknj', '/res/admin/img/sem_foto.png', 1, '2019-04-03 23:31:52', 1),
+	(17, 1, 9, 14.00, 'X - Burguer', 'Big burguer, x-burguer salada especial da Vi', '/res/admin/img/sem_foto.png', 1, '2019-04-04 07:49:24', 1),
+	(18, 1, 11, 70.50, 'X Burguer 2', 'X burger 2 em 1', '/res/uploads/products/1554386244_x-burguer bem feito.png', 1, '2019-04-04 10:57:24', 0),
+	(19, 1, 9, 89.00, 'jkhkj', 'hkjhkjh', '/res/uploads/products/1555030500_download-2.jpeg', 1, '2019-04-04 10:58:34', 1),
+	(20, 1, 8, 78.00, 'kjhjhj', 'hjhjk', '/res/admin/img/sem_foto.png', 1, '2019-04-05 19:04:20', 1),
+	(21, 1, 9, 3156.00, 'Baconn', 'ajsdkj', '/res/uploads/products/1555107351_images.jpg', 0, '2019-04-12 19:15:51', 1),
+	(22, 1, 10, 123.00, 'Testeeeee', 'testeett', '/res/uploads/products/1555107392_adesivo-lanchonete-lanche-hamburguer-artesanal-fast-food-hd-adesivo-food.jpg', 0, '2019-04-12 19:16:32', 1),
+	(23, 1, 11, 25.00, 'X Tudo', 'teste', '/res/uploads/products/1555114808_images.jpg', 1, '2019-04-12 21:20:08', 0),
+	(24, 1, 11, 20.00, 'X Salada', 'salada', '/res/uploads/products/1555114819_images.jpg', 1, '2019-04-12 21:20:19', 0),
+	(25, 1, 11, 15.00, 'Teste1', 'teste1', '/res/uploads/products/1555114834_adesivo-lanchonete-lanche-hamburguer-artesanal-fast-food-hd-adesivo-food.jpg', 1, '2019-04-12 21:20:34', 1),
+	(26, 1, 11, 14.00, 'Hamburguer completo', 'Completo!', '/res/uploads/products/1555114849_adesivo-lanchonete-lanche-hamburguer-artesanal-fast-food-hd-adesivo-food.jpg', 1, '2019-04-12 21:20:49', 0),
+	(27, 1, 8, 12.00, 'teste4', 'teste4', '/res/admin/img/sem_foto.png', 1, '2019-04-12 21:29:57', 1),
+	(28, 1, 8, 10.00, 'teste5', 'teste5', '/res/admin/img/sem_foto.png', 1, '2019-04-12 21:30:07', 1),
+	(29, 1, 8, 20.00, 'teste6', 'teste6', '/res/admin/img/sem_foto.png', 1, '2019-04-12 21:30:17', 1),
+	(30, 1, 8, 30.00, 'Jack Daniels', 'Daniels Jack', '/res/uploads/products/1555553780_ci-jack-daniels-old-no-7-92707d5e737cf4ac.jpeg', 1, '2019-04-18 02:16:20', 0),
+	(31, 1, 8, 22.00, 'Amarula', 'amarula 1 litro', '/res/uploads/products/1555553861_amarula.jpg', 1, '2019-04-18 02:17:41', 0),
+	(32, 1, 8, 28.00, 'Especial Alcool', 'bebida especial da casa', '/res/uploads/products/1555553886_586074.png', 1, '2019-04-18 02:18:06', 0),
+	(33, 1, 8, 20.00, 'Vodka', 'vodka especial', '/res/uploads/products/1555553957_5432286_1GG.jpg', 1, '2019-04-18 02:19:17', 0),
+	(34, 1, 9, 13.00, 'Ramen', 'massa ramen', '/res/uploads/products/1555554175_58931-ramen.jpg', 1, '2019-04-18 02:22:55', 0),
+	(35, 1, 9, 14.00, 'Massa Italiana', 'Massa do tipo italiana', '/res/uploads/products/1555554203_222massa.jpg', 1, '2019-04-18 02:23:23', 0),
+	(36, 1, 9, 11.00, 'Capa Massa', 'Massa capa especial', '/res/uploads/products/1555554230_Capa-Massa.jpg', 1, '2019-04-18 02:23:50', 0),
+	(37, 1, 9, 10.00, 'Massa da casa', 'especial caseira', '/res/uploads/products/1555554277_massa1.jpg', 1, '2019-04-18 02:24:24', 0),
+	(38, 1, 9, 16.00, 'Vernicelli', 'Do tipo vernicelli', '/res/uploads/products/1555554367_vermicelli_upma_semiya_upma_recipe_gluten_free.jpg', 1, '2019-04-18 02:26:07', 0),
+	(39, 1, 9, 18.00, 'Uppa Vernicelli', 'Vernicelli tipo 2', '/res/uploads/products/1555554410_Vermicelli upma1.JPG', 1, '2019-04-18 02:26:50', 0),
+	(40, 1, 10, 22.00, 'Batata Frita', 'Porção comum de batata frita', '/res/uploads/products/1555554500_5716e77f-0da4-4b4a-b492-4064ac1f1305.jpg', 1, '2019-04-18 02:28:20', 0),
+	(41, 1, 10, 24.00, 'Mandioca Frita', 'Porção de mandioca frita', '/res/uploads/products/1555554527_964494000000-Mandioca-frita.jpg', 1, '2019-04-18 02:28:48', 0),
+	(42, 1, 10, 30.00, 'Batata Frita com Bacon', 'Porção de fritas com bacon', '/res/uploads/products/1555554557_porcao-de-batatas-fritas-grande-com-bancon-rechlanches-joinville.jpg', 1, '2019-04-18 02:29:17', 0),
+	(43, 1, 10, 32.00, 'Dupla mista', 'Porção de dupla mista', '/res/uploads/products/1555554612_porcaoduplamistaa.png', 1, '2019-04-18 02:30:12', 0),
+	(44, 1, 10, 27.00, 'Porção Torresmo', 'De torresmo especial', '/res/uploads/products/1555554684_porcao-de-torresmo.jpg', 1, '2019-04-18 02:31:24', 0),
+	(45, 1, 10, 35.00, 'Porção de peixe', 'De peixe', '/res/uploads/products/1555554745_downloadpeixeporcao.jpg', 1, '2019-04-18 02:32:25', 0),
+	(46, 1, 10, 17.00, 'Porção de Frios', 'Apenas frios', '/res/uploads/products/1555554804_58ef6b39-0698-49a0-bde7-0bdeac1f1e06.jpg', 1, '2019-04-18 02:33:24', 0),
+	(47, 1, 10, 24.00, 'Frango a passarinho', 'Porção de frango a passarinho', '/res/uploads/products/1555554862_5716e77f-33f0-40ab-a9e0-4064ac1f1305.jpg', 1, '2019-04-18 02:34:22', 0),
+	(48, 1, 12, 37.00, 'Pizza Italiana', 'Italiana apenas', '/res/uploads/products/1555554955_pizzaita.jpg', 1, '2019-04-18 02:35:55', 0),
+	(49, 1, 12, 33.00, 'Pizza Morango e Chocolate', 'Morango com chocolate', '/res/uploads/products/1555554988_pizza-de-chocolate.jpg', 1, '2019-04-18 02:36:28', 0),
+	(50, 1, 12, 28.00, 'Pizza de Chocolate', 'Apenas chocolate', '/res/uploads/products/1555555022_pizza-chocolate.jpg', 1, '2019-04-18 02:37:02', 0),
+	(51, 1, 12, 35.00, 'Pizza de Morango', 'Com morango apenas', '/res/uploads/products/1555555052_1506701024-massa-de-pizza_616x462.jpg', 1, '2019-04-18 02:37:32', 0),
+	(52, 1, 12, 31.00, 'Pizza 3 queijos', 'De 3 queijos', '/res/uploads/products/1555555086_pizza-de-3-queijos-15244.jpg', 1, '2019-04-18 02:38:06', 0),
+	(53, 1, 12, 34.00, 'Pizza Requeijão', 'Com Requeijão', '/res/uploads/products/1555555131_pizzademilhoerequeijao-2.jpg', 1, '2019-04-18 02:38:52', 0),
+	(54, 1, 10, 31.00, 'Mandioca e carne seca', 'Mandioca com carne seca!', '/res/uploads/products/1555555211_Mandiocacarneseca.jpg', 1, '2019-04-18 02:40:11', 0),
+	(55, 1, 11, 21.00, 'Burguer Vegano', 'Com carne de soja', '/res/uploads/products/1555555331_roasted-veggie-burgers-with-carrot-ketchup-XL-RECIPE0517.jpg', 1, '2019-04-18 02:42:11', 0);
 /*!40000 ALTER TABLE `tbProducts` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela u672842222_food.tbProductsCategories
@@ -274,6 +276,7 @@ CREATE TABLE IF NOT EXISTS `tbProductsCategories` (
   `idProductCategory` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desName` varchar(45) NOT NULL,
+  `desImagePath` varchar(250) DEFAULT '/res/admin/img/sem_foto.png',
   `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
   `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   `isActive` tinyint(4) NOT NULL DEFAULT 1,
@@ -284,13 +287,13 @@ CREATE TABLE IF NOT EXISTS `tbProductsCategories` (
 
 -- Copiando dados para a tabela u672842222_food.tbProductsCategories: ~6 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbProductsCategories` DISABLE KEYS */;
-REPLACE INTO `tbProductsCategories` (`idProductCategory`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
-	(8, 1, 'Bebidas', '2019-04-03 19:13:57', 0, 1),
-	(9, 1, 'Massas', '2019-04-03 19:14:01', 0, 1),
-	(10, 1, 'Porções', '2019-04-03 23:33:04', 0, 1),
-	(11, 1, 'Lanches', '2019-04-04 10:58:56', 0, 1),
-	(12, 1, 'Pizzas', '2019-04-18 02:34:55', 0, 1),
-	(13, 1, 'Teste', '2019-04-18 18:54:29', 1, 1);
+REPLACE INTO `tbProductsCategories` (`idProductCategory`, `idCompany`, `desName`, `desImagePath`, `dtRegister`, `isDeleted`, `isActive`) VALUES
+	(8, 1, 'Bebidas', '/res/admin/img/sem_foto.png', '2019-04-03 19:13:57', 0, 1),
+	(9, 1, 'Massas', '/res/admin/img/sem_foto.png', '2019-04-03 19:14:01', 0, 1),
+	(10, 1, 'Porções', '/res/admin/img/sem_foto.png', '2019-04-03 23:33:04', 0, 1),
+	(11, 1, 'Lanches', '/res/admin/img/sem_foto.png', '2019-04-04 10:58:56', 0, 1),
+	(12, 1, 'Pizzas', '/res/admin/img/sem_foto.png', '2019-04-18 02:34:55', 0, 1),
+	(13, 1, 'Teste', '/res/admin/img/sem_foto.png', '2019-04-18 18:54:29', 1, 1);
 /*!40000 ALTER TABLE `tbProductsCategories` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela u672842222_food.tbRequests
@@ -305,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `tbRequests` (
   PRIMARY KEY (`idRequest`),
   KEY `fk_tbPedidos_tbComandas_idx` (`idOrder`),
   CONSTRAINT `fk_tbPedidos_tbComandas` FOREIGN KEY (`idOrder`) REFERENCES `tbOrders` (`idOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- Copiando dados para a tabela u672842222_food.tbRequests: ~17 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbRequests` DISABLE KEYS */;
@@ -345,7 +348,7 @@ CREATE TABLE IF NOT EXISTS `tbRequestsProducts` (
   KEY `fk_tbPedidos_has_tbProdutos_tbPedidos1_idx` (`idRequest`),
   CONSTRAINT `fk_tbPedidos_has_tbProdutos_tbPedidos1` FOREIGN KEY (`idRequest`) REFERENCES `tbRequests` (`idRequest`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbPedidos_has_tbProdutos_tbProdutos1` FOREIGN KEY (`idProduct`) REFERENCES `tbProducts` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- Copiando dados para a tabela u672842222_food.tbRequestsProducts: ~35 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbRequestsProducts` DISABLE KEYS */;
