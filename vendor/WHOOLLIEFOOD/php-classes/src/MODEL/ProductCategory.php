@@ -11,9 +11,10 @@ class ProductCategory{
     private $isActive;
 
     public function __construct(){
-
-		$this->idCompany = $_SESSION['User']['idCompany'];
-
+		if (isset($_SESSION['User']['idCompany']))
+			$this->idCompany = $_SESSION['User']['idCompany'];
+		else
+			$this->idCompany = $_SESSION['Device']['idCompany'];
 	}
 
     public function setDesName($desName){
