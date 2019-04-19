@@ -174,15 +174,15 @@ class Product{
 		$sql = new Sql();
 		
 		return json_encode($sql->select("
-			SELECT * 
-			FROM tbProducts
-			WHERE 
-			isDeleted = :ISDELETED AND
-			idCompany = :IDCOMPANY
-			ORDER BY desName ASC", [
-				":ISDELETED" => 0,
-				":IDCOMPANY" => $this->getIdCompany()
-		]));
+				SELECT * 
+				FROM tbProducts
+				WHERE 
+				isDeleted = :ISDELETED AND
+				idCompany = :IDCOMPANY
+				ORDER BY desName ASC", [
+					":ISDELETED" => 0,
+					":IDCOMPANY" => $this->getIdCompany()
+			]));
 
 	}
 
