@@ -6,9 +6,11 @@ use \WHOOLLIEFOOD\DB\Sql;
 
 class ProductCategory{
 
+    private $idProductCategory;
     private $desName;
     private $idCompany;
     private $isActive;
+    private $desImagePath;
 
     public function __construct(){
 		if (isset($_SESSION['User']['idCompany']))
@@ -16,6 +18,10 @@ class ProductCategory{
 		else
 			$this->idCompany = $_SESSION['Device']['idCompany'];
 	}
+
+    public function setIdProductCategory($idProductCategory) {
+        $this->idProductCategory = $idProductCategory;
+    }
 
     public function setDesName($desName){
         $this->desName = $desName;
@@ -29,7 +35,7 @@ class ProductCategory{
 
 		if ($desOldImagePath == "" && $files["desImagePath"]["name"] == "") {
 
-			$this->desImagePath = "res/admin/img/sem_foto.png";
+			$this->desImagePath = "/res/admin/img/sem_foto.png";
 			
 			echo json_encode([
 				'error' => false
@@ -39,7 +45,7 @@ class ProductCategory{
 
 		} elseif ($files["desImagePath"]["name"] != "") {
 		
-			if ($desOldImagePath != "res/admin/img/sem_foto.png")
+			if ($desOldImagePath != "/res/admin/img/sem_foto.png")
 				deleteFile($desOldImagePath);
 		
 		} elseif ($desOldImagePath != "" && $files["desImagePath"]["name"] == "") {
@@ -54,8 +60,7 @@ class ProductCategory{
 
 		} 
 
-
-		$target_dir = "res/uploads/products/";
+		$target_dir = "res/uploads/productsCategories/";
 		$target_file = $target_dir . time() . "_" . basename($files["desImagePath"]["name"]);
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 		
@@ -92,7 +97,7 @@ class ProductCategory{
 		}
 
 		if (move_uploaded_file($files["desImagePath"]["tmp_name"], $target_file)) {
-			$this->desImagePath = $target_file;
+			$this->desImagePath = "/".$target_file;
 			echo json_encode([
 				'error' => false
 			]);
@@ -106,6 +111,10 @@ class ProductCategory{
 		}
 
 	}
+
+    public function getIdProductCategory() {
+        return $this->idProductCategory;
+    }
 
     public function getDesName(){
         return $this->desName;
@@ -121,7 +130,8 @@ class ProductCategory{
 
     public function getDesImagePath() {
 		return $this->desImagePath;
-	}
+    }
+    
 
     public function createProductCategory(){
 
@@ -141,17 +151,22 @@ class ProductCategory{
        
     }
 
-    public function updateProductCategory($idProductCategory){
+    public function updateProductCategory(){
 
         $sql = new Sql();
 
         if($this->getDesName() != ""){
-
-            $sql->query("UPDATE tbProductsCategories SET desName = :DESNAME, isActive = :ISACTIVE WHERE idProductCategory = :IDPRODUCTCATEGORY", [
+            
+            $sql->query("UPDATE tbProductsCategories SET 
+                            desName = :DESNAME, 
+                            isActive = :ISACTIVE,
+                            desImagePath = :DESIMAGEPATH
+                        WHERE 
+                            idProductCategory = :IDPRODUCTCATEGORY", [
                 ":DESNAME"=>$this->getDesName(),
                 ":ISACTIVE"=>$this->getIsActive(),
-                ":IDPRODUCTCATEGORY"=> $idProductCategory
-            
+                ":IDPRODUCTCATEGORY"=>$this->getIdProductCategory(),
+                ":DESIMAGEPATH"=>$this->getDesImagePath()            
             ]);
 
         }

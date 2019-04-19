@@ -52,10 +52,10 @@ class Product{
 	}
 
 	public function setDesImagePath($files, $desOldImagePath = "") {
-
+		
 		if ($desOldImagePath == "" && $files["desImagePath"]["name"] == "") {
 
-			$this->desImagePath = "res/admin/img/sem_foto.png";
+			$this->desImagePath = "/res/admin/img/sem_foto.png";
 			
 			echo json_encode([
 				'error' => false
@@ -65,7 +65,7 @@ class Product{
 
 		} elseif ($files["desImagePath"]["name"] != "") {
 		
-			if ($desOldImagePath != "res/admin/img/sem_foto.png")
+			if ($desOldImagePath != "/res/admin/img/sem_foto.png")
 				deleteFile($desOldImagePath);
 		
 		} elseif ($desOldImagePath != "" && $files["desImagePath"]["name"] == "") {
@@ -118,7 +118,7 @@ class Product{
 		}
 
 		if (move_uploaded_file($files["desImagePath"]["tmp_name"], $target_file)) {
-			$this->desImagePath = $target_file;
+			$this->desImagePath = "/".$target_file;
 			echo json_encode([
 				'error' => false
 			]);

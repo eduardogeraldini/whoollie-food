@@ -121,14 +121,40 @@
                 return;
             };
 
+            let form = $('#formEditCategories');
+            let formData = new FormData(form[0]);
+            
+            $(form).find(':checkbox:checked, :radio:checked').each(function () {
+                formData.append(this.name, $(this).val());
+            });
+
             let idProductCategory = $("#editModal [name='idHidden']").val();
 
-            $.post("/api/categories/products/update/" + idProductCategory + "", $("#formEditCategories").serialize(), function (data) {
-                swal("Tudo certo!", "Informações da categoria atualizadas com sucesso!", "success");
-                $('#editModal').modal('hide');
-                loadCategoriesProducts();
-            }).fail(function () {
-                console.log("Rota não encontrada!");
+            $.ajax({
+                type: "POST",
+                url: `/api/categories/products/update/${idProductCategory}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                    if (JSON.parse(data).error) {
+                        swal("Erro!", JSON.parse(data).message, "error");
+                    } else {
+                        $('#editModal').modal('hide');
+                        swal("Tudo certo!", "Categoria editada com sucesso!", "success");
+                        loadCategoriesProducts();
+                        $(`#formEditCategories`).trigger("reset");
+                    }
+
+                },
+                error: function (data) {
+
+                    $('#editModal').modal('hide');
+                    $(`#formEditCategories`).trigger("reset");
+                    console.log(`Erro! Mensagem: ${data}`);
+
+                }
             });
 
         });

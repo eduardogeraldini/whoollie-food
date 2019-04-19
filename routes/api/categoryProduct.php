@@ -11,10 +11,12 @@ $app->post('/api/categories/products/update/{id}', function($request, $response,
 
 	$category = new ProductCategory();
 
+	$category->setIdProductCategory($args['id']); 
 	$category->setDesName($input['desName']); 
 	$category->setIsActive($input['isActive']);
-
-	$category->updateProductCategory($args['id']);
+	$category->setDesImagePath($_FILES, $input['desOldImagePath']);
+	
+	$category->updateProductCategory();
 	
 });
 
