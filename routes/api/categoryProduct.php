@@ -55,7 +55,9 @@ $app->get('/api/categories/products', function($request, $response, $args) {
 
 $app->post('/api/categories/products', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
 	$input =  $request->getParsedBody();
 
