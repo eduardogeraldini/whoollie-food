@@ -27,7 +27,8 @@ $app->post('/api/device/edit/{id}', function($request, $response, $args) {
     $device->setIdDevice($args["id"]);
     $device->setDesName($input["desName"]);
 	$device->setDesLogin($input["desLogin"]);
-	$device->setDesPassword($input["desPassword"]);
+    $device->setDesPassword($input["desPassword"]);
+    $device->setIsActive($input["isActive"]);
 
     echo $device->editDevice();
 
@@ -68,6 +69,7 @@ $app->post('/api/devices', function($request, $response, $args) {
     $device->setDesName($input["desName"]);
 	$device->setDesLogin($input["desLogin"]);
 	$device->setDesPassword($input["desPassword"]);
+    $device->setIsActive($input["isActive"]);
 
     $device->createDevice();
 	

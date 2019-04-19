@@ -148,12 +148,13 @@ class Device {
         
         $sql = new Sql();
 
-		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword) 
-						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD)", [
+		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword, isActive) 
+						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD, :ISACTIVE)", [
                             ":IDCOMPANY"=>$this->getIdCompany(),
                             ":DESNAME"=>$this->getDesName(),
                             ":DESLOGIN"=>$this->getDesLogin(),
-                            ":DESPASSWORD"=>$this->getDesPassword()
+                            ":DESPASSWORD"=>$this->getDesPassword(),
+                            ":ISACTIVE"=>$this->getIsActive()
         ]);
 
         $this->setIdDevice($idDevice);
@@ -189,12 +190,14 @@ class Device {
         $sql->query("UPDATE tbDevices
                     SET 
                     desName = :DESNAME, 
-                    desLogin = :DESLOGIN
+                    desLogin = :DESLOGIN,
+                    isActive = :ISACTIVE
                     WHERE
                     idDevice = :IDDEVICE", [
                             ":IDDEVICE"=>$this->getIdDevice(),
                             ":DESNAME"=>$this->getDesName(),
-                            ":DESLOGIN"=>$this->getDesLogin()
+                            ":DESLOGIN"=>$this->getDesLogin(),
+                            ":ISACTIVE"=>$this->getIsActive()
         ]);
 		
         return json_encode([
