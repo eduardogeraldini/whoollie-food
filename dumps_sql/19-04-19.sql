@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- Servidor:                     127.0.0.1
--- Versão do servidor:           10.1.37-MariaDB - mariadb.org binary distribution
--- OS do Servidor:               Win32
+-- Servidor:                     sql141.main-hosting.eu
+-- Versão do servidor:           10.2.17-MariaDB - MariaDB Server
+-- OS do Servidor:               Linux
 -- HeidiSQL Versão:              10.1.0.5464
 -- --------------------------------------------------------
 
@@ -24,15 +24,15 @@ CREATE TABLE IF NOT EXISTS `tbBoards` (
   `idCompany` int(11) NOT NULL,
   `vlBoard` text NOT NULL,
   `qtPlaces` int(11) NOT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT '1',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idBoard`),
   KEY `fk_tbMesas_tbEmpresas1_idx` (`idCompany`),
   CONSTRAINT `fk_tbMesas_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbBoards: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbBoards: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbBoards` DISABLE KEYS */;
 REPLACE INTO `tbBoards` (`idBoard`, `idCompany`, `vlBoard`, `qtPlaces`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 1, '1', 4, 1, '2019-04-13 14:55:22', 0);
@@ -45,13 +45,13 @@ CREATE TABLE IF NOT EXISTS `tbCompanies` (
   `desName` varchar(60) NOT NULL,
   `desCNPJ` varchar(15) NOT NULL,
   `desChannel` varchar(45) NOT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT '1',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idCompany`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbCompanies: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbCompanies: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbCompanies` DISABLE KEYS */;
 REPLACE INTO `tbCompanies` (`idCompany`, `desName`, `desCNPJ`, `desChannel`, `isActive`, `dtRegister`, `isDeleted`) VALUES
 	(1, 'Whoollie Services - ME', '147258369147257', 'whoollie', 1, '2019-04-01 21:43:30', 0);
@@ -63,15 +63,15 @@ CREATE TABLE IF NOT EXISTS `tbDepartments` (
   `idDepartment` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desName` varchar(45) NOT NULL,
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
-  `isActive` tinyint(4) NOT NULL DEFAULT '0',
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
+  `isActive` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idDepartment`),
   KEY `fk_tbDepartamentos_tbEmpresas1_idx` (`idCompany`),
   CONSTRAINT `fk_tbDepartamentos_tbEmpresas1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela u672842222_food.tbDepartments: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela u672842222_food.tbDepartments: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `tbDepartments` DISABLE KEYS */;
 REPLACE INTO `tbDepartments` (`idDepartment`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
 	(1, 1, 'TI', '2019-04-01 21:43:39', 0, 0);
@@ -85,9 +85,9 @@ CREATE TABLE IF NOT EXISTS `tbDevices` (
   `desName` text NOT NULL,
   `desLogin` text NOT NULL,
   `desPassword` text NOT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT '0',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `isActive` tinyint(4) NOT NULL DEFAULT 0,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idDevice`),
   KEY `FK1_companys` (`idCompany`),
   CONSTRAINT `FK1_companys` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`)
@@ -110,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `tbEmployees` (
   `desName` varchar(100) NOT NULL,
   `desCPF` varchar(11) NOT NULL,
   `dtBirth` date NOT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT '1',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idEmployee`),
   KEY `fk_tbFuncionarios_tbDepartamentos1_idx` (`idDepartment`),
   KEY `fk_tbFuncionarios_tbUsuarios1_idx` (`idUser`),
@@ -144,10 +144,10 @@ CREATE TABLE IF NOT EXISTS `tbOrders` (
   `idUser` int(11) NOT NULL,
   `idBoard` int(11) NOT NULL,
   `desName` varchar(50) NOT NULL,
-  `vlDiscount` decimal(3,1) DEFAULT '0.0',
-  `vlStatus` int(11) DEFAULT '0',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `vlDiscount` decimal(3,1) DEFAULT 0.0,
+  `vlStatus` int(11) DEFAULT 0,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idOrder`),
   KEY `fk_tbComandas_tbFuncionarios1_idx` (`idUser`),
   KEY `fk_tbComandas_tbEmpresas1_idx` (`idCompany`),
@@ -166,7 +166,8 @@ REPLACE INTO `tbOrders` (`idOrder`, `idCompany`, `idUser`, `idBoard`, `desName`,
 	(6, 1, 1, 1, 'Trste', 0.0, 0, '2019-04-18 01:18:41', 0),
 	(7, 1, 1, 1, 'Matheus', 0.0, 0, '2019-04-18 02:47:50', 0),
 	(8, 1, 1, 1, 'Huh', 0.0, 0, '2019-04-18 11:40:01', 0),
-	(9, 1, 1, 1, 'teste2', 0.0, 0, '2019-04-19 00:33:26', 0);
+	(9, 1, 1, 1, 'teste2', 0.0, 0, '2019-04-19 00:33:26', 0),
+	(10, 1, 1, 1, 'Matheus123456', 0.0, 0, '2019-04-19 16:01:49', 0);
 /*!40000 ALTER TABLE `tbOrders` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela u672842222_food.tbPrivileges
@@ -174,8 +175,8 @@ DROP TABLE IF EXISTS `tbPrivileges`;
 CREATE TABLE IF NOT EXISTS `tbPrivileges` (
   `idPrivilege` int(11) NOT NULL AUTO_INCREMENT,
   `idEmployee` int(11) NOT NULL,
-  `viewProducts` int(11) NOT NULL DEFAULT '1',
-  `viewOrders` int(11) NOT NULL DEFAULT '1',
+  `viewProducts` int(11) NOT NULL DEFAULT 1,
+  `viewOrders` int(11) NOT NULL DEFAULT 1,
   `viewEmployees` int(11) NOT NULL,
   `viewReports` int(11) NOT NULL,
   `viewConfigs` int(11) NOT NULL,
@@ -204,13 +205,13 @@ CREATE TABLE IF NOT EXISTS `tbProducts` (
   `idProduct` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `idProductCategory` int(11) NOT NULL,
-  `vlUnity` decimal(8,2) NOT NULL DEFAULT '0.00',
+  `vlUnity` decimal(8,2) NOT NULL DEFAULT 0.00,
   `desName` varchar(45) NOT NULL,
   `desNote` varchar(50) NOT NULL,
   `desImagePath` varchar(250) DEFAULT NULL,
-  `isActive` tinyint(4) NOT NULL DEFAULT '1',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idProduct`),
   KEY `fk_tbProdutos_tbCategoriasProdutos1_idx` (`idProductCategory`),
   KEY `fk_tbProdutos_tbEmpresas1_idx` (`idCompany`),
@@ -249,20 +250,20 @@ REPLACE INTO `tbProducts` (`idProduct`, `idCompany`, `idProductCategory`, `vlUni
 	(37, 1, 9, 10.00, 'Massa da casa', 'especial caseira', 'res/uploads/products/1555554277_massa1.jpg', 1, '2019-04-18 02:24:24', 0),
 	(38, 1, 9, 16.00, 'Vernicelli', 'Do tipo vernicelli', 'res/uploads/products/1555554367_vermicelli_upma_semiya_upma_recipe_gluten_free.jpg', 1, '2019-04-18 02:26:07', 0),
 	(39, 1, 9, 18.00, 'Uppa Vernicelli', 'Vernicelli tipo 2', 'res/uploads/products/1555554410_Vermicelli upma1.JPG', 1, '2019-04-18 02:26:50', 0),
-	(40, 1, 10, 22.00, 'Batata Frita', 'PorÃ§Ã£o comum de batata frita', 'res/uploads/products/1555554500_5716e77f-0da4-4b4a-b492-4064ac1f1305.jpg', 1, '2019-04-18 02:28:20', 0),
-	(41, 1, 10, 24.00, 'Mandioca Frita', 'PorÃ§Ã£o de mandioca frita', 'res/uploads/products/1555554527_964494000000-Mandioca-frita.jpg', 1, '2019-04-18 02:28:48', 0),
-	(42, 1, 10, 30.00, 'Batata Frita com Bacon', 'PorÃ§Ã£o de fritas com bacon', 'res/uploads/products/1555554557_porcao-de-batatas-fritas-grande-com-bancon-rechlanches-joinville.jpg', 1, '2019-04-18 02:29:17', 0),
-	(43, 1, 10, 32.00, 'Dupla mista', 'PorÃ§Ã£o de dupla mista', 'res/uploads/products/1555554612_porcaoduplamistaa.png', 1, '2019-04-18 02:30:12', 0),
-	(44, 1, 10, 27.00, 'PorÃ§Ã£o Torresmo', 'De torresmo especial', 'res/uploads/products/1555554684_porcao-de-torresmo.jpg', 1, '2019-04-18 02:31:24', 0),
-	(45, 1, 10, 35.00, 'PorÃ§Ã£o de peixe', 'De peixe', 'res/uploads/products/1555554745_downloadpeixeporcao.jpg', 1, '2019-04-18 02:32:25', 0),
-	(46, 1, 10, 17.00, 'PorÃ§Ã£o de Frios', 'Apenas frios', 'res/uploads/products/1555554804_58ef6b39-0698-49a0-bde7-0bdeac1f1e06.jpg', 1, '2019-04-18 02:33:24', 0),
-	(47, 1, 10, 24.00, 'Frango a passarinho', 'PorÃ§Ã£o de frango a passarinho', 'res/uploads/products/1555554862_5716e77f-33f0-40ab-a9e0-4064ac1f1305.jpg', 1, '2019-04-18 02:34:22', 0),
+	(40, 1, 10, 22.00, 'Batata Frita', 'Porção comum de batata frita', 'res/uploads/products/1555554500_5716e77f-0da4-4b4a-b492-4064ac1f1305.jpg', 1, '2019-04-18 02:28:20', 0),
+	(41, 1, 10, 24.00, 'Mandioca Frita', 'Porção de mandioca frita', 'res/uploads/products/1555554527_964494000000-Mandioca-frita.jpg', 1, '2019-04-18 02:28:48', 0),
+	(42, 1, 10, 30.00, 'Batata Frita com Bacon', 'Porção de fritas com bacon', 'res/uploads/products/1555554557_porcao-de-batatas-fritas-grande-com-bancon-rechlanches-joinville.jpg', 1, '2019-04-18 02:29:17', 0),
+	(43, 1, 10, 32.00, 'Dupla mista', 'Porção de dupla mista', 'res/uploads/products/1555554612_porcaoduplamistaa.png', 1, '2019-04-18 02:30:12', 0),
+	(44, 1, 10, 27.00, 'Porção Torresmo', 'De torresmo especial', 'res/uploads/products/1555554684_porcao-de-torresmo.jpg', 1, '2019-04-18 02:31:24', 0),
+	(45, 1, 10, 35.00, 'Porção de peixe', 'De peixe', 'res/uploads/products/1555554745_downloadpeixeporcao.jpg', 1, '2019-04-18 02:32:25', 0),
+	(46, 1, 10, 17.00, 'Porção de Frios', 'Apenas frios', 'res/uploads/products/1555554804_58ef6b39-0698-49a0-bde7-0bdeac1f1e06.jpg', 1, '2019-04-18 02:33:24', 0),
+	(47, 1, 10, 24.00, 'Frango a passarinho', 'Porção de frango a passarinho', 'res/uploads/products/1555554862_5716e77f-33f0-40ab-a9e0-4064ac1f1305.jpg', 1, '2019-04-18 02:34:22', 0),
 	(48, 1, 12, 37.00, 'Pizza Italiana', 'Italiana apenas', 'res/uploads/products/1555554955_pizzaita.jpg', 1, '2019-04-18 02:35:55', 0),
 	(49, 1, 12, 33.00, 'Pizza Morango e Chocolate', 'Morango com chocolate', 'res/uploads/products/1555554988_pizza-de-chocolate.jpg', 1, '2019-04-18 02:36:28', 0),
 	(50, 1, 12, 28.00, 'Pizza de Chocolate', 'Apenas chocolate', 'res/uploads/products/1555555022_pizza-chocolate.jpg', 1, '2019-04-18 02:37:02', 0),
 	(51, 1, 12, 35.00, 'Pizza de Morango', 'Com morango apenas', 'res/uploads/products/1555555052_1506701024-massa-de-pizza_616x462.jpg', 1, '2019-04-18 02:37:32', 0),
 	(52, 1, 12, 31.00, 'Pizza 3 queijos', 'De 3 queijos', 'res/uploads/products/1555555086_pizza-de-3-queijos-15244.jpg', 1, '2019-04-18 02:38:06', 0),
-	(53, 1, 12, 34.00, 'Pizza RequeijÃ£o', 'Com RequeijÃ£o', 'res/uploads/products/1555555131_pizzademilhoerequeijao-2.jpg', 1, '2019-04-18 02:38:52', 0),
+	(53, 1, 12, 34.00, 'Pizza Requeijão', 'Com Requeijão', 'res/uploads/products/1555555131_pizzademilhoerequeijao-2.jpg', 1, '2019-04-18 02:38:52', 0),
 	(54, 1, 10, 31.00, 'Mandioca e carne seca', 'Mandioca com carne seca!', 'res/uploads/products/1555555211_Mandiocacarneseca.jpg', 1, '2019-04-18 02:40:11', 0),
 	(55, 1, 11, 21.00, 'Burguer Vegano', 'Com carne de soja', 'res/uploads/products/1555555331_roasted-veggie-burgers-with-carrot-ketchup-XL-RECIPE0517.jpg', 1, '2019-04-18 02:42:11', 0);
 /*!40000 ALTER TABLE `tbProducts` ENABLE KEYS */;
@@ -273,9 +274,9 @@ CREATE TABLE IF NOT EXISTS `tbProductsCategories` (
   `idProductCategory` int(11) NOT NULL AUTO_INCREMENT,
   `idCompany` int(11) NOT NULL,
   `desName` varchar(45) NOT NULL,
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
-  `isActive` tinyint(4) NOT NULL DEFAULT '1',
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
+  `isActive` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`idProductCategory`),
   KEY `fk_tbProductsCategories_tbCompanies1_idx` (`idCompany`),
   CONSTRAINT `fk_tbProductsCategories_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -286,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `tbProductsCategories` (
 REPLACE INTO `tbProductsCategories` (`idProductCategory`, `idCompany`, `desName`, `dtRegister`, `isDeleted`, `isActive`) VALUES
 	(8, 1, 'Bebidas', '2019-04-03 19:13:57', 0, 1),
 	(9, 1, 'Massas', '2019-04-03 19:14:01', 0, 1),
-	(10, 1, 'PorÃ§Ãµes', '2019-04-03 23:33:04', 0, 1),
+	(10, 1, 'Porções', '2019-04-03 23:33:04', 0, 1),
 	(11, 1, 'Lanches', '2019-04-04 10:58:56', 0, 1),
 	(12, 1, 'Pizzas', '2019-04-18 02:34:55', 0, 1),
 	(13, 1, 'Teste', '2019-04-18 18:54:29', 1, 1);
@@ -298,9 +299,9 @@ CREATE TABLE IF NOT EXISTS `tbRequests` (
   `idRequest` int(11) NOT NULL AUTO_INCREMENT,
   `idOrder` int(11) NOT NULL,
   `desNote` varchar(250) DEFAULT NULL,
-  `vlStatus` int(11) NOT NULL DEFAULT '0',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `vlStatus` int(11) NOT NULL DEFAULT 0,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idRequest`),
   KEY `fk_tbPedidos_tbComandas_idx` (`idOrder`),
   CONSTRAINT `fk_tbPedidos_tbComandas` FOREIGN KEY (`idOrder`) REFERENCES `tbOrders` (`idOrder`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -325,7 +326,8 @@ REPLACE INTO `tbRequests` (`idRequest`, `idOrder`, `desNote`, `vlStatus`, `dtReg
 	(14, 6, NULL, 0, '2019-04-18 01:18:49', 0),
 	(15, 7, NULL, 0, '2019-04-18 02:48:22', 0),
 	(16, 8, NULL, 0, '2019-04-18 11:40:11', 0),
-	(17, 9, NULL, 0, '2019-04-19 00:33:39', 0);
+	(17, 9, NULL, 0, '2019-04-19 00:33:39', 0),
+	(18, 10, NULL, 0, '2019-04-19 16:02:01', 0);
 /*!40000 ALTER TABLE `tbRequests` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela u672842222_food.tbRequestsProducts
@@ -334,10 +336,10 @@ CREATE TABLE IF NOT EXISTS `tbRequestsProducts` (
   `idRequestProduct` int(11) NOT NULL AUTO_INCREMENT,
   `idRequest` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
-  `qtProduct` int(11) NOT NULL DEFAULT '1',
-  `vlUnity` decimal(8,2) NOT NULL DEFAULT '0.00',
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `qtProduct` int(11) NOT NULL DEFAULT 1,
+  `vlUnity` decimal(8,2) NOT NULL DEFAULT 0.00,
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idRequestProduct`),
   KEY `fk_tbPedidos_has_tbProdutos_tbProdutos1_idx` (`idProduct`),
   KEY `fk_tbPedidos_has_tbProdutos_tbPedidos1_idx` (`idRequest`),
@@ -382,7 +384,11 @@ REPLACE INTO `tbRequestsProducts` (`idRequestProduct`, `idRequest`, `idProduct`,
 	(32, 16, 31, 2, 22.00, '2019-04-18 11:40:11', 0),
 	(33, 16, 40, 1, 22.00, '2019-04-18 11:40:11', 0),
 	(34, 17, 40, 1, 22.00, '2019-04-19 00:33:39', 0),
-	(35, 17, 42, 1, 30.00, '2019-04-19 00:33:39', 0);
+	(35, 17, 42, 1, 30.00, '2019-04-19 00:33:39', 0),
+	(36, 18, 40, 2, 22.00, '2019-04-19 16:02:01', 0),
+	(37, 18, 42, 1, 30.00, '2019-04-19 16:02:01', 0),
+	(38, 18, 43, 1, 32.00, '2019-04-19 16:02:01', 0),
+	(39, 18, 36, 1, 11.00, '2019-04-19 16:02:01', 0);
 /*!40000 ALTER TABLE `tbRequestsProducts` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela u672842222_food.tbUsers
@@ -392,8 +398,8 @@ CREATE TABLE IF NOT EXISTS `tbUsers` (
   `idCompany` int(11) NOT NULL,
   `desLogin` varchar(45) NOT NULL,
   `desPassword` varchar(45) NOT NULL,
-  `dtRegister` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `isDeleted` tinyint(4) NOT NULL DEFAULT '0',
+  `dtRegister` datetime NOT NULL DEFAULT current_timestamp(),
+  `isDeleted` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idUser`),
   KEY `fk_tbUsers_tbCompanies1_idx` (`idCompany`),
   CONSTRAINT `fk_tbUsers_tbCompanies1` FOREIGN KEY (`idCompany`) REFERENCES `tbCompanies` (`idCompany`) ON DELETE NO ACTION ON UPDATE NO ACTION
