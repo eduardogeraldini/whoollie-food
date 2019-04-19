@@ -32,7 +32,10 @@ class Sql {
 		$this->conn = new \PDO(
 			"mysql:dbname=".$this->DBNAME.";host=".$this->HOSTNAME, 
 			$this->USERNAME,
-			$this->PASSWORD
+			$this->PASSWORD,
+			[
+				PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+			]
 		);
 
 	}
