@@ -49,7 +49,9 @@ $app->post('/api/filter/products', function($request, $response, $args) {
 
 $app->get('/api/products/{id}', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
 	echo Product::listProductById($args['id']);
 	
