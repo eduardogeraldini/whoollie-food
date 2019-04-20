@@ -51,8 +51,7 @@
                 contentViewRequest += '<div class="float-left">';
                 contentViewRequest += 'PEDIDO Nº ' + element.idRequest;
                 contentViewRequest += '</div>';
-                contentViewRequest += '<div class="float-right priceRequest">';
-                contentViewRequest += 'R$ 550,00';
+                contentViewRequest += '<div class="float-right priceRequest" data-id="' + element.idRequest + '">';
                 contentViewRequest += '</div>';
                 contentViewRequest += '</div>';
                 contentViewRequest += '<div class="card-body">';
@@ -93,6 +92,7 @@
         }).then(() => {
 
             loadRequestProducts();
+            loadPricesInRequest();
 
         }).fail(function () {
             console.log("Rota não encontrada!");
@@ -129,6 +129,35 @@
             });
 
         });
+
+    }
+
+    function loadPricesInRequest() {
+
+        $(".priceRequest").each(function (index) {
+
+            let request = $(this);
+            let price = 0;
+
+            $.getJSON(`/api/requests/products/${request.data("id")}`, function (data) {
+
+                data.forEach(element => {
+
+                    price += element.qtProduct * element.vlUnity;       
+
+                });
+
+                request.append(`R$ ${price}`);
+
+            }).fail(() => {
+
+                console.log("Rota não encontrada!");
+
+            });
+
+        });
+
+
 
     }
 
