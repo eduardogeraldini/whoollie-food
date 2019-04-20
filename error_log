@@ -1,0 +1,105 @@
+[19-Apr-2019 12:36:10 America/Sao_Paulo] Slim Application Error:
+Type: Error
+Message: Class 'WHOOLLIEFOOD\DB\PDO' not found
+File: /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/DB/Sql.php
+Line: 37
+Trace: #0 /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/MODEL/Employee.php(203): WHOOLLIEFOOD\DB\Sql->__construct()
+#1 /home/u672842222/public_html/routes/dashboard/product.php(10): WHOOLLIEFOOD\MODEL\Employee::verifyPrivileges('products')
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /home/u672842222/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(356): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(334): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(515): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(405): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(313): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/u672842222/public_html/functions.php(48): Slim\App->run()
+#12 /home/u672842222/public_html/index.php(7): initialize(Array)
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+
+[19-Apr-2019 12:36:11 America/Sao_Paulo] Slim Application Error:
+Type: Error
+Message: Class 'WHOOLLIEFOOD\DB\PDO' not found
+File: /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/DB/Sql.php
+Line: 37
+Trace: #0 /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/MODEL/Employee.php(203): WHOOLLIEFOOD\DB\Sql->__construct()
+#1 /home/u672842222/public_html/routes/dashboard/product.php(10): WHOOLLIEFOOD\MODEL\Employee::verifyPrivileges('products')
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /home/u672842222/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(356): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(334): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(515): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(405): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(313): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/u672842222/public_html/functions.php(48): Slim\App->run()
+#12 /home/u672842222/public_html/index.php(7): initialize(Array)
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+
+[19-Apr-2019 12:42:57 America/Sao_Paulo] Slim Application Error:
+Type: Error
+Message: Class 'WHOOLLIEFOOD\DB\PDO' not found
+File: /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/DB/Sql.php
+Line: 37
+Trace: #0 /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/MODEL/Employee.php(203): WHOOLLIEFOOD\DB\Sql->__construct()
+#1 /home/u672842222/public_html/routes/dashboard/product.php(10): WHOOLLIEFOOD\MODEL\Employee::verifyPrivileges('products')
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /home/u672842222/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(356): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(334): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(515): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(405): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(313): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/u672842222/public_html/functions.php(48): Slim\App->run()
+#12 /home/u672842222/public_html/index.php(7): initialize(Array)
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+
+[19-Apr-2019 12:42:58 America/Sao_Paulo] Slim Application Error:
+Type: Error
+Message: Class 'WHOOLLIEFOOD\DB\PDO' not found
+File: /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/DB/Sql.php
+Line: 37
+Trace: #0 /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/MODEL/Employee.php(203): WHOOLLIEFOOD\DB\Sql->__construct()
+#1 /home/u672842222/public_html/routes/dashboard/product.php(10): WHOOLLIEFOOD\MODEL\Employee::verifyPrivileges('products')
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /home/u672842222/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(356): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(334): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(515): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(405): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(313): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/u672842222/public_html/functions.php(48): Slim\App->run()
+#12 /home/u672842222/public_html/index.php(7): initialize(Array)
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+
+[19-Apr-2019 12:42:58 America/Sao_Paulo] Slim Application Error:
+Type: Error
+Message: Class 'WHOOLLIEFOOD\DB\PDO' not found
+File: /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/DB/Sql.php
+Line: 37
+Trace: #0 /home/u672842222/public_html/vendor/WHOOLLIEFOOD/php-classes/src/MODEL/Employee.php(203): WHOOLLIEFOOD\DB\Sql->__construct()
+#1 /home/u672842222/public_html/routes/dashboard/product.php(10): WHOOLLIEFOOD\MODEL\Employee::verifyPrivileges('products')
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /home/u672842222/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(356): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /home/u672842222/public_html/vendor/slim/slim/Slim/Route.php(334): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(515): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/u672842222/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(405): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/u672842222/public_html/vendor/slim/slim/Slim/App.php(313): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/u672842222/public_html/functions.php(48): Slim\App->run()
+#12 /home/u672842222/public_html/index.php(7): initialize(Array)
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+

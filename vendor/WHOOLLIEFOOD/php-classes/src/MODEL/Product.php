@@ -17,9 +17,10 @@ class Product{
 	private $idProductCategory;
 
 	public function __construct(){
-
-		$this->idCompany = $_SESSION['User']['idCompany'];
-
+		if (isset($_SESSION['User']['idCompany']))
+			$this->idCompany = $_SESSION['User']['idCompany'];
+		else
+			$this->idCompany = $_SESSION['Device']['idCompany'];
 	}
 
 	public function setDesName($desName){
@@ -51,10 +52,10 @@ class Product{
 	}
 
 	public function setDesImagePath($files, $desOldImagePath = "") {
-
+		
 		if ($desOldImagePath == "" && $files["desImagePath"]["name"] == "") {
 
-			$this->desImagePath = "res/admin/img/sem_foto.png";
+			$this->desImagePath = "/res/admin/img/sem_foto.png";
 			
 			echo json_encode([
 				'error' => false
@@ -64,7 +65,7 @@ class Product{
 
 		} elseif ($files["desImagePath"]["name"] != "") {
 		
-			if ($desOldImagePath != "res/admin/img/sem_foto.png")
+			if ($desOldImagePath != "/res/admin/img/sem_foto.png")
 				deleteFile($desOldImagePath);
 		
 		} elseif ($desOldImagePath != "" && $files["desImagePath"]["name"] == "") {
@@ -117,7 +118,7 @@ class Product{
 		}
 
 		if (move_uploaded_file($files["desImagePath"]["tmp_name"], $target_file)) {
-			$this->desImagePath = $target_file;
+			$this->desImagePath = "/".$target_file;
 			echo json_encode([
 				'error' => false
 			]);
@@ -171,16 +172,16 @@ class Product{
 	public function listAll(){
 
 		$sql = new Sql();
-
+		
 		return json_encode($sql->select("
-			SELECT * 
-			FROM tbProducts
-			WHERE 
-			isDeleted = :ISDELETED AND
-			idCompany = :IDCOMPANY
-			ORDER BY desName ASC", [
-				":ISDELETED" => 0,
-				":IDCOMPANY" => $this->getIdCompany()
+				SELECT * 
+				FROM tbProducts
+				WHERE 
+				isDeleted = :ISDELETED AND
+				idCompany = :IDCOMPANY
+				ORDER BY desName ASC", [
+					":ISDELETED" => 0,
+					":IDCOMPANY" => $this->getIdCompany()
 			]));
 
 	}
@@ -311,17 +312,6 @@ class Product{
 		$this->setVlUnity($res['vlUnity']);
 		$this->setIsActive($res['isActive']);
 		$this->setIdProductCategory($res['idProductCategory']);
-		
-		/*$arr = [];
-
-		$arr['idProduct'] = $idProduct;
-		$arr['desName'] = $res['desName'];
-		$arr['desNote'] = $res['desNote'];
-		$arr['vlUnity'] = $res['vlUnity'];
-		$arr['isActive'] = $res['isActive'];
-		$arr['idProductCategory'] = $res['idProductCategory'];
-
-		return $arr;*/
 
 	}
 

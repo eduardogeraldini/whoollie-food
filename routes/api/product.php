@@ -2,6 +2,7 @@
 
 use \WHOOLLIEFOOD\MODEL\Product;
 use \WHOOLLIEFOOD\MODEL\User;
+use \WHOOLLIEFOOD\MODEL\Device;
 
 $app->post('/api/product/delete/{id}', function($request, $response, $args) {
 	
@@ -34,7 +35,9 @@ $app->post('/api/product/update/{id}', function($request, $response, $args) {
 
 $app->post('/api/filter/products', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
 	$input = $request->getParsedBody();
 
@@ -72,7 +75,9 @@ $app->post('/api/products', function($request, $response, $args) {
 
 $app->get('/api/products', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
 	$product = new Product();
 

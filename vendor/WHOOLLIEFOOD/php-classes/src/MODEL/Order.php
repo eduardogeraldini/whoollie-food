@@ -37,7 +37,7 @@ class Order {
 
     public function setIdOrder($value) {
         $this->idOrder = $value;
-        $_SESSION["Order"]["id"] = $this->idOrder;
+        $_SESSION["Order"]["id"] = $value;
     }
 
     public function setVlStatus($value) {
@@ -111,19 +111,51 @@ class Order {
 
     }
 
+    public function requestsQuantityOrder() {
+
+        $sql = new Sql();
+
+        $result = $sql->select("SELECT count(vlStatus) AS 'total' 
+                    FROM tbRequests 
+                    WHERE
+                    vlStatus = :VLSTATUS AND
+                    idOrder = :IDORDER", [
+                        ":VLSTATUS"=>0,
+                        ":IDORDER"=>$this->getIdOrder()
+                    ]);
+
+        return $result[0]['total'];
+
+    }
+
     public function closeOrder() {
 
         $sql = new Sql();
 
-        $sql->query("UPDATE tbOrders SET
-                    vlStatus = :VLSTATUS
-                    WHERE
-                    idOrder = :IDORDER", [
-                        ":VLSTATUS"=>$this->getVlStatus(),
-                        ":IDORDER"=>$this->getIdOrder()
-                    ]);
+        if (((int) $this->requestsQuantityOrder()) == 0) {
 
-        $this->setIdOrder("");
+            $sql->query("UPDATE tbOrders SET
+                        vlStatus = :VLSTATUS
+                        WHERE
+                        idOrder = :IDORDER", [
+                            ":VLSTATUS"=>$this->getVlStatus(),
+                            ":IDORDER"=>$this->getIdOrder()
+                        ]);
+
+            $this->setIdOrder("");
+
+            return json_encode([
+				'error' => false
+			]);
+        
+        } else {
+
+            return json_encode([
+				'error' => true,
+				"message" => "Há pedidos pendentes para essa comanda!"
+			]);
+
+        }
         
     } 
     

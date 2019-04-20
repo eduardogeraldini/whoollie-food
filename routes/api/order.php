@@ -28,16 +28,16 @@ $app->post('/api/open/order', function($request, $response, $args) {
     
 });
 
-$app->post('/api/close/order/{id}', function($request, $response, $args) {
+$app->post('/api/close/order', function($request, $response, $args) {
 
 	User::verifyLogin();
 
     $order = new Order();
 
-    $order->setVlStatus(2);
-	$order->setIdOrder($args['id']);    
+    $order->setVlStatus(1);
+	$order->setIdOrder($_SESSION["Order"]["id"]);    
 
-    $order->closeOrder();
+    echo $order->closeOrder();
 
     $cart = new Cart();
     $cart->clearCart();

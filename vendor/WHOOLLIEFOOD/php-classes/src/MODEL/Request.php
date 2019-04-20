@@ -11,6 +11,7 @@ class Request {
 	private $idCompany;
 	private $idOrder;
     private $idRequest;
+    private $vlStatus;
     
 	private $options;
 	private $pusher;
@@ -19,7 +20,10 @@ class Request {
 	public function __construct() {
         
         $this->setIdCompany($_SESSION['User']['idCompany']);
-        $this->setIdOrder($_SESSION["Order"]["id"]);
+        
+        if (isset($_SESSION["Order"]))
+            $this->setIdOrder($_SESSION["Order"]["id"]);
+        
         $this->setDesChannel($_SESSION["User"]["desChannel"]);
 
         $this->options = array(
@@ -66,6 +70,43 @@ class Request {
 
     public function getDesChannel() {
         return $this->desChannel;
+    }
+
+    public function setVlStatus($vlStatus) {
+        $this->vlStatus = $vlStatus;
+    }
+
+    public function getVlStatus() {
+        return $this->vlStatus;
+    }
+
+    public function listAll() {
+        
+        $sql = new Sql();
+
+        return json_encode($sql->select("SELECT *, o.desName AS 'desRequester', r.dtRegister AS 'dtRegisterRequest'
+                                        FROM tbRequests r
+                                        INNER JOIN tbOrders o ON (r.idOrder = o.idOrder)
+                                        INNER JOIN tbBoards b ON (o.idBoard = b.idBoard)
+                                        WHERE r.vlStatus = :VLSTATUS
+                                        ORDER BY r.dtRegister ASC", [
+                                            ":VLSTATUS"=>$this->getVlStatus()
+                                        ]));
+
+    }
+
+    public function listProductsByRequest() {
+
+        $sql = new Sql();
+
+        return json_encode($sql->select("SELECT *
+                                        FROM tbRequestsProducts rp
+                                        INNER JOIN tbProducts p ON (rp.idProduct = p.idProduct)
+                                        WHERE rp.idRequest = :IDREQUEST
+                                        ORDER BY p.desName ASC", [
+                                            ":IDREQUEST"=>$this->getIdRequest()
+                                        ]));
+
     }
 
     public function openNewRequest() {
@@ -137,6 +178,27 @@ class Request {
             WHERE a.idRequest = :IDREQUEST", [
                 ":IDREQUEST" => $this->getIdRequest()
             ]));
+
+    }        
+
+                   
+    public function aproveRequest() {
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tbRequests
+                                  SET
+                                  vlStatus = :VLSTATUS
+                                  WHERE
+                                  idRequest = :IDREQUEST", [
+                        ":IDREQUEST"=>$this->getIdRequest(),
+                        ":VLSTATUS"=>$this->getVlStatus()
+                    ]);
+
+        return json_encode([
+            'error' => false
+        ]);
+
     }
 
 }

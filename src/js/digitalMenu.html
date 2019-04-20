@@ -25,7 +25,7 @@ function loadProducts() {
             // html += `
             //     <div class="card text-center col-sm-4" style="width: 15.8rem;">
             //         <div class="container-image">
-            //             <img class="card-img-top" src="/${element.desImagePath}" alt="${element.desName}" style="width: 100%; max-height: 200px;">   
+            //             <img class="card-img-top" src="${element.desImagePath}" alt="${element.desName}" style="width: 100%; max-height: 200px;">   
             //             <button class="btn btn-success btn-image" onclick="addProductCart(${element.idProduct});"><i class="fa fa-plus"></i></button>
             //         </div>
             //         <div class="card-body">
@@ -39,7 +39,7 @@ function loadProducts() {
             <div class="col-lg-4 col-md-6 col-sm-12 mb-2">
                 <div class="card shadow">
                     <div class="container-image">
-                        <img class="card-img-top img-ajust" src="/${element.desImagePath}" alt="Card image cap">
+                        <img class="card-img-top img-ajust" src="${element.desImagePath}" alt="Card image cap">
                         <button class="btn btn-success btn-image" onclick="addProductCart(${element.idProduct});"><i class="fa fa-plus"></i></button>
                     </div>                    
                     <div class="card-body">
@@ -180,12 +180,16 @@ function sendNewRequest() {
 }
 
 function closeOrder() {
-    
-    let id = $("#btnCloseOrder").data("idOrder");
 
-    $.post(`/api/close/order/${id}`, function (data) {
+    $.post(`/api/close/order`, function (data) {
         loadProductsCart();
-        swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+
+        if (!JSON.parse(data).error) {
+            swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+        } else {
+            swal("Ops!", JSON.parse(data).message, "error");
+        }
+
     }).done(() => {
         verifyOrderIsOpened();
     }).fail(function () {

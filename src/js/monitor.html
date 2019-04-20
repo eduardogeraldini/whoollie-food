@@ -9,38 +9,100 @@
 
     var channel;
 
+    $(function () {
+        loadRequests();
+    });
+
     $.getJSON('/api/currentCompany', function (data) {
         channel = pusher.subscribe(data[0].desChannel);
     }).then(() => {
         channel.bind('new-request', function(data) {
-            $("body .row").append(`
-            <div class="col-sm-3 mb-2">
-                <div class="card shadow">
-                <h5 class="card-header">MESA nº 01 -- PEDIDO nº 25</h5>
-                <div class="card-body">
-                    <div class="requests">
-                    <h5 class="card-text">2 X - PICANHA</h5>
-                    <p>* Sem alface, sem molhos.</p>
-                    <h5 class="card-text">2 X - PICANHA</h5>
-                    <p>* Sem alface, sem molhos.</p>
-                    <h5 class="card-text">2 X - PICANHA</h5>
-                    <p>* Sem alface, sem molhos.</p>
-                    </div>
-                    <div class="text-center">
-                    <a href="#" class="btn btn-success">PRONTO</a>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="float-left">
-                    <small><i class="fas fa-user"></i> EDUARDO GERALDINI</small>
-                    </div>
-                    <div class="float-right">
-                    <small><i class="fas fa-clock"></i> 13/04/2019 18:08h</small>
-                    </div>
-                </div>
-                </div>
-            </div>
-            `);
+            loadRequests();
         });
     });
+
+    function loadRequests() {
+
+        $.getJSON('/api/requests', function (data) {
+    
+            $("body .row").html("");
+
+            let div = ``;
+
+            data.forEach(element => {
+
+                div = ``;
+
+                div += `
+                    <div class="col-sm-3 mb-2" id="col-${element.idRequest}">
+                        <div class="card shadow">
+                        <h5 class="card-header">MESA Nº ${element.vlBoard} | PEDIDO nº ${element.idOrder}</h5>
+                        <div class="card-body">
+                            <div class="requests">   
+                            </div>
+                            <div class="text-center">
+                                <a href="#" class="btn btn-success" onclick="aproveRequest(${element.idRequest});">PRONTO</a>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-left">
+                                <small><i class="fas fa-user"></i> ${element.desRequester}</small>
+                            </div>
+                            <div class="float-right">
+                                <small><i class="fas fa-clock"></i> ${showDateTime(element.dtRegisterRequest)}</small>
+                            </div>
+                        </div>
+                        </div>
+                    </div>                  
+                `;
+
+                $("body .row").append(div);
+
+                $.getJSON(`/api/products/request/${element.idRequest}`, function (dataProducts) {
+                    let items = ``;
+
+                    dataProducts.forEach(product => {
+                        items += `<h5 class="card-text">${product.qtProduct} X - ${product.desName}</h5>`;
+                        items += `<p>Inserir opção para comentário.</p>`;
+                    });
+
+                    $(`#col-${element.idRequest} .requests`).html(items);
+                });
+
+            });
+            
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function aproveRequest(idRequest) {
+
+        $.post(`/api/aprove/request/${idRequest}`, function (data) {
+    
+            if(!JSON.parse(data).error) {
+                swal("Tudo certo!", "Pedido liberado!", "success");
+            } else {
+                console.log(JSON.parse(data).message);
+            }
+
+        }).then(() => {
+            loadRequests();
+        });
+
+    }
+
+    function showDateTime(datetime) {
+
+        var date = new Date(datetime);
+        return ("0" + date.getDate()).slice(-2) + '/' + 
+               ("0" + (date.getMonth()+1)).slice(-2) + '/' +  
+               date.getFullYear() + ' ' + 
+               ("0" + date.getHours()).slice(-2) + ':' + 
+               ("0" + date.getMinutes()).slice(-2) + ':' + 
+               ("0" + date.getSeconds()).slice(-2);
+
+    }
+
 </script>
