@@ -180,12 +180,16 @@ function sendNewRequest() {
 }
 
 function closeOrder() {
-    
-    let id = $("#btnCloseOrder").data("idOrder");
 
-    $.post(`/api/close/order/${id}`, function (data) {
+    $.post(`/api/close/order`, function (data) {
         loadProductsCart();
-        swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+
+        if (!JSON.parse(data).error) {
+            swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+        } else {
+            swal("Ops!", JSON.parse(data).message, "error");
+        }
+
     }).done(() => {
         verifyOrderIsOpened();
     }).fail(function () {

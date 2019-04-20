@@ -36,20 +36,20 @@
                 div += `
                     <div class="col-sm-3 mb-2" id="col-${element.idRequest}">
                         <div class="card shadow">
-                        <h5 class="card-header">MESA nº ${element.vlBoard} -- PEDIDO nº ${element.idOrder}</h5>
+                        <h5 class="card-header">MESA Nº ${element.vlBoard} | PEDIDO nº ${element.idOrder}</h5>
                         <div class="card-body">
                             <div class="requests">   
                             </div>
                             <div class="text-center">
-                                <a href="#" class="btn btn-success">PRONTO</a>
+                                <a href="#" class="btn btn-success" onclick="aproveRequest(${element.idRequest});">PRONTO</a>
                             </div>
                         </div>
                         <div class="card-footer">
                             <div class="float-left">
-                            <small><i class="fas fa-user"></i> ${element.desRequester}</small>
+                                <small><i class="fas fa-user"></i> ${element.desRequester}</small>
                             </div>
                             <div class="float-right">
-                            <small><i class="fas fa-clock"></i> ${showDateTime(element.dtRegisterRequest)}</small>
+                                <small><i class="fas fa-clock"></i> ${showDateTime(element.dtRegisterRequest)}</small>
                             </div>
                         </div>
                         </div>
@@ -73,6 +73,22 @@
             
         }).fail(function () {
             console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function aproveRequest(idRequest) {
+
+        $.post(`/api/aprove/request/${idRequest}`, function (data) {
+    
+            if(!JSON.parse(data).error) {
+                swal("Tudo certo!", "Pedido liberado!", "success");
+            } else {
+                console.log(JSON.parse(data).message);
+            }
+
+        }).then(() => {
+            loadRequests();
         });
 
     }

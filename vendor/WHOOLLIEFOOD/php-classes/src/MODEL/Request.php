@@ -149,6 +149,25 @@ class Request {
 
     }
 
+    public function aproveRequest() {
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tbRequests
+                                  SET
+                                  vlStatus = :VLSTATUS
+                                  WHERE
+                                  idRequest = :IDREQUEST", [
+                        ":IDREQUEST"=>$this->getIdRequest(),
+                        ":VLSTATUS"=>$this->getVlStatus()
+                    ]);
+
+        return json_encode([
+            'error' => false
+        ]);
+
+    }
+
 }
 
 ?>
