@@ -1,22 +1,22 @@
 <script>
 
-    $(function() {
+    $(function () {
         loadOrders();
     });
-    
-    
+
+
     function loadOrders() {
-    
+
         $.getJSON('/api/orders', function (data) {
-    
+
             $("#viewOrders tbody").html("");
-    
+
             data.forEach(element => {
-    
+
                 $("#viewOrders tbody").append(`
                         <tr>
                             <td>
-                                <a href="#" onclick="loadEditOrderModal(${element.idOrder});" class="btn btn-success btn-sm btn-circle btnViewOrder">
+                                <a href="#" onclick="loadViewRequestsModal(${element.idOrder});" class="btn btn-success btn-sm btn-circle btnViewOrder">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>
@@ -29,45 +29,108 @@
                         </tr>
                     `);
             });
-    
+
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
-    
+
     }
-    
-    function loadEditOrderModal(idOrder) {
-    
-        $.getJSON(`/api/orders/${idOrder}`, function (data) {
-    
-            $("#editOrdersModal").modal("toggle");
-    
-            $("#formEditDevice #desName").val(data[0].desName);
-            $("#formEditDevice #desLogin").val(data[0].desLogin);
-            $("#formEditDevice #desPassword").val("");
-    
-            $("#btnEditDevice").data("id", idOrder);
-    
-        }).fail(function () {
-            console.log("Rota não encontrada!");
-        });
-    
-    }
-    
-    function editDeviceModal(idDevice) {
-        $.post(`/api/device/edit/${idDevice}`, $("#formEditDevice").serialize(), function (data) {
-    
-            if(!JSON.parse(data).error) {
-                swal("Tudo certo!", "Dispositivo editado com sucesso!", "success");
-                $("#formEditDevice")[0].reset();
-                $("#editDeviceModal").modal("toggle");
-            } else {
-                console.log(JSON.parse(data).message);
-            }
-    
+
+    function loadViewRequestsModal(idOrder) {
+
+        $.getJSON(`/api/requests/orders/${idOrder}`, function (data) {
+
+            $("#viewRequests").html(" ");
+
+            let contentViewRequest;
+
+            data.forEach(element => {
+
+                contentViewRequest = '<div class="card">';
+                contentViewRequest += '<div class="card-header">';
+                contentViewRequest += '<div class="float-left">';
+                contentViewRequest += 'PEDIDO Nº ' + element.idRequest;
+                contentViewRequest += '</div>';
+                contentViewRequest += '<div class="float-right priceRequest">';
+                contentViewRequest += 'R$ 550,00';
+                contentViewRequest += '</div>';
+                contentViewRequest += '</div>';
+                contentViewRequest += '<div class="card-body">';
+                contentViewRequest += '<div class="desRequest requestProducts" data-id="' + element.idRequest + '">';
+                contentViewRequest += '</div>';
+
+                if (element.desNote != null) {
+                    contentViewRequest += '<p class="card-text">*' + element.desNote + '</p>';
+                } else {
+                    contentViewRequest += '<p class="card-text">* Pedido sem observações.</p>';
+                }
+
+                contentViewRequest += '</div>';
+                contentViewRequest += '<div class="card-footer">';
+                contentViewRequest += '<div class="float-left">';
+
+                if (element.vlStatus == 1) {
+                    contentViewRequest += "<span class='badge badge-success'>CONCLUÍDO</span></td>";
+                } else {
+                    contentViewRequest += "<span class='badge badge-danger'>EM ABERTO</span>";
+                }
+
+                contentViewRequest += '</div>';
+                contentViewRequest += '<div class="float-right">';
+                contentViewRequest += '<small><i class="fas fa-clock"></i> ' + element.dtRegister + '</small>';
+                contentViewRequest += '</div>';
+                contentViewRequest += '</div>';
+                contentViewRequest += '</div>'
+                contentViewRequest += '<br>';
+
+                $("#viewRequests").append(contentViewRequest);
+
+            });
+
+            $("#modalViewOrders").modal("toggle");
+
+
         }).then(() => {
-            loadDevices();
+
+            loadRequestProducts();
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
         });
+
     }
-    
-    </script>
+
+    function loadRequestProducts() {
+
+        $(".requestProducts").each(function (index) {
+
+            let request = $(this);
+            let price = 0;
+
+            $.getJSON(`/api/requests/products/${request.data("id")}`, function (data) {
+
+                data.forEach(element => {
+
+                    price += element.qtProduct * element.vlUnity;
+                    request.append(`<h5 class="card-title text-uppercase">(${element.qtProduct}) ${element.desName}</h5>`);
+
+                });
+
+                console.log(price);
+
+            }).fail(() => {
+
+                request.append(`
+                    <div class="alert alert-danger" role="alert">
+                    Não foi possível carregar os produtos!
+                    </div>`
+                );
+
+            });
+
+        });
+
+    }
+
+
+</script>

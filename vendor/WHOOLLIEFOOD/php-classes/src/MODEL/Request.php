@@ -108,6 +108,37 @@ class Request {
 
     }
 
+    public function listRequestsByOrders(){
+
+        $sql = new Sql();
+
+		return json_encode($sql->select("
+			SELECT * 
+			FROM tbRequests
+			WHERE 
+			isDeleted = :ISDELETED AND
+            idOrder = :IDORDER
+            ORDER BY dtRegister ASC", [
+				":ISDELETED" => 0,
+                ":IDORDER" => $this->getIdOrder()
+			]));
+
+    }
+    
+    public function listProductsInRequest(){
+
+        $sql = new Sql();
+
+        return json_encode($sql->select("
+            SELECT a.idRequestProduct, a.idRequest, a.idProduct, a.qtProduct, a.vlUnity, a.dtRegister, b.idProduct, b.desName 
+            FROM tbrequestsproducts a 
+            INNER JOIN tbproducts b 
+            ON(a.idProduct = b.idProduct) 
+            WHERE a.idRequest = :IDREQUEST", [
+                ":IDREQUEST" => $this->getIdRequest()
+            ]));
+    }
+
 }
 
 ?>
