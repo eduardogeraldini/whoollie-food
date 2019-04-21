@@ -2,6 +2,7 @@
 
     $(function () {
         loadOrders();
+
     });
 
 
@@ -25,11 +26,14 @@
                             <td>
                                 ${((element.vlStatus == 1) ? "<span class='badge badge-success'>CONCLUÍDO</span></td>" : "<span class='badge badge-danger'>EM ABERTO</span>")}
                             </td>
-                            <td>IMPLEMENTAR</td>
+                            <td class="priceMain" data-id="${element.idOrder}">
+                            </td>
                         </tr>
                     `);
             });
 
+        }).then(() => {
+            loadPricesInTable();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
@@ -143,7 +147,7 @@
 
                 data.forEach(element => {
 
-                    price += element.qtProduct * element.vlUnity;       
+                    price += element.qtProduct * element.vlUnity;
 
                 });
 
@@ -157,9 +161,26 @@
 
         });
 
-
-
     }
 
+    function loadPricesInTable() {
+
+        $(".priceMain").each(function (index) {
+
+            let priceOrder = $(this);
+
+            $.getJSON(`/api/price/order/${priceOrder.data("id")}`, function (data) {
+
+                priceOrder.append(`R$ ${data.total}`);
+
+            }).fail(() => {
+
+                console.log("Rota não encontrada!");
+
+            });
+
+        });
+
+    }
 
 </script>
