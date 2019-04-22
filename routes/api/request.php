@@ -2,6 +2,7 @@
 
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Request;
+use \WHOOLLIEFOOD\MODEL\Device;
 
 $app->post('/api/aprove/request/{id}', function($request, $response, $args) {
 

@@ -3,6 +3,7 @@
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Cart;
 use \WHOOLLIEFOOD\MODEL\Order;
+use \WHOOLLIEFOOD\MODEL\Device;
 
 
 $app->get('/api/price/order/{id}', function($request, $response, $args) {
