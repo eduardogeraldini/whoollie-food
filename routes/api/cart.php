@@ -2,6 +2,7 @@
 
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Cart;
+use \WHOOLLIEFOOD\MODEL\Device;
 
 $app->get('/api/cart', function($request, $response, $args) {
 
