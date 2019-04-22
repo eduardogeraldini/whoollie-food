@@ -43,9 +43,6 @@ $app->post('/api/opened/order', function($request, $response, $args) {
 
 $app->post('/api/open/order', function($request, $response, $args) {
 
-	if (!Device::verifyLogin()["login"]) {
-		User::verifyLogin();
-	}
 
     $input = $request->getParsedBody();
 
