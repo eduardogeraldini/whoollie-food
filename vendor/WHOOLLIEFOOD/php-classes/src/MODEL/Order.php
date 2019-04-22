@@ -128,6 +128,18 @@ class Order {
 
     }
 
+    public function returnPriceByOrders() {
+
+        $sql = new Sql();
+
+        $result = $sql->select("SELECT SUM(qtProduct*vlUnity) as total FROM tbRequests a INNER JOIN tbrequestsproducts b ON(a.idRequest = b.idRequest) WHERE a.idOrder = :IDORDER", [
+                        ":IDORDER"=>$this->getIdOrder()
+                    ]);
+
+        return json_encode($result[0]);
+
+    }
+
     public function closeOrder() {
 
         $sql = new Sql();
@@ -152,7 +164,7 @@ class Order {
 
             return json_encode([
 				'error' => true,
-				"message" => "Há pedidos pendentes para essa comanda!"
+				"message" => "Há pedidos pendentes para essa comanda, verifique com a cozinha!"
 			]);
 
         }

@@ -19,17 +19,23 @@
                                 <a href="#" onclick="loadViewRequestsModal(${element.idOrder});" class="btn btn-success btn-sm btn-circle btnViewOrder">
                                     <i class="fas fa-eye"></i>
                                 </a>
+                                <a href="#" onclick="closeOrder(${element.idOrder});" class="btn btn-warning btn-sm btn-circle btnCloseOrder">
+                                    <i class="fas fa-window-close"></i>
+                                </a>
                             </td>
                             <td>${element.idOrder}</td>
                             <td>${element.desName}</td>
                             <td>
                                 ${((element.vlStatus == 1) ? "<span class='badge badge-success'>CONCLUÍDO</span></td>" : "<span class='badge badge-danger'>EM ABERTO</span>")}
                             </td>
-                            <td>IMPLEMENTAR</td>
+                            <td class="priceMain" data-id="${element.idOrder}">
+                            </td>
                         </tr>
                     `);
             });
 
+        }).then(() => {
+            loadPricesInTable();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
@@ -100,6 +106,24 @@
 
     }
 
+    function closeOrder(idOrder) {
+
+        $.post(`/api/close/order/${idOrder}`, function (data) {
+
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+            } else {
+                swal("Ops!", JSON.parse(data).message, "error");
+            }
+
+        }).fail(() => {
+
+            console.log("Rota não encontrada!");
+
+        });
+
+    }
+
     function loadRequestProducts() {
 
         $(".requestProducts").each(function (index) {
@@ -143,7 +167,7 @@
 
                 data.forEach(element => {
 
-                    price += element.qtProduct * element.vlUnity;       
+                    price += element.qtProduct * element.vlUnity;
 
                 });
 
@@ -157,9 +181,26 @@
 
         });
 
-
-
     }
 
+    function loadPricesInTable() {
+
+        $(".priceMain").each(function (index) {
+
+            let priceOrder = $(this);
+
+            $.getJSON(`/api/price/order/${priceOrder.data("id")}`, function (data) {
+
+                priceOrder.append(`R$ ${data.total}`);
+
+            }).fail(() => {
+
+                console.log("Rota não encontrada!");
+
+            });
+
+        });
+
+    }
 
 </script>
