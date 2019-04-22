@@ -2,7 +2,6 @@
 
     $(function () {
         loadOrders();
-
     });
 
 
@@ -19,6 +18,9 @@
                             <td>
                                 <a href="#" onclick="loadViewRequestsModal(${element.idOrder});" class="btn btn-success btn-sm btn-circle btnViewOrder">
                                     <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="#" onclick="closeOrder(${element.idOrder});" class="btn btn-warning btn-sm btn-circle btnCloseOrder">
+                                    <i class="fas fa-window-close"></i>
                                 </a>
                             </td>
                             <td>${element.idOrder}</td>
@@ -100,6 +102,24 @@
 
         }).fail(function () {
             console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function closeOrder(idOrder) {
+
+        $.post(`/api/close/order/${idOrder}`, function (data) {
+
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+            } else {
+                swal("Ops!", JSON.parse(data).message, "error");
+            }
+
+        }).fail(() => {
+
+            console.log("Rota não encontrada!");
+
         });
 
     }

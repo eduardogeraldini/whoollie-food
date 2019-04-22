@@ -4,6 +4,7 @@ use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Cart;
 use \WHOOLLIEFOOD\MODEL\Order;
 
+
 $app->get('/api/price/order/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
@@ -12,6 +13,20 @@ $app->get('/api/price/order/{id}', function($request, $response, $args) {
     $order->setIdOrder($args['id']);
 	echo $order->returnPriceByOrders();
 	
+});
+
+//FECHAR COMANDAR POR ID
+$app->post('/api/close/order/{id}', function($request, $response, $args) {
+
+	User::verifyLogin();
+
+    $order = new Order();
+
+    $order->setVlStatus(1);
+	$order->setIdOrder($args['id']);    
+
+    echo $order->closeOrder();
+    
 });
 
 $app->post('/api/opened/order', function($request, $response, $args) {
@@ -37,6 +52,7 @@ $app->post('/api/open/order', function($request, $response, $args) {
     echo $order->openNewOrder();
     
 });
+
 
 $app->post('/api/close/order', function($request, $response, $args) {
 

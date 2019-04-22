@@ -164,7 +164,7 @@ class Order {
 
             return json_encode([
 				'error' => true,
-				"message" => "Há pedidos pendentes para essa comanda!"
+				"message" => "Há pedidos pendentes para essa comanda, verifique com a cozinha!"
 			]);
 
         }
