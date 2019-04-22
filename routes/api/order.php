@@ -31,7 +31,9 @@ $app->post('/api/close/order/{id}', function($request, $response, $args) {
 
 $app->post('/api/opened/order', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
     
     $order = new Order();
     echo json_encode($order->openedOrder());
@@ -40,7 +42,9 @@ $app->post('/api/opened/order', function($request, $response, $args) {
 
 $app->post('/api/open/order', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
     $input = $request->getParsedBody();
 
@@ -56,7 +60,9 @@ $app->post('/api/open/order', function($request, $response, $args) {
 
 $app->post('/api/close/order', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
 
     $order = new Order();
 

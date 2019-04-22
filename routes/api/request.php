@@ -30,7 +30,9 @@ $app->get('/api/products/request/{id}', function($request, $response, $args) {
 
 $app->get('/api/requests', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
     
     $request = new Request();
 
@@ -42,7 +44,9 @@ $app->get('/api/requests', function($request, $response, $args) {
 
 $app->post('/api/request', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
     
     $request = new Request();
     $request->openNewRequest();
