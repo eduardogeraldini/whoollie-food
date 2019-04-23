@@ -33,9 +33,17 @@ class Cart{
             $product = new Product();
             $product->setAllPropertiesById($key);
 
-            $arr[$key]["desName"] = $product->getDesName();
+            array_push($arr, [
+                "idProduct" => $key,
+                "desName" => $product->getDesName(),
+                "qtTotal" => $value,
+                "vlUnity" => $product->getVlUnity(),
+
+            ]);
+
+           /* $arr[$key]["desName"] = $product->getDesName();
             $arr[$key]["qtTotal"] = $value;
-            $arr[$key]["vlUnity"] = $product->getVlUnity();
+            $arr[$key]["vlUnity"] = $product->getVlUnity(); */
 
         }
 

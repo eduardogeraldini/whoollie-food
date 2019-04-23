@@ -16,6 +16,8 @@
 
             e.preventDefault();
 
+            $('.cnpj').unmask();
+
             $.post("/api/configs/company", $("#formEditCompany").serialize(), function (data) {
                 swal("Tudo certo!", "Empresa atualizada com sucesso!", "success");
             }).fail(function () {
