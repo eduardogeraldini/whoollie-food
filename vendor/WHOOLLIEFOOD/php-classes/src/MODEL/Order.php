@@ -8,19 +8,14 @@ use \WHOOLLIEFOOD\MODEL\Product;
 class Order {
 
 	private $idCompany;
-	private $idUser;
+	private $idDevice;
 	private $idOrder;
 	private $idBoard;
 	private $desName;
 	private $vlDiscount;
     
 	public function __construct() {
-        $this->idCompany = $_SESSION['User']['idCompany'];
-        
-        if (isset($_SESSION['User']['idUser']))
-			$this->idUser = $_SESSION['User']['idUser'];
-		else
-			$this->idUser = $_SESSION['Device']['idDevice'];
+        $this->idDevice = $_SESSION['Device']['idDevice'];
     }
 
     public function setIdCompany($value) {
@@ -31,12 +26,12 @@ class Order {
         return $this->idCompany;
     }
 
-    public function setIdUser($value) {
-        $this->idUser = $value;
+    public function setIdDevice($value) {
+        $this->idDevice = $value;
     }
 
-    public function getIdUser() {
-        return $this->idUser;
+    public function getIdDevice() {
+        return $this->idDevice;
     }
 
     public function setIdOrder($value) {
@@ -97,10 +92,10 @@ class Order {
 
         $sql = new Sql();
 
-        $idOrder = $sql->query("INSERT INTO tbOrders(idCompany, idUser, idBoard, desName)
-                    VALUES (:IDCOMPANY, :IDUSER, :IDBOARD, :DESNAME)", [
+        $idOrder = $sql->query("INSERT INTO tbOrders(idCompany, idDevice, idBoard, desName)
+                    VALUES (:IDCOMPANY, :IDDEVICE, :IDBOARD, :DESNAME)", [
                         ":IDCOMPANY"=>$this->getIdCompany(), 
-                        ":IDUSER"=>$this->getIdUser(), 
+                        ":IDDEVICE"=>$this->getIdDevice(), 
                         ":IDBOARD"=>$this->getIdBoard(), 
                         ":DESNAME"=>$this->getDesName()
                     ]);

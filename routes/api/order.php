@@ -45,7 +45,7 @@ $app->post('/api/open/order', function($request, $response, $args) {
 
 	if (!Device::verifyLogin()["login"]) {
 		User::verifyLogin();
-	}
+    }
 
     $input = $request->getParsedBody();
 
@@ -53,7 +53,7 @@ $app->post('/api/open/order', function($request, $response, $args) {
 
 	$order->setDesName($input['desName']);
 	$order->setIdBoard($input['idBoard']);    
-
+    
     echo $order->openNewOrder();
     
 });
