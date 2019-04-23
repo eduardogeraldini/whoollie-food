@@ -24,7 +24,7 @@ class Request {
         if (isset($_SESSION["Order"]))
             $this->setIdOrder($_SESSION["Order"]["id"]);
         
-        $this->setDesChannel($_SESSION["User"]["desChannel"]);
+        $this->setDesChannel($_SESSION["Device"]["desChannel"]);
 
         $this->options = array(
             'cluster' => 'us2',

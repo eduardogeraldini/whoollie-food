@@ -84,11 +84,13 @@ class Device {
 
 		$sql = new Sql();
 
-		$results = $sql->select("SELECT * FROM tbDevices 
+		$results = $sql->select("SELECT * 
+                                 FROM tbDevices a
+                                 INNER JOIN tbCompanies b ON(a.idCompany = b.idCompany) 
 								 WHERE 
-								 desLogin = :LOGIN AND 
-								 isDeleted = :ISDELETED AND 
-								 isActive = :ISACTIVE", [
+								 d.desLogin = :LOGIN AND 
+								 d.isDeleted = :ISDELETED AND 
+								 d.isActive = :ISACTIVE", [
 			":LOGIN"=>$this->getDesLogin(),
 			":ISDELETED"=>$this->getIsDeleted(),
 			":ISACTIVE"=>$this->getIsActive()
