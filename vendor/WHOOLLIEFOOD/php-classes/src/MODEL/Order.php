@@ -20,7 +20,7 @@ class Order {
         if (isset($_SESSION['User']['idUser']))
 			$this->idUser = $_SESSION['User']['idUser'];
 		else
-			$this->idUser = $_SESSION['Device']['idUser'];
+			$this->idUser = $_SESSION['Device']['idDevice'];
     }
 
     public function setIdCompany($value) {
