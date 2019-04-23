@@ -54,8 +54,10 @@ class Board {
     public function createBoard() {
         $sql = new Sql();
 		
-		/*$isCreated = $sql->numRows(" 
-				SELECT COUNT(*) FROM  tbBoards
+		
+
+		$isCreated = $sql->numRows(" 
+				SELECT * FROM  tbBoards
 				WHERE 
 					vlBoard = :VLBOARD AND
 					isDeleted = :ISDELETED AND
@@ -66,38 +68,40 @@ class Board {
 					":IDCOMPANY" => $this->getIdCompany()
 				]);
 
-		echo $isCreated." é o valor retornado";
-	
+		
+						
 		if($isCreated > 0){ //se a query retornar uma linha, quer dizer que já foi criado uma mesa nesse numero
-			echo "foi criado igual!!";
 
 			return json_encode([
 				'error' => true,
 				'message' => 'Mesa já cadastrada!',
 			]);
-		}*/
-
-		$idBoard = $sql->query("
-					INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces) 
-					VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES)", [
-					":IDCOMPANY"=>$this->getIdCompany(),
-					":VLBOARD"=>$this->getVlBoard(),
-					":QTPLACES"=>$this->getQtPlaces()
-					
-					]);
-
-	   $this->setIdBoard($idBoard);
-	   
-	   	if ($idBoard > 0) {
-			return json_encode([
-				'error' => false
+		}
+		else{
+			$idBoard = $sql->query("
+			INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces) 
+			VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES)", [
+			":IDCOMPANY"=>$this->getIdCompany(),
+			":VLBOARD"=>$this->getVlBoard(),
+			":QTPLACES"=>$this->getQtPlaces()
+			
 			]);
-	   	} else {
-			return json_encode([
-				'error' => true,
-				'message' => 'Erro ao cadastrar a mesa!',
-			]);
-	   }
+
+			$this->setIdBoard($idBoard);
+
+			if ($idBoard > 0) {
+				return json_encode([
+					'error' => false
+				]);
+			} else {
+				return json_encode([
+					'error' => true,
+					'message' => 'Erro ao cadastrar a mesa!',
+				]);
+			}
+		}
+
+
 		
     }
     
@@ -111,7 +115,7 @@ class Board {
 							 WHERE 
 							 isDeleted = :ISDELETED AND
 							 idCompany = :IDCOMPANY
-                             ORDER BY vlBoard", [
+                             ORDER BY vlBoard ASC", [
 								":ISDELETED" => 0,
 								":IDCOMPANY" => $this->getIdCompany()
 							]));

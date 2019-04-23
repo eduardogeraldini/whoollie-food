@@ -51,7 +51,7 @@ function loadBoards() {
                 $("#addBoardModal").modal("toggle");
             } else {
                 console.log(JSON.parse(data).message);
-                swal("Erro!", "Mesa não cadastrada!", "error");
+                swal("Erro!", JSON.parse(data).message, "error");
             }
             
             
