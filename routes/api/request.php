@@ -17,7 +17,7 @@ $app->post('/api/aprove/request/{id}', function($request, $response, $args) {
     
 });
 
-$app->get('/api/products/request/{id}', function($request, $response, $args) {
+/*$app->get('/api/products/request/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
     
@@ -27,7 +27,7 @@ $app->get('/api/products/request/{id}', function($request, $response, $args) {
 
     echo $request->listProductsByRequest();
     
-});
+});*/
 
 $app->get('/api/requests', function($request, $response, $args) {
 
@@ -66,7 +66,7 @@ $app->get('/api/requests/orders/{id}', function($request, $response, $args) {
     
 });
 
-/*$app->get('/api/requests/products/{id}', function($request, $response, $args) {
+$app->get('/api/requests/products/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
     
@@ -76,6 +76,6 @@ $app->get('/api/requests/orders/{id}', function($request, $response, $args) {
     
 	echo $request->listProductsInRequest();
     
-});*/
+});
 
 ?>
