@@ -19,15 +19,17 @@ class Request {
     
 	public function __construct() {
         
-        if (isset($_SESSION['User']))
+        if (isset($_SESSION['User'])) {
             $this->setIdCompany($_SESSION['User']['idCompany']);
-        
+            $this->setDesChannel($_SESSION["User"]["desChannel"]);
+        }
+
         if (isset($_SESSION["Order"]))
             $this->setIdOrder($_SESSION["Order"]["id"]);
         
         if (isset($_SESSION['Device'])) {
-            $this->setDesChannel($_SESSION["Device"]["desChannel"]);
             $this->setIdCompany($_SESSION['Device']['idCompany']);
+            $this->setDesChannel($_SESSION["Device"]["desChannel"]);
         }
 
         $this->options = array(
