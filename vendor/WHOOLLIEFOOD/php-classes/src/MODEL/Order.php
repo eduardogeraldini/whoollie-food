@@ -15,7 +15,8 @@ class Order {
 	private $vlDiscount;
     
 	public function __construct() {
-        $this->idDevice = $_SESSION['Device']['idDevice'];
+        $this->idCompany = $_SESSION['Device']['idCompany'];
+		$this->idDevice = $_SESSION['Device']['idDevice'];
     }
 
     public function setIdCompany($value) {
