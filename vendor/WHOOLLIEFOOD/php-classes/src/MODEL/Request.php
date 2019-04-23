@@ -179,8 +179,8 @@ class Request {
 
         return json_encode($sql->select("
             SELECT a.idRequestProduct, a.idRequest, a.idProduct, a.qtProduct, a.vlUnity, a.dtRegister, b.idProduct, b.desName 
-            FROM tbrequestsproducts a 
-            INNER JOIN tbproducts b 
+            FROM tbRequestsProducts a 
+            INNER JOIN tbProducts b 
             ON(a.idProduct = b.idProduct) 
             WHERE a.idRequest = :IDREQUEST", [
                 ":IDREQUEST" => $this->getIdRequest()
