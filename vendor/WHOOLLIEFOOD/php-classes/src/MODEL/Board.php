@@ -53,7 +53,30 @@ class Board {
     
     public function createBoard() {
         $sql = new Sql();
-        
+		
+		/*$isCreated = $sql->numRows(" 
+				SELECT COUNT(*) FROM  tbBoards
+				WHERE 
+					vlBoard = :VLBOARD AND
+					isDeleted = :ISDELETED AND
+					idCompany = :IDCOMPANY
+					", [
+					":VLBOARD"=>$this->getVlBoard(),
+					":ISDELETED" => 0,
+					":IDCOMPANY" => $this->getIdCompany()
+				]);
+
+		echo $isCreated." é o valor retornado";
+	
+		if($isCreated > 0){ //se a query retornar uma linha, quer dizer que já foi criado uma mesa nesse numero
+			echo "foi criado igual!!";
+
+			return json_encode([
+				'error' => true,
+				'message' => 'Mesa já cadastrada!',
+			]);
+		}*/
+
 		$idBoard = $sql->query("
 					INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces) 
 					VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES)", [

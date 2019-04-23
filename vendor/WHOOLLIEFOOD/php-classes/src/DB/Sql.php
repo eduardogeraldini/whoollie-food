@@ -82,6 +82,19 @@ class Sql {
 
 	}
 
+	/*public function numRows($rawQuery, $params = array()):array //conta o número de linhas retornadas do select
+	{
+		
+		$stmt = $this->conn->prepare($rawQuery);
+
+		$this->setParams($stmt, $params);
+
+		$stmt->execute();
+		$linhas =  $stmt->rowCount();
+		echo $linhas ." linhas";
+		return $linhas;
+	}*/
+
 }
 
  ?>
