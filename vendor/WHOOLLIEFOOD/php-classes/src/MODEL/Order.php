@@ -17,10 +17,10 @@ class Order {
 	public function __construct() {
         $this->idCompany = $_SESSION['User']['idCompany'];
         
-        if (isset($_SESSION['User']['idCompany']))
-			$this->idCompany = $_SESSION['User']['idCompany'];
+        if (isset($_SESSION['User']['idUser']))
+			$this->idUser = $_SESSION['User']['idUser'];
 		else
-			$this->idCompany = $_SESSION['Device']['idCompany'];
+			$this->idUser = $_SESSION['Device']['idUser'];
     }
 
     public function setIdCompany($value) {
