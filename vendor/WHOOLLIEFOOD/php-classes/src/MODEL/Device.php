@@ -88,9 +88,9 @@ class Device {
                                  FROM tbDevices a
                                  INNER JOIN tbCompanies b ON(a.idCompany = b.idCompany) 
 								 WHERE 
-								 d.desLogin = :LOGIN AND 
-								 d.isDeleted = :ISDELETED AND 
-								 d.isActive = :ISACTIVE", [
+								 a.desLogin = :LOGIN AND 
+								 a.isDeleted = :ISDELETED AND 
+								 a.isActive = :ISACTIVE", [
 			":LOGIN"=>$this->getDesLogin(),
 			":ISDELETED"=>$this->getIsDeleted(),
 			":ISACTIVE"=>$this->getIsActive()
