@@ -141,7 +141,8 @@ class Request {
             $sql->query("INSERT INTO tbRequestsProducts(idRequest, idProduct, qtProduct, vlUnity)
                         VALUES (:IDREQUEST, :IDPRODUCT, :QTPRODUCT, :VLUNITY)", [
                 ":IDREQUEST"=>$this->getIdRequest(),
-                ":IDPRODUCT"=>$key,
+               // ":IDPRODUCT"=>$key,
+                ":IDPRODUCT"=>$value["idProduct"],
                 ":QTPRODUCT"=>$value["qtTotal"],
                 ":VLUNITY"=>$value["vlUnity"]
             ]);
