@@ -137,7 +137,7 @@ class Order {
 
         $sql = new Sql();
 
-        $result = $sql->select("SELECT SUM(qtProduct*vlUnity) as total FROM tbRequests a INNER JOIN tbrequestsproducts b ON(a.idRequest = b.idRequest) WHERE a.idOrder = :IDORDER", [
+        $result = $sql->select("SELECT SUM(qtProduct*vlUnity) as total FROM tbRequests a INNER JOIN tbRequestsProducts b ON(a.idRequest = b.idRequest) WHERE a.idOrder = :IDORDER", [
                         ":IDORDER"=>$this->getIdOrder()
                     ]);
 
