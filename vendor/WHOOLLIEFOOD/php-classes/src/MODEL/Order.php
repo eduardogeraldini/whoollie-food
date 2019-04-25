@@ -195,7 +195,7 @@ class Order {
             FROM tbOrders a INNER JOIN tbRequests b ON(a.idOrder = b.idOrder) 
             WHERE a.isDeleted = :ISDELETED
             AND a.idCompany = :IDCOMPANY
-            ORDER BY a.idOrder ASC", [
+            ORDER BY a.dtRegister DESC", [
 				":ISDELETED" => 0,
 				":IDCOMPANY" => $this->getIdCompany()
 			]));
