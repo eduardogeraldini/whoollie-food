@@ -51,13 +51,31 @@ class Cart{
 
     }
 
-    public function addProductToCart($idProduct) {
+    public function addProductToCart($input) {
+        
+        if (!isset($this->products[$input['idProduct']])) {
+
+            for ($i=0; $i < $input['vlTotal']; $i++) { 
+                $this->products[$input['idProduct']]++;
+            }
+
+        } else {
+
+            for ($i=0; $i < $input['vlTotal']; $i++) { 
+                $this->products[$input['idProduct']]++;
+            }
+
+        }    
+
+    }
+
+   /* public function addProductToCart($idProduct) {
         if (!isset($this->products[$idProduct])) {
             $this->products[$idProduct] = 1;
         } else {
             $this->products[$idProduct]++;
         }    
-    }
+    } */
 
     public function removeProductCart($idProduct) {
         if (isset($this->products[$idProduct])) {

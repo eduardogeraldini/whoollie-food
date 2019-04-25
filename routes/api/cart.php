@@ -15,7 +15,20 @@ $app->get('/api/cart', function($request, $response, $args) {
     
 });
 
-$app->post('/api/cart/add/{idProduct}', function($request, $response, $args) {
+$app->post('/api/cart/add', function($request, $response, $args) {
+
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
+
+	$input = $request->getParsedBody();
+    
+    $cart = new Cart();
+    $cart->addProductToCart($input);
+	
+});
+
+/*$app->post('/api/cart/add/{idProduct}', function($request, $response, $args) {
 
 	if (!Device::verifyLogin()["login"]) {
 		User::verifyLogin();
@@ -24,7 +37,7 @@ $app->post('/api/cart/add/{idProduct}', function($request, $response, $args) {
     $cart = new Cart();
     $cart->addProductToCart($args['idProduct']);
 	
-});
+});*/
 
 $app->post('/api/cart/remove/{idProduct}', function($request, $response, $args) {
 
