@@ -43,7 +43,7 @@ function formValidate(idForm) {
     return !error;
 
 }
-
+ 
 function numberToShow(number) {
     var number = number.split('.');
     number[0] = number[0].split(/(?=(?:...)*$)/).join('.');
