@@ -29,6 +29,7 @@ $app->post('/api/device/edit/{id}', function($request, $response, $args) {
 	$device->setDesLogin($input["desLogin"]);
     $device->setDesPassword($input["desPassword"]);
     $device->setIsActive($input["isActive"]);
+    $device->setIdBoard($input["idBoard"]);
 
     echo $device->editDevice();
 
@@ -70,6 +71,7 @@ $app->post('/api/devices', function($request, $response, $args) {
 	$device->setDesLogin($input["desLogin"]);
 	$device->setDesPassword($input["desPassword"]);
     $device->setIsActive($input["isActive"]);
+    $device->setIdBoard($input["idBoard"]);
 
     $device->createDevice();
 	

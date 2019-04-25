@@ -1,37 +1,38 @@
 <script>
 
-$(function() {
-    loadDevices();
-});
-
-function createDevice() {
-
-    $.post("/api/devices", $("#formCreateDevice").serialize(), function (data) {
-
-        if(!JSON.parse(data).error) {
-            swal("Tudo certo!", "Dispositivo cadastrado com sucesso!", "success");
-            $("#formCreateDevice")[0].reset();
-            $("#addDeviceModal").modal("toggle");
-        } else {
-            console.log(JSON.parse(data).message);
-        }
-
-    }).then(() => {
+    $(function () {
         loadDevices();
+        loadBoardsInDevice();
     });
 
-}
+    function createDevice() {
 
-function loadDevices() {
+        $.post("/api/devices", $("#formCreateDevice").serialize(), function (data) {
 
-    $.getJSON('/api/devices', function (data) {
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Dispositivo cadastrado com sucesso!", "success");
+                $("#formCreateDevice")[0].reset();
+                $("#addDeviceModal").modal("toggle");
+            } else {
+                console.log(JSON.parse(data).message);
+            }
 
-        $("#viewDevice tbody").html("");
+        }).then(() => {
+            loadDevices();
+        });
 
-        data.forEach(element => {
+    }
+
+    function loadDevices() {
+
+        $.getJSON('/api/devices', function (data) {
+
+            $("#viewDevice tbody").html("");
+
+            data.forEach(element => {
 
 
-            $("#viewDevice tbody").append(`
+                $("#viewDevice tbody").append(`
                     <tr>
                         <td>
                             <a href="#" onclick="loadEditDeviceModal(${element.idDevice});" class="btn btn-success btn-sm btn-circle btnEditPassword">
@@ -43,61 +44,64 @@ function loadDevices() {
                         </td>
                         <td>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
                         <td>${element.desLogin}</td>
+                        <td>MESA nº ${element.vlBoard}</td>
                     </tr>
                 `);
+            });
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
         });
 
-    }).fail(function () {
-        console.log("Rota não encontrada!");
-    });
+    }
 
-}
+    function loadEditDeviceModal(idDevice) {
 
-function loadEditDeviceModal(idDevice) {
+        $.getJSON(`/api/device/${idDevice}`, function (data) {
 
-    $.getJSON(`/api/device/${idDevice}`, function (data) {
-
-        $("#editDeviceModal").modal("toggle");
-
-        $("#formEditDevice #desName").val(data[0].desName);
-        $("#formEditDevice #desLogin").val(data[0].desLogin);
-        $("#formEditDevice #desPassword").val("");
-
-        if ((data[0].isActive) == 1) {
-            $("#checkYes").prop("checked", true);
-        } else {
-            $("#checkNo").prop("checked", true);
-        }
-
-        $("#btnEditDevice").data("id", idDevice);
-
-    }).fail(function () {
-        console.log("Rota não encontrada!");
-    });
-
-}
-
-function editDevice(idDevice) {
-
-    $.post(`/api/device/edit/${idDevice}`, $("#formEditDevice").serialize(), function (data) {
-
-        if(!JSON.parse(data).error) {
-            swal("Tudo certo!", "Dispositivo editado com sucesso!", "success");
-            $("#formEditDevice")[0].reset();
             $("#editDeviceModal").modal("toggle");
-        } else {
-            console.log(JSON.parse(data).message);
-        }
 
-    }).then(() => {
-        loadDevices();
-    });
+            $("#formEditDevice #desName").val(data[0].desName);
+            $("#formEditDevice #desLogin").val(data[0].desLogin);
+            $("#formEditDevice #desPassword").val("");
 
-}
+            $("#editDeviceModal [name='idBoard']").val(data[0].idBoard);
 
-function removeDevice(idDevice) {
-    
-    swal({
+            if ((data[0].isActive) == 1) {
+                $("#checkYes").prop("checked", true);
+            } else {
+                $("#checkNo").prop("checked", true);
+            }
+
+            $("#btnEditDevice").data("id", idDevice);
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function editDevice(idDevice) {
+
+        $.post(`/api/device/edit/${idDevice}`, $("#formEditDevice").serialize(), function (data) {
+
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Dispositivo editado com sucesso!", "success");
+                $("#formEditDevice")[0].reset();
+                $("#editDeviceModal").modal("toggle");
+            } else {
+                console.log(JSON.parse(data).message);
+            }
+
+        }).then(() => {
+            loadDevices();
+        });
+
+    }
+
+    function removeDevice(idDevice) {
+
+        swal({
             title: "Você tem certeza ?",
             text: "Após deletado você não poderá mais recupera-lo!",
             icon: "warning",
@@ -118,6 +122,25 @@ function removeDevice(idDevice) {
                 swal("A ação de deletar foi cancelada!");
             }
         });
-}
+    }
+
+
+    function loadBoardsInDevice() {
+        $.getJSON('/api/boards', function (data) {
+
+            data.forEach(element => {
+                $("#formCreateDevice #idBoard").append(`
+                    <option value="${element.idBoard}"> MESA nº ${element.vlBoard}</option>
+                `);
+
+                $("#formEditDevice #idBoard").append(`
+                    <option value="${element.idBoard}"> MESA nº ${element.vlBoard}</option>
+                `);
+            });
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+    }
 
 </script>

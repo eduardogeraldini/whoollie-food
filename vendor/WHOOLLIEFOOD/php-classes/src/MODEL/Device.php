@@ -15,6 +15,7 @@ class Device {
 	private $desPassword;
 	private $isActive;
     private $isDeleted;
+    private $idBoard;
     
     public function __construct() {
         if (isset($_SESSION[Device::SESSION]))
@@ -38,6 +39,14 @@ class Device {
 
 	public function setIdCompany($idCompany) {
 		$this->idCompany = $idCompany;
+    }
+    
+    public function getIdBoard() {
+		return $this->idBoard;
+	}
+
+	public function setIdBoard($idBoard) {
+		$this->idBoard = $idBoard;
 	}
 
 	public function getDesName() {
@@ -150,13 +159,14 @@ class Device {
         
         $sql = new Sql();
 
-		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword, isActive) 
-						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD, :ISACTIVE)", [
+		$idDevice = $sql->query("INSERT INTO tbDevices(idCompany, desName, desLogin, desPassword, isActive, idBoard) 
+						    VALUES (:IDCOMPANY, :DESNAME, :DESLOGIN, :DESPASSWORD, :ISACTIVE, :IDBOARD)", [
                             ":IDCOMPANY"=>$this->getIdCompany(),
                             ":DESNAME"=>$this->getDesName(),
                             ":DESLOGIN"=>$this->getDesLogin(),
                             ":DESPASSWORD"=>$this->getDesPassword(),
-                            ":ISACTIVE"=>$this->getIsActive()
+                            ":ISACTIVE"=>$this->getIsActive(),
+                            ":IDBOARD"=>$this->getIdBoard()
         ]);
 
         $this->setIdDevice($idDevice);
@@ -193,13 +203,15 @@ class Device {
                     SET 
                     desName = :DESNAME, 
                     desLogin = :DESLOGIN,
-                    isActive = :ISACTIVE
+                    isActive = :ISACTIVE,
+                    idBoard = :IDBOARD
                     WHERE
                     idDevice = :IDDEVICE", [
                             ":IDDEVICE"=>$this->getIdDevice(),
                             ":DESNAME"=>$this->getDesName(),
                             ":DESLOGIN"=>$this->getDesLogin(),
-                            ":ISACTIVE"=>$this->getIsActive()
+                            ":ISACTIVE"=>$this->getIsActive(),
+                            ":IDBOARD"=>$this->getIdBoard()
         ]);
 		
         return json_encode([
@@ -234,9 +246,10 @@ class Device {
         $sql = new Sql();
 
         return json_encode($sql->select("SELECT *
-                             FROM tbDevices
-                             WHERE isDeleted = :ISDELETED
-                             ORDER BY desName", [
+                            FROM tbDevices a
+                            INNER JOIN tbBoards b
+                            ON (a.idBoard = b.idBoard)
+                            ORDER BY desName", [
                                  ":ISDELETED"=>$this->getIsDeleted()
                              ]));
 
