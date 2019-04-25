@@ -56,7 +56,7 @@ class Board {
 		
 		
 
-		$isCreated = $sql->numRows(" 
+		$isCreated = $sql->select(" 
 				SELECT * FROM  tbBoards
 				WHERE 
 					vlBoard = :VLBOARD AND
@@ -67,10 +67,8 @@ class Board {
 					":ISDELETED" => 0,
 					":IDCOMPANY" => $this->getIdCompany()
 				]);
-
-		
 						
-		if($isCreated > 0){ //se a query retornar uma linha, quer dizer que já foi criado uma mesa nesse numero
+		if(count($isCreated) > 0){ //se a query retornar uma linha, quer dizer que já foi criado uma mesa nesse numero
 
 			return json_encode([
 				'error' => true,
