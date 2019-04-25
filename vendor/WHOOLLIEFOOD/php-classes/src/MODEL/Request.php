@@ -161,12 +161,13 @@ class Request {
         $sql = new Sql();
 
 		return json_encode($sql->select("
-			SELECT * 
-			FROM tbRequests
-			WHERE 
-			isDeleted = :ISDELETED AND
-            idOrder = :IDORDER
-            ORDER BY dtRegister ASC", [
+        SELECT *, 
+        (SELECT SUM(vlUnity*qtProduct) FROM tbRequestsProducts WHERE idRequest = a.idRequest) as total 
+        FROM tbRequests a 
+        WHERE isDeleted = :ISDELETED AND 
+        idOrder = :IDORDER
+        ORDER BY dtRegister ASC
+        ", [
 				":ISDELETED" => 0,
                 ":IDORDER" => $this->getIdOrder()
 			]));

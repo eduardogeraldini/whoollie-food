@@ -28,14 +28,14 @@
                             <td>
                                 ${((element.vlStatus == 1) ? "<span class='badge badge-success'>CONCLUÍDO</span></td>" : "<span class='badge badge-danger'>EM ABERTO</span>")}
                             </td>
-                            <td class="priceMain" data-id="${element.idOrder}">
-                            </td>
+                            <td>R$ ${element.total}</td>
                         </tr>
                     `);
             });
 
         }).then(() => {
-            loadPricesInTable();
+
+
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
@@ -57,7 +57,7 @@
                 contentViewRequest += '<div class="float-left">';
                 contentViewRequest += 'PEDIDO Nº ' + element.idRequest;
                 contentViewRequest += '</div>';
-                contentViewRequest += '<div class="float-right priceRequest" data-id="' + element.idRequest + '">';
+                contentViewRequest += '<div class="float-right">R$ ' + element.total;
                 contentViewRequest += '</div>';
                 contentViewRequest += '</div>';
                 contentViewRequest += '<div class="card-body">';
@@ -98,7 +98,6 @@
         }).then(() => {
 
             loadRequestProducts();
-            loadPricesInRequest();
 
         }).fail(function () {
             console.log("Rota não encontrada!");
@@ -149,53 +148,6 @@
                     Não foi possível carregar os produtos!
                     </div>`
                 );
-
-            });
-
-        });
-
-    }
-
-    function loadPricesInRequest() {
-
-        $(".priceRequest").each(function (index) {
-
-            let request = $(this);
-            let price = 0;
-
-            $.getJSON(`/api/requests/products/${request.data("id")}`, function (data) {
-
-                data.forEach(element => {
-
-                    price += element.qtProduct * element.vlUnity;
-
-                });
-
-                request.append(`R$ ${price}`);
-
-            }).fail(() => {
-
-                console.log("Rota não encontrada!");
-
-            });
-
-        });
-
-    }
-
-    function loadPricesInTable() {
-
-        $(".priceMain").each(function (index) {
-
-            let priceOrder = $(this);
-
-            $.getJSON(`/api/price/order/${priceOrder.data("id")}`, function (data) {
-
-                priceOrder.append(`R$ ${data.total}`);
-
-            }).fail(() => {
-
-                console.log("Rota não encontrada!");
 
             });
 

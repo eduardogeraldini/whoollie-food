@@ -133,7 +133,7 @@ class Order {
 
     }
 
-    public function returnPriceByOrders() {
+   /* public function returnPriceByOrders() {
 
         $sql = new Sql();
 
@@ -143,7 +143,7 @@ class Order {
 
         return json_encode($result[0]);
 
-    }
+    } */
 
     public function closeOrder() {
 
@@ -190,13 +190,12 @@ class Order {
 
 		$sql = new Sql();
 
-		return json_encode($sql->select("
-			SELECT * 
-			FROM tbOrders
-			WHERE 
-			isDeleted = :ISDELETED AND
-			idCompany = :IDCOMPANY
-			ORDER BY idOrder ASC", [
+        return json_encode($sql->select("SELECT a.idOrder, a.idCompany, a.desName, a.vlDiscount, a.vlStatus, a.dtRegister, b.idRequest, 
+            (SELECT SUM(vlUnity*qtProduct) FROM tbRequestsProducts WHERE idRequest = b.idRequest) AS total 
+            FROM tbOrders a INNER JOIN tbRequests b ON(a.idOrder = b.idOrder) 
+            WHERE a.isDeleted = :ISDELETED
+            AND a.idCompany = :IDCOMPANY
+            ORDER BY a.idOrder ASC", [
 				":ISDELETED" => 0,
 				":IDCOMPANY" => $this->getIdCompany()
 			]));

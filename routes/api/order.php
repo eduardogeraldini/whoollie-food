@@ -6,7 +6,7 @@ use \WHOOLLIEFOOD\MODEL\Order;
 use \WHOOLLIEFOOD\MODEL\Device;
 
 
-$app->get('/api/price/order/{id}', function($request, $response, $args) {
+/*$app->get('/api/price/order/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
 
@@ -14,7 +14,7 @@ $app->get('/api/price/order/{id}', function($request, $response, $args) {
     $order->setIdOrder($args['id']);
 	echo $order->returnPriceByOrders();
 	
-});
+});*/
 
 //FECHAR COMANDAR POR ID
 $app->post('/api/close/order/{id}', function($request, $response, $args) {
