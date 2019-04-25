@@ -1,0 +1,172 @@
+<script>
+    $(function () {
+        $("#btnCreateIngredient").click(function (e) {
+            e.preventDefault();
+
+            if (!formValidate("formCreateIngredient")) {
+                return;
+            };
+
+            let form = $(`#formCreateIngredient`);
+            let formData = new FormData(form[0]);
+
+            $.ajax({
+                type: "POST",
+                url: '/api/ingredients',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                    if (JSON.parse(data).error) {
+                        swal("Erro!", JSON.parse(data).message, "error");
+                    } else {
+                        $('#addModal').modal('hide');
+                        swal("Tudo certo!", "Ingrediente adicionado com sucesso!", "success");
+                        loadIngredients();
+                        $(`#formCreateIngredient`).trigger("reset");
+                    }
+
+                },
+                error: function (data) {
+
+                    $(`#formCreateIngredient`).trigger("reset");
+                    console.log(`Erro! Mensagem: ${data}`);
+
+                }
+            });
+
+        });
+
+        $("#btnCancelCreateIngredient").on('click', function () {
+            $(`#formCreateIngredient`).trigger("reset");
+        });
+
+        $("#btnEditIngredient").on('click', function (e) {
+
+            e.preventDefault();
+
+            if (!formValidate("formEditIngredient")) {
+                return;
+            };
+
+            let form = $('#formEditIngredient');
+            let formData = new FormData(form[0]);
+            let idIngredient = $("#formEditIngredient").data('id');
+
+            $(form).find(':checkbox:checked, :radio:checked').each(function () {
+                formData.append(this.name, $(this).val());
+            });
+
+            $.ajax({
+                type: "POST",
+                url: `/api/ingredient/update/${idIngredient}`,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+
+                    if (JSON.parse(data).error) {
+                        swal("Erro!", JSON.parse(data).message, "error");
+                    } else {
+                        $('#editIngredientModal').modal('hide');
+                        swal("Tudo certo!", "Ingrediente editado com sucesso!", "success");
+                        loadIngredients();
+                        $(`#formEditIngredient`).trigger("reset");
+                    }
+
+                },
+                error: function (data) {
+
+                    $('#editIngredientModal').modal('hide');
+                    $(`#formEditIngredient`).trigger("reset");
+                    console.log(`Erro! Mensagem: ${data}`);
+
+                }
+            });
+
+        });
+
+        loadIngredients();
+
+    });
+
+    function loadIngredients() {
+
+        $("#viewIngredient").html("");
+
+        $.getJSON('/api/ingredients', function (data) {
+
+            data.forEach(element => {
+
+                $("#viewIngredient").append(`
+                    <tr>
+                        <th>
+                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditIngredient(${element.idIngredient});'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeIngredient(${element.idIngredient});">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </th>
+                        <th>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}</th>
+                        <th>R$ ${numberToShow(element.vlUnity)}</th>
+                    </tr>`);
+
+            });
+
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+    }
+
+    function loadEditIngredient(idIngredient) {
+
+        $.getJSON(`/api/ingredient/${idIngredient}`, function (data) {
+
+            $("#formEditIngredient").data("id", idIngredient);
+
+            $("#formEditIngredient #desName").val(data[0].desName);
+            $("#formEditIngredient #vlUnity").val(numberToShow(data[0].vlUnity));
+
+            if (data[0].isActive == 1) {
+                $("#formEditIngredient #checkYes").prop("checked", true);
+            } else {
+                $("#formEditIngredient #checkNo").prop("checked", true);
+            }
+
+        }).then(() => {
+            $("#editIngredientModal").modal();
+        }).fail(function () {
+            console.log("Rota não encontrada!");
+        });
+
+    }
+
+    function removeIngredient(idIngredient) {
+
+        swal({
+            title: "Você tem certeza ?",
+            text: "Após deletado você não poderá mais recupera-lo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+
+            if (willDelete) {
+                $.post("/api/ingredient/delete/" + idIngredient, function (data) {
+                    swal("Deletado com sucesso!", {
+                        icon: "success",
+                    });
+                    loadIngredients();
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+            } else {
+                swal("A ação de deletar foi cancelada!");
+            }
+        });
+
+    }
+    
+</script>

@@ -3,8 +3,6 @@
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Board;
 
-
-// -------------------- CRIA MESA --------------------------------------------
 $app->post('/api/boards', function($request, $response, $args) {
 
     User::verifyLogin();
@@ -22,7 +20,6 @@ $app->post('/api/boards', function($request, $response, $args) {
 	
 });
 
-// ------------------------------- LISTA MESAS -----------------------------------
 $app->get('/api/boards', function($request, $response, $args) {
 
     User::verifyLogin();
@@ -41,7 +38,6 @@ $app->get('/api/boards/{id}', function($request, $response, $args) {
 	
 });
 
-// ---------------- DELETA ------------------------
 $app->post('/api/board/delete/{id}', function($request, $response, $args) {
 	
 	User::verifyLogin();
@@ -52,8 +48,6 @@ $app->post('/api/board/delete/{id}', function($request, $response, $args) {
 	
 	
 });
-
-// ---------------- EDITA ------------------------
 
 $app->post('/api/board/edit/{id}', function($request, $response, $args) {
     

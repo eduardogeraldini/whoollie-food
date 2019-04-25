@@ -55,4 +55,8 @@
         }
     }
 
+    function valueToSave($value) {
+        return str_replace(",", ".", $value);
+    }
+
 ?>

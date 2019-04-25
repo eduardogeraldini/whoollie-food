@@ -43,9 +43,15 @@ function formValidate(idForm) {
     return !error;
 
 }
+ 
+function numberToShow(number) {
+    var number = number.split('.');
+    number[0] = number[0].split(/(?=(?:...)*$)/).join('.');
+    return number.join(',');
+}
 
 function numberToReal(number) {
-    var number = number.toFixed(2).split('.');
+    var number = number.split('.');
     number[0] = "R$ " + number[0].split(/(?=(?:...)*$)/).join('.');
     return number.join(',');
 }

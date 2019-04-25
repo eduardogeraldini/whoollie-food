@@ -128,7 +128,7 @@ class Employee{
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.idUser, a.isActive, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, c.viewEmployees, c.viewReports, c.viewConfigs 
+        return json_encode($sql->select("SELECT a.idEmployee, b.idDepartment, a.idUser, a.isActive, a.desName AS 'desNameF', b.desName AS 'desNameD', c.viewProducts, c.viewOrders, viewBoards, viewMonitor, viewDevices, viewIngredients, c.viewEmployees, c.viewReports, c.viewConfigs 
             FROM tbEmployees a 
             INNER JOIN tbDepartments b ON (a.idDepartment = b.idDepartment) 
             INNER JOIN tbPrivileges c ON (a.idEmployee = c.idEmployee) 
@@ -198,7 +198,7 @@ class Employee{
     
     } 
 
-    public static function verifyPrivileges($module){
+    public static function verifyPrivileges($module) {
 
         $sql = new Sql();
         $employee = new Employee();
@@ -213,37 +213,73 @@ class Employee{
         $data = $results[0];
 
         switch ($module) {
-        case 'products':
-            if($data["viewProducts"] == 0){
+
+            case 'products':
+                if($data["viewProducts"] == 0){
+                    return false;
+                }
+                else {
+                    return true;
+                }  
+                
+            case 'orders':
+                if($data["viewOrders"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }   
+
+            case 'boards':
+                if($data["viewBoards"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }    
+
+            case 'monitor':
+                if($data["viewMonitor"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }   
+
+            case 'devices':
+                if($data["viewDevices"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }  
+
+            case 'ingredients':
+                if($data["viewIngredients"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }    
+
+            case 'employees':
+                if($data["viewEmployees"] == 0){
+                    return false;
+                } else {
+                    return true;
+                } 
+
+            case 'reports':
+                if($data["viewReports"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }   
+
+            case 'configs':
+                if($data["viewConfigs"] == 0){
+                    return false;
+                } else {
+                    return true;
+                }  
+
+            default:
                 return false;
-            }
-            else {
-                return true;
-            }  
-        case 'orders':
-            if($data["viewOrders"] == 0){
-                return false;
-            } else {
-                return true;
-            }              
-        case 'employees':
-            if($data["viewEmployees"] == 0){
-                return false;
-            } else {
-                return true;
-            } 
-        case 'reports':
-            if($data["viewReports"] == 0){
-                return false;
-            } else {
-                return true;
-            }   
-        case 'configs':
-            if($data["viewConfigs"] == 0){
-                return false;
-            } else {
-                return true;
-            }                                                        
 
         }
 
