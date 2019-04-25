@@ -1,0 +1,149 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h4 mb-4 text-gray-800">Lista de Ingredientes <button type="button" class="btn btn-success float-right"
+        data-toggle="modal" data-target="#addModal">Adicionar Ingrediente</button></h1>
+    <p>Permite você visualizar, buscar e gerenciar seus ingredientes de forma simples.</p>
+
+    <div class="row">
+      <div class="col">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Ingredientes</h6>
+          </div>
+          <div class="card-body">
+  
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ações</th>
+                        <th>Nome do Ingrediente</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody id="viewIngredient">
+                    
+                </tbody>
+            </table>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  </div>
+  <!-- /.container-fluid -->
+  
+  </div>
+  <!-- End of Main Content -->
+  
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Adicionar novo ingrediente</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formCreateIngredient">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nome:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Lanche - Whoollie FooD" name="desName"
+                  data-require="true">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Valor Unitário:</label>
+              <div class="col-sm-10">
+                <input type="money" class="form-control" placeholder="R$ 25,00" name="vlUnity" data-require="true">
+              </div>
+            </div>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Ativo ?</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isActive" value="1" checked>
+                    <label class="form-check-label">
+                      Sim
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isActive" value="0">
+                    <label class="form-check-label">
+                      Não
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" id="btnCancelCreateIngredient">Cancelar</button>
+          <button type="submit" class="btn btn-success" id="btnCreateIngredient">Cadastrar!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="editIngredientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar ingrediente</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditIngredient">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nome:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Lanche - Whoollie FooD" name="desName" id="desName"
+                  data-require="true">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Valor Unitário:</label>
+              <div class="col-sm-10">
+                <input type="money" class="form-control" placeholder="R$ 25,00" name="vlUnity" id="vlUnity"
+                  data-require="true">
+              </div>
+            </div>
+            <fieldset class="form-group">
+              <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Ativo ?</legend>
+                <div class="col-sm-10">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isActive" id="checkYes" value="1" checked>
+                    <label class="form-check-label">
+                      Sim
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="isActive" id="checkNo" value="0">
+                    <label class="form-check-label">
+                      Não
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal" id="btnCancelEditIngredient">Cancelar</button>
+          <button type="submit" class="btn btn-success" id="btnEditIngredient">Editar!</button>
+        </div>
+      </div>
+    </div>
+  </div>
