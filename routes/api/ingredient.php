@@ -26,7 +26,6 @@ $app->post('/api/add/ingredient/product', function($request, $response, $args) {
 	$ingredient->setIdIngredient($input["idIngredient"]);  
 	$ingredient->setIdProduct($input["idProduct"]);  
 	$ingredient->setQtIngredient($input["qtIngredient"]);  
-	$ingredient->setIdMeasurement($input["idMeasurement"]);  
 	echo $ingredient->addIngredientToProduct();
 	
 });
@@ -81,7 +80,7 @@ $app->post('/api/ingredient/update/{id}', function($request, $response, $args) {
 
     $ingredient->setIdIngredient($args['id']);
 	$ingredient->setDesName($input['desName']);
-	$ingredient->setVlUnity($input['vlUnity']);
+	$ingredient->setIdMeasurement($input['idMeasurement']);
 	$ingredient->setIsActive($input['isActive']);
 
 	echo $ingredient->editIngredient();
@@ -110,7 +109,7 @@ $app->post('/api/ingredients', function($request, $response, $args) {
 	$ingredient = new Ingredient();
 
 	$ingredient->setDesName($input['desName']);
-	$ingredient->setVlUnity($input['vlUnity']);
+	$ingredient->setIdMeasurement($input['idMeasurement']);
 	$ingredient->setIsActive($input['isActive']);
 
 	echo $ingredient->createIngredient();

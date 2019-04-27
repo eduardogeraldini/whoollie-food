@@ -299,12 +299,12 @@
           <form id="formDataIngredient">
             <div class="form-group">
               <label for="qtIngredient">Quantidade</label>
-              <input type="number" class="form-control" name="qtIngredient" id="qtIngredient" />
-            </div>
-            <div class="form-group">
-              <label for="qtIngredient">Unidade de medida</label>
-              <select class="form-control" id="idMeasurement" name="idMeasurement">
-              </select>
+              <div class="input-group mb-3">
+                <input type="number" class="form-control" name="qtIngredient" id="qtIngredient" aria-describedby="desShort"/>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="desShort"></span>
+                </div>
+              </div>
             </div>
             <input type="hidden" name="idProduct" id="idProduct">
             <input type="hidden" name="idIngredient" id="idIngredient">

@@ -190,7 +190,7 @@ class Device {
 
         $sql = new Sql();
 
-        if ($this->getDesPassword() != "") {
+        if ($this->getDesPassword() != sha1("")) {
             $sql->query("UPDATE tbDevices
                         SET 
                         desPassword = :DESPASSWORD

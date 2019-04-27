@@ -108,12 +108,13 @@ class Ingredient {
 		$sql = new Sql();
 		
 		return json_encode($sql->select("
-				SELECT * 
-				FROM tbIngredients
+				SELECT i.*, m.desName AS 'desShort' 
+				FROM tbIngredients i
+				INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
 				WHERE 
-				isDeleted = :ISDELETED AND
-				idCompany = :IDCOMPANY
-				ORDER BY desName ASC", [
+				i.isDeleted = :ISDELETED AND
+				i.idCompany = :IDCOMPANY
+				ORDER BY i.desName ASC", [
 					":ISDELETED" => $this->getIsDeleted(),
 					":IDCOMPANY" => $this->getIdCompany()
 			]));
@@ -124,7 +125,11 @@ class Ingredient {
 
 			$sql = new Sql();
 
-			return json_encode($sql->select("SELECT * FROM tbIngredients WHERE idIngredient = :IDINGREDIENT",[
+			return json_encode($sql->select("
+								SELECT i.*, m.desName AS 'desShort' 
+								FROM tbIngredients i
+								INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
+								WHERE i.idIngredient = :IDINGREDIENT",[
 					':IDINGREDIENT' => $this->getIdIngredient()
 			]));
 
@@ -134,13 +139,13 @@ class Ingredient {
 
 		$sql = new Sql();
 
-		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getIdCompany() != ""){
+		if($this->getDesName() != "" && $this->getIdCompany() != ""){
 
-			$sql->query("INSERT INTO tbIngredients(idCompany, desName, vlUnity, isActive) 
-						VALUES (:IDCOMPANY, :DESNAME, :VLUNITY, :ISACTIVE)", [
+			$sql->query("INSERT INTO tbIngredients(idCompany, idMeasurement, desName, isActive) 
+						VALUES (:IDCOMPANY, :IDMEASUREMENT, :DESNAME, :ISACTIVE)", [
                     ":IDCOMPANY"=>$this->getIdCompany(),
 					":DESNAME"=>$this->getDesName(),
-					":VLUNITY"=>$this->getVlUnity(),
+					":IDMEASUREMENT"=>$this->getIdMeasurement(),
 					":ISACTIVE"=>$this->getIsActive()
                 ]);
 
@@ -161,19 +166,19 @@ class Ingredient {
 
 		$sql = new Sql();
 		
-		if($this->getDesName() != "" && $this->getVlUnity() != "" && $this->getIdCompany() != ""){
+		if($this->getDesName() != "" && $this->getIdCompany() != ""){
 
 			$sql->query("UPDATE tbIngredients SET
 							desName = :DESNAME, 
-                            vlUnity = :VLUNITY,
 							isActive = :ISACTIVE, 
+							idMeasurement = :IDMEASUREMENT,
 							idCompany = :IDCOMPANY
 						 WHERE
                          idIngredient = :IDINGREDIENT", [
 					":DESNAME"=>$this->getDesName(),
-					":VLUNITY"=>$this->getVlUnity(),
 					":ISACTIVE"=>$this->getIsActive(),
 					":IDCOMPANY"=>$this->getIdCompany(),
+					":IDMEASUREMENT"=>$this->getIdMeasurement(),
 					":IDINGREDIENT"=>$this->getIdIngredient()
                 ]);
 
@@ -211,8 +216,9 @@ class Ingredient {
 		$sql = new Sql();
 
 		return json_encode($sql->select("
-			SELECT * 
+			SELECT i.*, m.desName AS 'desShort' 
 			FROM tbIngredients i
+			INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
 			WHERE
 			i.idCompany = :IDCOMPANY AND
 			i.isDeleted = :ISDELETED AND
@@ -238,7 +244,7 @@ class Ingredient {
 			SELECT i.*, ip.idIngredientProduct, ip.qtIngredient, ip.idProduct, m.desName AS 'desShort'
 			FROM tbIngredients i
 			INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
-			INNER JOIN tbMeasurements m ON (ip.idMeasurement = m.idMeasurement)
+			INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
 			WHERE
 			i.idCompany = :IDCOMPANY AND
 			i.isDeleted = :ISDELETED AND
@@ -247,7 +253,8 @@ class Ingredient {
 				FROM tbIngredientsProducts
 				WHERE 
 				idProduct = :IDPRODUCT
-			)
+			) AND
+			ip.idProduct = :IDPRODUCT
 		", [
 			":IDPRODUCT"=>$this->getIdProduct(),
 			":ISDELETED"=>$this->getIsDeleted(),
@@ -260,11 +267,10 @@ class Ingredient {
 
 		$sql = new Sql();
 
-        $sql->query("INSERT INTO tbIngredientsProducts(idProduct, idIngredient, idMeasurement, qtIngredient) 
-                            VALUES(:IDPRODUCT, :IDINGREDIENT, :IDMEASUREMENT, :QTINGREDIENT);", [
+        $sql->query("INSERT INTO tbIngredientsProducts(idProduct, idIngredient, qtIngredient) 
+                            VALUES(:IDPRODUCT, :IDINGREDIENT, :QTINGREDIENT);", [
                 ":IDPRODUCT"=>$this->getIdProduct(),
                 ":IDINGREDIENT"=>$this->getIdIngredient(),
-				":IDMEASUREMENT"=>$this->getIdMeasurement(),
 				":QTINGREDIENT"=>$this->getQtIngredient()               
 		]);
 			
