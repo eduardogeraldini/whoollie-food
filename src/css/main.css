@@ -92,5 +92,8 @@
     }
 }
 
+table {
+    white-space: nowrap;
+}
 
 
