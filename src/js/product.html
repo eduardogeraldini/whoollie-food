@@ -163,20 +163,8 @@
 
         loadProducts();
         loadCategoriesProducts();
-        loadMeasurements();
 
     });
-
-    function loadMeasurements() {
-
-        $.getJSON('/api/measurements', function (data) {
-            data.forEach(element => {
-                $("#idMeasurement").append(`<option value="${element.idMeasurement}">${element.desName}</option>`);
-            });
-        });
-        
-
-    }
 
     function loadProducts() {
 
@@ -222,10 +210,11 @@
         });
     }   
 
-    function addIngredientToProductModal(idProduct, idIngredient) {
+    function addIngredientToProductModal(idProduct, idIngredient, desShort) {
 
         $("#idProduct").val(idProduct);
         $("#idIngredient").val(idIngredient);
+        $("#desShort").html(desShort);
 
         $("#addInformationIngredientProductModal").modal("toggle");
 
@@ -296,7 +285,7 @@
                 $("#unrelatedIngredients").append(`
                     <tr>
                         <td>${element.desName}</td>
-                        <td><button class="btn btn-success btn-sm btn-circle" onclick="addIngredientToProductModal(${idProduct}, ${element.idIngredient});"><i class="fa fa-plus"></i></button></td>
+                        <td><button class="btn btn-success btn-sm btn-circle" onclick="addIngredientToProductModal(${idProduct}, ${element.idIngredient}, '${element.desShort}');"><i class="fa fa-plus"></i></button></td>
                     </tr>
                 `);
             });

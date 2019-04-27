@@ -88,6 +88,7 @@
         });
 
         loadIngredients();
+        loadMeasurements();
 
     });
 
@@ -110,7 +111,7 @@
                             </a>
                         </th>
                         <th>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}</th>
-                        <th>R$ ${numberToShow(element.vlUnity)}</th>
+                        <th>${element.desShort}</th>
                     </tr>`);
 
             });
@@ -128,6 +129,7 @@
 
             $("#formEditIngredient #desName").val(data[0].desName);
             $("#formEditIngredient #vlUnity").val(numberToShow(data[0].vlUnity));
+            $("#formEditIngredient #idMeasurement").val(data[0].idMeasurement);
 
             if (data[0].isActive == 1) {
                 $("#formEditIngredient #checkYes").prop("checked", true);
@@ -165,6 +167,18 @@
             } else {
                 swal("A ação de deletar foi cancelada!");
             }
+        });
+
+    }
+
+    function loadMeasurements() {
+
+        $(".idMeasurement").html("");
+
+        $.getJSON('/api/measurements', function (data) {
+            data.forEach(element => {
+                $(".idMeasurement").append(`<option value="${element.idMeasurement}">${element.desName}</option>`);
+            });
         });
 
     }

@@ -4,6 +4,7 @@ namespace WHOOLLIEFOOD\MODEL;
 
 use \WHOOLLIEFOOD\DB\Sql;
 use \WHOOLLIEFOOD\MODEL\Product;
+use \PUSHER\Pusher;
 
 class Order {
 
@@ -12,16 +13,35 @@ class Order {
 	private $idOrder;
 	private $idBoard;
 	private $desName;
-	private $vlDiscount;
+    private $vlDiscount;
+    
+    private $options;
+	private $pusher;
+	private $desChannel;
     
 	public function __construct() {
         if(isset($_SESSION['Device'])){
             $this->idCompany = $_SESSION['Device']['idCompany'];
             $this->idDevice = $_SESSION['Device']['idDevice'];
             $this->idBoard = $_SESSION['Device']['idBoard'];
+
+            $this->setIdCompany($_SESSION['Device']['idCompany']);
+            $this->setDesChannel($_SESSION["Device"]["desChannel"]);
         } else {
             $this->idCompany = $_SESSION['User']['idCompany'];
         }
+
+        $this->options = array(
+            'cluster' => 'us2',
+            'useTLS' => true
+        );
+
+        $this->pusher = new Pusher(
+            '7a6218b4df87abcc1c7c',
+            '6a18bec5a755ce4407a2',
+            '746032',
+            $this->options
+        );
         
     }
 
@@ -31,6 +51,14 @@ class Order {
 
     public function getIdCompany() {
         return $this->idCompany;
+    }
+
+    public function setDesChannel($value) {
+        $this->desChannel = $value;
+    }
+
+    public function getDesChannel() {
+        return $this->desChannel;
     }
 
     public function setIdDevice($value) {
@@ -86,7 +114,10 @@ class Order {
 
         if (isset($_SESSION["Order"]["id"])) {
             if ($_SESSION["Order"]["id"] != "")
-                return ["open" => true];
+                return [
+                    "open" => true,
+                    "id" => (int) $_SESSION["Order"]["id"]
+                ];
             else
                 return ["open" => false];
         } else { 
@@ -134,18 +165,6 @@ class Order {
 
     }
 
-   /* public function returnPriceByOrders() {
-
-        $sql = new Sql();
-
-        $result = $sql->select("SELECT SUM(qtProduct*vlUnity) as total FROM tbRequests a INNER JOIN tbRequestsProducts b ON(a.idRequest = b.idRequest) WHERE a.idOrder = :IDORDER", [
-                        ":IDORDER"=>$this->getIdOrder()
-                    ]);
-
-        return json_encode($result[0]);
-
-    } */
-
     public function closeOrder() {
 
         $sql = new Sql();
@@ -161,6 +180,9 @@ class Order {
                         ]);
 
             $this->setIdOrder("");
+
+            $data['message'] = 'Comanda finalizada!';
+            $this->pusher->trigger($this->getDesChannel(), 'close-order-id-'.$this->getIdOrder(), $data);
 
             return json_encode([
 				'error' => false
