@@ -247,7 +247,8 @@ class Ingredient {
 				FROM tbIngredientsProducts
 				WHERE 
 				idProduct = :IDPRODUCT
-			)
+			) AND
+			ip.idProduct = :IDPRODUCT
 		", [
 			":IDPRODUCT"=>$this->getIdProduct(),
 			":ISDELETED"=>$this->getIsDeleted(),
