@@ -235,3 +235,87 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="addIngredientsProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Adicionar Ingredientes ao produto</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Ingrediente</th>
+                  <th style="width: 10%">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="unrelatedIngredients">
+
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Ingrediente</th>
+                  <th style="width: 20%">U. Medida</th>
+                  <th style="width: 10%">Ação</th>
+                </tr>
+              </thead>
+              <tbody id="relatedIngredients">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal" id="btnCancelEditProduct">Cancelar</button>
+        <button type="submit" class="btn btn-success" id="btnAddIngredientsProduct">Salvar!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-sm" id="addInformationIngredientProductModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Informe os valores</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="container text-center">
+          <form id="formDataIngredient">
+            <div class="form-group">
+              <label for="qtIngredient">Quantidade</label>
+              <input type="number" class="form-control" name="qtIngredient" id="qtIngredient" />
+            </div>
+            <div class="form-group">
+              <label for="qtIngredient">Unidade de medida</label>
+              <select class="form-control" id="idMeasurement" name="idMeasurement">
+              </select>
+            </div>
+            <input type="hidden" name="idProduct" id="idProduct">
+            <input type="hidden" name="idIngredient" id="idIngredient">
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal" id="btnCancelEditProduct">Cancelar</button>
+        <button type="submit" class="btn btn-success" onclick="addIngredientToProduct();">Inserir!</button>
+      </div>
+    </div>
+  </div>
+</div>
