@@ -4,7 +4,7 @@
         $(document).on('show.bs.modal', '.modal', function (event) {
             var zIndex = 1040 + (10 * $('.modal:visible').length);
             $(this).css('z-index', zIndex);
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
             }, 0);
         });
@@ -174,7 +174,7 @@
                 $("#idMeasurement").append(`<option value="${element.idMeasurement}">${element.desName}</option>`);
             });
         });
-        
+
 
     }
 
@@ -183,6 +183,18 @@
         $("#viewProduct").html("");
 
         $.getJSON('/api/products', function (data) {
+
+
+            if (data.length <= 0) {
+
+                $("#viewProduct").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem produtos!</h4>
+                    <p>Não encontramos produtos cadastrados! Você pode cadastrar um produto clicando no botão 'Adicionar Produto'.</p>
+                </div>`
+                );
+
+            }
 
             data.forEach(element => {
 
@@ -220,7 +232,7 @@
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
-    }   
+    }
 
     function addIngredientToProductModal(idProduct, idIngredient) {
 
@@ -263,8 +275,8 @@
     }
 
     function removeIngredientByProduct(idIngredientProduct, idProduct) {
-        
-        $.post(`/api/remove/ingredient/product`, {idIngredientProduct}, function (data) {
+
+        $.post(`/api/remove/ingredient/product`, { idIngredientProduct }, function (data) {
 
             if (!JSON.parse(data).error) {
                 swal("Tudo certo!", "Ingrediente removido com sucesso!", "success");

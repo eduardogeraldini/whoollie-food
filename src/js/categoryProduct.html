@@ -21,6 +21,17 @@
 
         $.getJSON('/api/categories/products', function (data) {
 
+            if (data.length <= 0) {
+
+                $("#viewCategoriesProducts").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem categorias!</h4>
+                    <p>Não encontramos categorias cadastradas para produtos! Você pode cadastrar uma categoria clicando no botão 'Autorizar Categoria'.</p>
+                </div>`
+                );
+
+            }
+
             data.forEach(element => {
 
                 $("#viewCategoriesProducts tbody").append(`
@@ -123,7 +134,7 @@
 
             let form = $('#formEditCategories');
             let formData = new FormData(form[0]);
-            
+
             $(form).find(':checkbox:checked, :radio:checked').each(function () {
                 formData.append(this.name, $(this).val());
             });

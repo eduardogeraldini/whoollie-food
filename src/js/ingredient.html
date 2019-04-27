@@ -97,6 +97,18 @@
 
         $.getJSON('/api/ingredients', function (data) {
 
+
+            if (data.length <= 0) {
+
+                $("#viewIngredientCard").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem produtos!</h4>
+                    <p>Não encontramos ingredientes cadastrados! Você pode cadastrar um ingredientes clicando no botão 'Adicionar Ingrediente'.</p>
+                </div>`
+                );
+
+            }
+
             data.forEach(element => {
 
                 $("#viewIngredient").append(`
@@ -168,5 +180,5 @@
         });
 
     }
-    
+
 </script>

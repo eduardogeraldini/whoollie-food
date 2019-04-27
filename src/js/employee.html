@@ -27,6 +27,17 @@
 
         $.getJSON('/api/employees', function (data) {
 
+            if (data.length <= 0) {
+
+                $("#viewEmployees").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem funcionários!</h4>
+                    <p>Não encontramos funcionários cadastrados! Você pode cadastrar/autorizar um funcionários clicando no botão 'Autorizar Funcionário'.</p>
+                </div>`
+                );
+
+            }
+
             data.forEach(element => {
 
                 $("#viewEmployees tbody").append(`
@@ -45,8 +56,8 @@
                             <td>${element.desNameF} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
                             <td>${element.desNameD}</td>
                             ${((element.idEmployee == $("#spanCompanyName").data("id")) ?
-                            //SE ID FOR O MESMO DO USUARIO LOGADO - DESABILITA OS CHECKS
-                            `<td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts" disabled/></td>
+                        //SE ID FOR O MESMO DO USUARIO LOGADO - DESABILITA OS CHECKS
+                        `<td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts" disabled/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewOrders}" data-name="viewOrders" disabled/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewBoards}" data-name="viewBoards" disabled/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewMonitor}" data-name="viewMonitor" disabled/></td>
@@ -55,8 +66,8 @@
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewEmployees}" data-name="viewEmployees" disabled/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewReports}" data-name="viewReports" disabled/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewConfigs}" data-name="viewConfigs" disabled/></td>` :
-                            //SE ID FOR O MESMO DO USUARIO LOGADO - HABILITA OS CHECKS
-                            `<td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts"/></td>
+                        //SE ID FOR O MESMO DO USUARIO LOGADO - HABILITA OS CHECKS
+                        `<td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewProducts}" data-name="viewProducts"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewOrders}" data-name="viewOrders"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewBoards}" data-name="viewBoards"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewMonitor}" data-name="viewMonitor"/></td>
@@ -65,7 +76,7 @@
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewEmployees}" data-name="viewEmployees"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewReports}" data-name="viewReports"/></td>
                             <td><input type="checkbox" class="js-switch checks" data-id="${element.idEmployee}" value="${element.viewConfigs}" data-name="viewConfigs"/></td>`
-                            )}
+                    )}
                         </tr>
                     `);
             });

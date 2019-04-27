@@ -39,6 +39,8 @@ class User{
 
 			$_SESSION[User::SESSION] = $data;
 
+			$_SESSION['Device'] = NULL;
+
 			return json_encode([
                 'login' => true,
                 'message' => 'Logado com sucesso!',

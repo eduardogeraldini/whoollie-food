@@ -118,7 +118,9 @@ class Device {
 
 		if($this->getDesPassword() == $data["desPassword"]){
 
-			$_SESSION[Device::SESSION] = $data;
+            $_SESSION[Device::SESSION] = $data;
+            
+            $_SESSION[User::SESSION] = NULL;
 
 			return json_encode([
                 'login' => true,
@@ -248,9 +250,10 @@ class Device {
         return json_encode($sql->select("SELECT *
                             FROM tbDevices a
                             INNER JOIN tbBoards b
-                            ON (a.idBoard = b.idBoard)
-                            ORDER BY desName", [
-                                 ":ISDELETED"=>$this->getIsDeleted()
+                            ON (a.idBoard = b.idBoard) 
+                            WHERE a.isDeleted = :ISDELETED
+                            ORDER BY a.desName", [
+                                 ":ISDELETED"=> $this->getIsDeleted()
                              ]));
 
     }

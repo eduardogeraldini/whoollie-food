@@ -1,18 +1,30 @@
 <script>
 
 
-$(function () {
-           
-            loadBoards();
-            
-});
+    $(function () {
 
-    
-function loadBoards() {
-    $("#viewBoard").html("");
-    $.getJSON('/api/boards', function (data) {
-        data.forEach(element => {
-            $("#viewBoard").append(`<div class="col-sm-3 mb-2">
+        loadBoards();
+
+    });
+
+
+    function loadBoards() {
+        $("#viewBoard").html("");
+        $.getJSON('/api/boards', function (data) {
+
+            if (data.length <= 0) {
+
+                $("#viewBoard").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem mesas!</h4>
+                    <p>Não encontramos mesas cadastradas! Você pode cadastrar uma mesa clicando no botão 'Adicionar Mesa'.</p>
+                </div>`
+                );
+
+            }
+
+            data.forEach(element => {
+                $("#viewBoard").append(`<div class="col-sm-3 mb-2">
                 <div class="card shadow">
                     
                     <div class="card-body">
@@ -31,21 +43,21 @@ function loadBoards() {
                 
                 </div>
                 </div>`);
+            });
+        }).fail(function () {
+            console.log("Rota não encontrada!");
         });
-    }).fail(function () {
-        console.log("Rota não encontrada!");
-    });
-}
-    
+    }
+
     // ---------------------------- Cria mesas ----------------------------------------------------
     function createBoard() {
 
         if (!formValidate("formCreateBoard")) {  //testa se todos os campos forma preenchidos
-                return;
-            };
+            return;
+        };
 
         $.post("/api/boards", $("#formCreateBoard").serialize(), function (data) {
-            if(!JSON.parse(data).error) {
+            if (!JSON.parse(data).error) {
                 swal("Tudo certo!", "Mesa cadastrada com sucesso!", "success");
                 $("#formCreateBoard")[0].reset();
                 $("#addBoardModal").modal("toggle");
@@ -53,32 +65,32 @@ function loadBoards() {
                 console.log(JSON.parse(data).message);
                 swal("Erro!", JSON.parse(data).message, "error");
             }
-            
-            
+
+
         }).then(() => {
             loadBoards();
         });
     }
 
     $("#btnCancelCreateBoard").on('click', function () {
-            $(`#formCreateBoard`).trigger("reset");
+        $(`#formCreateBoard`).trigger("reset");
     });
 
     /*--------------------------------------abre formulario Editar Mesa ------------------------------*/
     function loadEditBoardModal(idBoard) {
-        
+
         $.getJSON(`/api/boards/${idBoard}`, function (data) {
 
             $("#editBoardModal").modal("toggle");
 
             $("#formEditBoard #vlBoard").val(data[0].vlBoard);
             $("#formEditBoard #qtPlaces").val(data[0].qtPlaces);
-           
-           /* if ((data[0].isActive) == 1) {
-                $("#checkYes").prop("checked", true);
-            } else {
-                $("#checkNo").prop("checked", true);
-            }*/
+
+            /* if ((data[0].isActive) == 1) {
+                 $("#checkYes").prop("checked", true);
+             } else {
+                 $("#checkNo").prop("checked", true);
+             }*/
 
 
             $("#btnEditBoard").data("id", idBoard);
@@ -90,52 +102,52 @@ function loadBoards() {
     }
 
     /*-------------------------- Editar Mesa ----------------------------*/
-function editBoard(idBoard) {
+    function editBoard(idBoard) {
 
-    if (!formValidate("formEditBoard")) {  //testa se todos os campos forma preenchidos
-                return;
-            };
+        if (!formValidate("formEditBoard")) {  //testa se todos os campos forma preenchidos
+            return;
+        };
 
-    $.post(`/api/board/edit/${idBoard}`, $("#formEditBoard").serialize(), function (data) {
+        $.post(`/api/board/edit/${idBoard}`, $("#formEditBoard").serialize(), function (data) {
 
-        if(!JSON.parse(data).error) {
-            swal("Tudo certo!", "Mesa editada com sucesso!", "success");
-            $("#formEditBoard")[0].reset();
-            $("#editBoardModal").modal("toggle");
-        } else {
-            console.log(JSON.parse(data).message);
-        }
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Mesa editada com sucesso!", "success");
+                $("#formEditBoard")[0].reset();
+                $("#editBoardModal").modal("toggle");
+            } else {
+                console.log(JSON.parse(data).message);
+            }
 
-    }).then(() => {
-        loadBoards();
-    });
-
-}
-
-
-
-// ------------------------- Deleta Mesa -------------------
-function removeBoard(idBoard) {
-swal({
-    title: "Você tem certeza ?",
-    text: "Após deletado você não poderá mais recupera-lo!",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-}).then((willDelete) => {
-    if (willDelete) {
-        $.post("/api/board/delete/" + idBoard, function (data) {
-            swal("Deletado com sucesso!", {
-                icon: "success",
-            });
+        }).then(() => {
             loadBoards();
-        }).fail(function () {
-            console.log("Rota não encontrada!");
         });
-    } else {
-        swal("A ação de deletar foi cancelada!");
+
     }
-});
-}
-    
+
+
+
+    // ------------------------- Deleta Mesa -------------------
+    function removeBoard(idBoard) {
+        swal({
+            title: "Você tem certeza ?",
+            text: "Após deletado você não poderá mais recupera-lo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.post("/api/board/delete/" + idBoard, function (data) {
+                    swal("Deletado com sucesso!", {
+                        icon: "success",
+                    });
+                    loadBoards();
+                }).fail(function () {
+                    console.log("Rota não encontrada!");
+                });
+            } else {
+                swal("A ação de deletar foi cancelada!");
+            }
+        });
+    }
+
 </script>

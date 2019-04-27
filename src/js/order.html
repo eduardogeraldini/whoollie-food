@@ -11,6 +11,17 @@
 
             $("#viewOrders tbody").html("");
 
+            if (data.length <= 0) {
+
+                $("#viewOrders").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem comandas!</h4>
+                    <p>Não encontramos comandas cadastradas! Espere novas comandas serem criadas/abertas.</p>
+                </div>`
+                );
+
+            }
+
             data.forEach(element => {
 
                 $("#viewOrders tbody").append(`

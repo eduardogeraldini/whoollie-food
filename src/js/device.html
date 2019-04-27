@@ -29,8 +29,18 @@
 
             $("#viewDevice tbody").html("");
 
-            data.forEach(element => {
+            if(data.length <= 0){
 
+                $("#viewDevice").html(`
+                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                    <h4 class="alert-heading">Ops, sem dispositivos!</h4>
+                    <p>Não encontramos dispositivos cadastrados! Você pode cadastrar um dispositivo clicando no botão 'Adicionar Dispositivo'.</p>
+                </div>`
+                );
+
+            }
+
+            data.forEach(element => {
 
                 $("#viewDevice tbody").append(`
                     <tr>
