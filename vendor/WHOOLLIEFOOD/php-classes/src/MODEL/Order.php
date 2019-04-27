@@ -24,9 +24,7 @@ class Order {
             $this->idCompany = $_SESSION['Device']['idCompany'];
             $this->idDevice = $_SESSION['Device']['idDevice'];
             $this->idBoard = $_SESSION['Device']['idBoard'];
-
-            //$this->setIdCompany($_SESSION['Device']['idCompany']);
-            //$this->setDesChannel($_SESSION["Device"]["desChannel"]);
+            $this->desChannel = $_SESSION["Device"]['desChannel'];
         } else {
             $this->idCompany = $_SESSION['User']['idCompany'];
         }
