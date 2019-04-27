@@ -290,6 +290,8 @@
         $("#relatedIngredients").html("");
 
         $.getJSON(`/api/unrelated/ingredients/product/${idProduct}`, function (data) {
+            $("#unrelatedIngredients").html("");
+
             data.forEach(element => {
                 $("#unrelatedIngredients").append(`
                     <tr>
@@ -301,6 +303,8 @@
         });
 
         $.getJSON(`/api/related/ingredients/product/${idProduct}`, function (data) {
+            $("#relatedIngredients").html("");
+
             data.forEach(element => {
                 $("#relatedIngredients").append(`
                     <tr>
