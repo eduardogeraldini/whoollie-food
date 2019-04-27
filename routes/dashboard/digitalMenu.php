@@ -7,7 +7,7 @@ $app->get('/cardapio-digital', function($request, $response, $args) {
 
     User::verifyLogin(false);
     
-    if(Employee::verifyPrivileges("products")){
+    if(Employee::verifyPrivileges("monitor")){
         renderPage("digitalMenu", "digitalMenu", false, "digitalMenu");
     } else {
         renderPage("errors", "errorPrivileges", false);
