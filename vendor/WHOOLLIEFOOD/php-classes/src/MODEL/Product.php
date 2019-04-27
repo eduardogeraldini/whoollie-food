@@ -254,7 +254,7 @@ class Product{
 				SELECT i.*, ip.idIngredientProduct, ip.qtIngredient, ip.idProduct, m.desName AS 'desShort'
 				FROM tbIngredients i
 				INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
-				INNER JOIN tbMeasurements m ON (ip.idMeasurement = m.idMeasurement)
+				INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
 				WHERE
 				i.idCompany = :IDCOMPANY AND
 				i.isDeleted = :ISDELETED AND
