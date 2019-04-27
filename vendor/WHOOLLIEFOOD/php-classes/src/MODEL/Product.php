@@ -225,11 +225,64 @@ class Product{
 
 	public function listProductById($idProduct){
 
-			$sql = new Sql();
+		$sql = new Sql();
 
-			return json_encode($sql->select("SELECT * FROM tbProducts WHERE idProduct = :IDPRODUTO",[
-					':IDPRODUTO' => $idProduct
-			]));
+		$products = $sql->select("SELECT * 
+									FROM tbProducts 
+									WHERE idProduct = :IDPRODUCT AND
+									idCompany = :IDCOMPANY",[
+				':IDPRODUCT' => $idProduct,
+				':IDCOMPANY' => $this->getIdCompany()
+		]);
+
+		$arr = [];
+		$i = 0;
+
+		foreach ($products as $key) {
+			$arr[$i]["idProduct"] = $key["idProduct"];
+			$arr[$i]["idCompany"] = $key["idCompany"];
+			$arr[$i]["idProductCategory"] = $key["idProductCategory"];
+			$arr[$i]["vlUnity"] = $key["vlUnity"];
+			$arr[$i]["desName"] = $key["desName"];
+			$arr[$i]["desNote"] = $key["desNote"];
+			$arr[$i]["desImagePath"] = $key["desImagePath"];
+			$arr[$i]["isActive"] = $key["isActive"];
+			$arr[$i]["dtRegister"] = $key["dtRegister"];
+			$arr[$i]["isDeleted"] = $key["isDeleted"];			
+			
+			$ingredients = $sql->select("
+				SELECT i.*, ip.idIngredientProduct, ip.qtIngredient, ip.idProduct, m.desName AS 'desShort'
+				FROM tbIngredients i
+				INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
+				INNER JOIN tbMeasurements m ON (ip.idMeasurement = m.idMeasurement)
+				WHERE
+				i.idCompany = :IDCOMPANY AND
+				i.isDeleted = :ISDELETED AND
+				i.idIngredient IN (
+					SELECT idIngredient
+					FROM tbIngredientsProducts
+					WHERE 
+					idProduct = :IDPRODUCT
+				)
+			",[
+				":IDCOMPANY" => $this->getIdCompany(),
+				":ISDELETED" => 0,
+				':IDPRODUCT' => $idProduct
+			]);
+			
+			$j = 0;
+
+			foreach ($ingredients as $key) {
+				$arr[$i]["listIngredients"][$j]["idIngredient"] = $key["idIngredient"];
+				$arr[$i]["listIngredients"][$j]["desName"] = $key["desName"];
+				$arr[$i]["listIngredients"][$j]["qtIngredient"] = $key["qtIngredient"];
+				$arr[$i]["listIngredients"][$j]["desShort"] = $key["desShort"];
+
+				$j++;
+			}
+		}
+
+		return json_encode($arr);
 
 	}
 

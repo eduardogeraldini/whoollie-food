@@ -235,7 +235,7 @@ class Ingredient {
 		$sql = new Sql();
 
 		return json_encode($sql->select("
-			SELECT i.*, ip.qtIngredient, m.desName AS 'desShort'
+			SELECT i.*, ip.idIngredientProduct, ip.qtIngredient, ip.idProduct, m.desName AS 'desShort'
 			FROM tbIngredients i
 			INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
 			INNER JOIN tbMeasurements m ON (ip.idMeasurement = m.idMeasurement)
@@ -260,12 +260,17 @@ class Ingredient {
 
 		$sql = new Sql();
 
-        return $sql->query("INSERT INTO tbIngredientsProducts(idProduct, idIngredient, idMeasurement) 
-                            VALUES(:IDPRODUCT, :IDINGREDIENT, :IDMEASUREMENT);", [
+        $sql->query("INSERT INTO tbIngredientsProducts(idProduct, idIngredient, idMeasurement, qtIngredient) 
+                            VALUES(:IDPRODUCT, :IDINGREDIENT, :IDMEASUREMENT, :QTINGREDIENT);", [
                 ":IDPRODUCT"=>$this->getIdProduct(),
                 ":IDINGREDIENT"=>$this->getIdIngredient(),
-                ":IDMEASUREMENT"=>$this->getIdMeasurement()                     
-            ]);
+				":IDMEASUREMENT"=>$this->getIdMeasurement(),
+				":QTINGREDIENT"=>$this->getQtIngredient()               
+		]);
+			
+		return json_encode([
+			"error" => false
+		]);
     
 
 	}
@@ -274,11 +279,15 @@ class Ingredient {
 
 		$sql = new Sql();
 
-        return $sql->query("DELETE FROM tbIngredientsProducts
+        $sql->query("DELETE FROM tbIngredientsProducts
 							WHERE 
 							idIngredientProduct = :IDINGREDIENTPRODUCT;", [
                 ":IDINGREDIENTPRODUCT"=>$this->getIdIngredientProduct()            
-            ]);
+		]);
+		
+		return json_encode([
+			"error" => false
+		]);
 
 	}
 

@@ -53,7 +53,9 @@ $app->get('/api/products/{id}', function($request, $response, $args) {
 		User::verifyLogin();
 	}
 
-	echo Product::listProductById($args['id']);
+	$product = new Product();
+
+	echo $product->listProductById($args['id']);
 	
 });
 

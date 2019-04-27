@@ -12,7 +12,7 @@ $app->post('/api/remove/ingredient/product', function($request, $response, $args
 
 	$ingredient = new Ingredient();
 	$ingredient->setIdIngredientProduct($input["idIngredientProduct"]);  
-	$ingredient->removeIngredientByProduct();
+	echo $ingredient->removeIngredientByProduct();
 	
 });
 
@@ -27,7 +27,7 @@ $app->post('/api/add/ingredient/product', function($request, $response, $args) {
 	$ingredient->setIdProduct($input["idProduct"]);  
 	$ingredient->setQtIngredient($input["qtIngredient"]);  
 	$ingredient->setIdMeasurement($input["idMeasurement"]);  
-	$ingredient->addIngredientToProduct();
+	echo $ingredient->addIngredientToProduct();
 	
 });
 
