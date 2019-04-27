@@ -52,7 +52,7 @@ $app->post('/api/open/order', function($request, $response, $args) {
     $order = new Order();
 
 	$order->setDesName($input['desName']);
-	$order->setIdBoard($input['idBoard']);    
+	//$order->setIdBoard($input['idBoard']);    
     
     echo $order->openNewOrder();
     

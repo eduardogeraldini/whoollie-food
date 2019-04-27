@@ -18,6 +18,7 @@ class Order {
         if(isset($_SESSION['Device'])){
             $this->idCompany = $_SESSION['Device']['idCompany'];
             $this->idDevice = $_SESSION['Device']['idDevice'];
+            $this->idBoard = $_SESSION['Device']['idBoard'];
         } else {
             $this->idCompany = $_SESSION['User']['idCompany'];
         }
