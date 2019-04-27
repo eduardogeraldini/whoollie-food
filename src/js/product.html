@@ -1,5 +1,14 @@
 <script>
     $(function () {
+
+        $(document).on('show.bs.modal', '.modal', function (event) {
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
+
         $("#btnCreateProduct").click(function (e) {
             e.preventDefault();
 
@@ -154,8 +163,20 @@
 
         loadProducts();
         loadCategoriesProducts();
+        loadMeasurements();
 
     });
+
+    function loadMeasurements() {
+
+        $.getJSON('/api/measurements', function (data) {
+            data.forEach(element => {
+                $("#idMeasurement").append(`<option value="${element.idMeasurement}">${element.desName}</option>`);
+            });
+        });
+        
+
+    }
 
     function loadProducts() {
 
@@ -180,12 +201,15 @@
                             <h5 class="font-weight-bold">R$ ${numberToShow(element.vlUnity)}</h5>
                         </div>
                         <div class="float-right mt-1">
+                            <a href="#" class="btn btn-warning btn-sm btn-circle" onclick='loadAddIngredients(${element.idProduct});'>
+                                <i class="fas fa-align-justify"></i>
+                            </a>
                             <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
-                            <i class="fas fa-edit"></i>
+                                <i class="fas fa-edit"></i>
                             </a>
                             <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
-                            <i class="fas fa-trash"></i>
-                             </a>
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </div>
                     </div>
                     </div>
@@ -196,6 +220,102 @@
         }).fail(function () {
             console.log("Rota não encontrada!");
         });
+    }   
+
+    function addIngredientToProductModal(idProduct, idIngredient) {
+
+        $("#idProduct").val(idProduct);
+        $("#idIngredient").val(idIngredient);
+
+        $("#addInformationIngredientProductModal").modal("toggle");
+
+    }
+
+    function addIngredientToProduct() {
+
+        if (!formValidate("formDataIngredient")) {
+            return;
+        };
+
+        let idProduct = $("#idProduct").val();
+
+        $.post(`/api/add/ingredient/product`, $("#formDataIngredient").serialize(), function (data) {
+
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Ingrediente adicionado com sucesso!", "success");
+            } else {
+                swal("Ops!", JSON.parse(data).message, "error");
+            }
+
+        }).then(() => {
+
+            loadAddIngredients(idProduct, false);
+            $("#addInformationIngredientProductModal").modal("toggle");
+            $(`#formDataIngredient`).trigger("reset");
+
+        }).fail(() => {
+
+            console.log("Rota não encontrada!");
+            $("#addInformationIngredientProductModal").modal("toggle");
+
+        });
+
+    }
+
+    function removeIngredientByProduct(idIngredientProduct, idProduct) {
+        
+        $.post(`/api/remove/ingredient/product`, {idIngredientProduct}, function (data) {
+
+            if (!JSON.parse(data).error) {
+                swal("Tudo certo!", "Ingrediente removido com sucesso!", "success");
+            } else {
+                swal("Ops!", JSON.parse(data).message, "error");
+            }
+
+        }).then(() => {
+
+            loadAddIngredients(idProduct, false);
+
+        }).fail(() => {
+
+            console.log("Rota não encontrada!");
+
+        });
+
+    }
+
+    function loadAddIngredients(idProduct, openModal = true) {
+
+        $("#unrelatedIngredients").html("");
+        $("#relatedIngredients").html("");
+
+        $.getJSON(`/api/unrelated/ingredients/product/${idProduct}`, function (data) {
+            data.forEach(element => {
+                $("#unrelatedIngredients").append(`
+                    <tr>
+                        <td>${element.desName}</td>
+                        <td><button class="btn btn-success btn-sm btn-circle" onclick="addIngredientToProductModal(${idProduct}, ${element.idIngredient});"><i class="fa fa-plus"></i></button></td>
+                    </tr>
+                `);
+            });
+        });
+
+        $.getJSON(`/api/related/ingredients/product/${idProduct}`, function (data) {
+            data.forEach(element => {
+                $("#relatedIngredients").append(`
+                    <tr>
+                        <td>${element.desName}</td>
+                        <td>${element.qtIngredient} ${element.desShort}</td>
+                        <td><button class="btn btn-danger btn-sm btn-circle" onclick="removeIngredientByProduct(${element.idIngredientProduct}, ${element.idProduct});"><i class="fa fa-times"></i></button></td>
+                    </tr>
+                `);
+            });
+        });
+
+        if (openModal) {
+            $("#addIngredientsProductModal").modal("toggle");
+        }
+
     }
 
     function loadEditProduct(idProduct) {

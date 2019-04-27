@@ -7,18 +7,22 @@ use \WHOOLLIEFOOD\DB\Sql;
 class Ingredient {
 
     private $idIngredient;
+    private $idProduct;
 	private $desName;
 	private $vlUnity;
 	private $isActive;
 	private $isDeleted;
 	private $idCompany;
+	private $idMeasurement;
+	private $qtIngredient;
+	private $idIngredientProduct;
 
 	public function __construct(){
 		if (isset($_SESSION['User']['idCompany']))
 			$this->idCompany = $_SESSION['User']['idCompany'];
 		else
 			$this->idCompany = $_SESSION['Device']['idCompany'];
-    }
+	}
     
     public function setIdIngredient($idIngredient) {
 		$this->idIngredient = $idIngredient;
@@ -41,7 +45,23 @@ class Ingredient {
 
 	public function setIdCompany($idCompany) {
 		$this->idCompany = $idCompany;
-    }
+	}
+	
+	public function setIdProduct($idProduct) {
+		$this->idProduct = $idProduct;
+	}
+
+	public function setIdMeasurement($idMeasurement) {
+		$this->idMeasurement = $idMeasurement;
+	}
+
+	public function setQtIngredient($qtIngredient) {
+		$this->qtIngredient = $qtIngredient;
+	}
+	
+	public function setIdIngredientProduct($idIngredientProduct) {
+		$this->idIngredientProduct = $idIngredientProduct;
+	}
     
     public function getIdIngredient(){
 		return $this->idIngredient;
@@ -65,6 +85,22 @@ class Ingredient {
     
     public function getIdCompany(){
 		return $this->idCompany;
+	}
+	
+	public function getIdProduct(){
+		return $this->idProduct;
+	}
+
+	public function getIdMeasurement() {
+		return $this->idMeasurement;
+	}
+
+	public function getQtIngredient() {
+		return $this->qtIngredient;
+	}
+
+	public function getIdIngredientProduct() {
+		return $this->idIngredientProduct;
 	}
 
 	public function listAll() {
@@ -169,6 +205,82 @@ class Ingredient {
             ]);
     
 	} 
+
+	public function getUnrelatedIngredientsByProduct() {
+
+		$sql = new Sql();
+
+		return json_encode($sql->select("
+			SELECT * 
+			FROM tbIngredients i
+			WHERE
+			i.idCompany = :IDCOMPANY AND
+			i.isDeleted = :ISDELETED AND
+			idIngredient NOT IN (
+				SELECT idIngredient
+				FROM tbIngredientsProducts
+				WHERE 
+				idProduct = :IDPRODUCT
+			)
+		", [
+			":IDPRODUCT"=>$this->getIdProduct(),
+			":ISDELETED"=>$this->getIsDeleted(),
+			":IDCOMPANY"=>$this->getIdCompany()
+		]));
+
+	}
+
+	public function getRelatedIngredientsByProduct() {
+
+		$sql = new Sql();
+
+		return json_encode($sql->select("
+			SELECT i.*, ip.qtIngredient, m.desName AS 'desShort'
+			FROM tbIngredients i
+			INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
+			INNER JOIN tbMeasurements m ON (ip.idMeasurement = m.idMeasurement)
+			WHERE
+			i.idCompany = :IDCOMPANY AND
+			i.isDeleted = :ISDELETED AND
+			i.idIngredient IN (
+				SELECT idIngredient
+				FROM tbIngredientsProducts
+				WHERE 
+				idProduct = :IDPRODUCT
+			)
+		", [
+			":IDPRODUCT"=>$this->getIdProduct(),
+			":ISDELETED"=>$this->getIsDeleted(),
+			":IDCOMPANY"=>$this->getIdCompany()
+		]));
+
+	}
+
+	public function addIngredientToProduct() {
+
+		$sql = new Sql();
+
+        return $sql->query("INSERT INTO tbIngredientsProducts(idProduct, idIngredient, idMeasurement) 
+                            VALUES(:IDPRODUCT, :IDINGREDIENT, :IDMEASUREMENT);", [
+                ":IDPRODUCT"=>$this->getIdProduct(),
+                ":IDINGREDIENT"=>$this->getIdIngredient(),
+                ":IDMEASUREMENT"=>$this->getIdMeasurement()                     
+            ]);
+    
+
+	}
+
+	public function removeIngredientByProduct() {
+
+		$sql = new Sql();
+
+        return $sql->query("DELETE FROM tbIngredientsProducts
+							WHERE 
+							idIngredientProduct = :IDINGREDIENTPRODUCT;", [
+                ":IDINGREDIENTPRODUCT"=>$this->getIdIngredientProduct()            
+            ]);
+
+	}
 
 }
 

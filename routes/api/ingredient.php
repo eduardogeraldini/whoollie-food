@@ -4,6 +4,62 @@ use \WHOOLLIEFOOD\MODEL\Ingredient;
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->post('/api/remove/ingredient/product', function($request, $response, $args) {
+	
+	User::verifyLogin();
+
+	$input = $request->getParsedBody();
+
+	$ingredient = new Ingredient();
+	$ingredient->setIdIngredientProduct($input["idIngredientProduct"]);  
+	$ingredient->removeIngredientByProduct();
+	
+});
+
+$app->post('/api/add/ingredient/product', function($request, $response, $args) {
+	
+	User::verifyLogin();
+
+	$input = $request->getParsedBody();
+
+	$ingredient = new Ingredient();
+	$ingredient->setIdIngredient($input["idIngredient"]);  
+	$ingredient->setIdProduct($input["idProduct"]);  
+	$ingredient->setQtIngredient($input["qtIngredient"]);  
+	$ingredient->setIdMeasurement($input["idMeasurement"]);  
+	$ingredient->addIngredientToProduct();
+	
+});
+
+$app->get('/api/related/ingredients/product/{id}', function($request, $response, $args) {
+
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
+
+    $ingredient = new Ingredient();
+	$ingredient->setIdProduct($args["id"]);
+	$ingredient->setIsDeleted(0);
+
+	echo $ingredient->getRelatedIngredientsByProduct();
+	
+});
+
+
+$app->get('/api/unrelated/ingredients/product/{id}', function($request, $response, $args) {
+
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
+
+    $ingredient = new Ingredient();
+	$ingredient->setIdProduct($args["id"]);
+	$ingredient->setIsDeleted(0);
+
+	echo $ingredient->getUnrelatedIngredientsByProduct();
+	
+});
+
 $app->post('/api/ingredient/delete/{id}', function($request, $response, $args) {
 	
 	User::verifyLogin();
