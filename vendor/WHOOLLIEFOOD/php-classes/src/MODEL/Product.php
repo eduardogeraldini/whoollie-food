@@ -272,6 +272,8 @@ class Product{
 			
 			$j = 0;
 
+			$arr[$i]["listIngredients"] = false;
+
 			foreach ($ingredients as $key) {
 				$arr[$i]["listIngredients"][$j]["idIngredient"] = $key["idIngredient"];
 				$arr[$i]["listIngredients"][$j]["desName"] = $key["desName"];
