@@ -1,17 +1,21 @@
 <?php
+
 namespace WHOOLLIEFOOD\MODEL;
 use \WHOOLLIEFOOD\DB\Sql;
+
 class Board {
-    private $idBoard;
-    private $idCompany;
+
+  private $idBoard;
+  private $idCompany;
 	private $vlBoard;
 	private $qtPlaces;
 	private $isActive;
 	private $isDeleted;
 	
-    public function __construct(){
+  public function __construct(){
 		$this->idCompany = $_SESSION['User']['idCompany'];
 	}
+
 	public function getIdBoard() {
 		return $this->idBoard;
 	}
@@ -52,9 +56,8 @@ class Board {
 
     
     public function createBoard() {
+			
         $sql = new Sql();
-		
-		
 
 		$isCreated = $sql->select(" 
 				SELECT * FROM  tbBoards
@@ -77,12 +80,12 @@ class Board {
 		}
 		else{
 			$idBoard = $sql->query("
-			INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces) 
-			VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES)", [
+			INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces, isActive) 
+			VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES, :ISACTIVE)", [
 			":IDCOMPANY"=>$this->getIdCompany(),
 			":VLBOARD"=>$this->getVlBoard(),
-			":QTPLACES"=>$this->getQtPlaces()
-			
+			":QTPLACES"=>$this->getQtPlaces(),
+			":ISACTIVE"=>$this->getIsActive()			
 			]);
 
 			$this->setIdBoard($idBoard);
@@ -138,13 +141,14 @@ class Board {
 			$sql->query("UPDATE tbBoards 
 							SET
 								vlBoard = :VLBOARD, 
-								qtPlaces = :QTPLACES
-					
+								qtPlaces = :QTPLACES,
+								isActive = :ISACTIVE
 						 WHERE
 							 idBoard = :IDBOARD", [
 								":IDBOARD"=>$this->getIdBoard(),
 								":VLBOARD"=>$this->getVlBoard(),
 								":QTPLACES"=>$this->getQtPlaces(),
+								":ISACTIVE"=>$this->getIsActive()
 						]);
 
 						echo json_encode([

@@ -9,40 +9,38 @@
 
 
     function loadBoards() {
-        $("#viewBoard").html("");
+
+        $("#viewBoard tbody").html("");
+
         $.getJSON('/api/boards', function (data) {
 
             if (data.length <= 0) {
 
                 $("#viewBoard").html(`
-                <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
-                    <h4 class="alert-heading">Ops, sem mesas!</h4>
-                    <p>Não encontramos mesas cadastradas! Você pode cadastrar uma mesa clicando no botão 'Adicionar Mesa'.</p>
-                </div>`
+            <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                <h4 class="alert-heading">Ops, sem mesas!</h4>
+                <p>Não encontramos mesas cadastradas! Você pode cadastrar uma mesa clicando no botão 'Adicionar Mesa'.</p>
+            </div>`
                 );
 
             }
 
             data.forEach(element => {
-                $("#viewBoard").append(`<div class="col-sm-3 mb-2">
-                <div class="card shadow">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title font-weight-bold">Mesa ${element.vlBoard}</h5>
-                        <h5 class="card-title font-weight-bold"> ${element.qtPlaces} lugares</h5>
-                        <div class="float-right mt-1">
-                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditBoardModal(${element.idBoard});'>
-                            <i class="fas fa-edit"></i>
+                $("#viewBoard tbody").append(`
+                    <tr>
+                        <td>
+                            <a href="#" onclick="loadEditBoardModal(${element.idBoard});" class="btn btn-info btn-sm btn-circle">
+                                <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeBoard(${element.idBoard});">
-                            <i class="fas fa-trash"></i>
+                            <a href="#" onclick="removeBoard(${element.idBoard});" class="btn btn-danger btn-sm btn-circle">
+                                <i class="fas fa-trash"></i>
                             </a>
-                        </div>
-                    </div>
-                
-                
-                </div>
-                </div>`);
+                        </td>
+                        <td>MESA nº ${element.vlBoard} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
+                        <td>${element.qtPlaces} LUGARES</td>
+                        <td>${element.dtRegister}</td>
+                    </tr>
+                `);
             });
         }).fail(function () {
             console.log("Rota não encontrada!");
@@ -86,15 +84,13 @@
             $("#formEditBoard #vlBoard").val(data[0].vlBoard);
             $("#formEditBoard #qtPlaces").val(data[0].qtPlaces);
 
-            /* if ((data[0].isActive) == 1) {
-                 $("#checkYes").prop("checked", true);
-             } else {
-                 $("#checkNo").prop("checked", true);
-             }*/
-
+            if ((data[0].isActive) == 1) {
+                $("#checkYes").prop("checked", true);
+            } else {
+                $("#checkNo").prop("checked", true);
+            }
 
             $("#btnEditBoard").data("id", idBoard);
-
 
         }).fail(function () {
             console.log("Rota não encontrada!");

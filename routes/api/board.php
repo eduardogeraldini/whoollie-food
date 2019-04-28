@@ -13,8 +13,7 @@ $app->post('/api/boards', function($request, $response, $args) {
     
     $board->setVlBoard($input["vlBoard"]);
 	$board->setQtPlaces($input["qtPlaces"]);
-	//$board->setIsActive($input['isActive']);
-
+	$board->setIsActive($input['isActive']);
 
     echo $board->createBoard();
 	
@@ -60,7 +59,7 @@ $app->post('/api/board/edit/{id}', function($request, $response, $args) {
     $board->setIdBoard($args["id"]);
 	$board->setVlBoard($input['vlBoard']);
 	$board->setQtPlaces($input['qtPlaces']);
-	//$board->setIsActive($input['isActive']);
+	$board->setIsActive($input['isActive']);
 
     echo $board->editBoard();
 	
