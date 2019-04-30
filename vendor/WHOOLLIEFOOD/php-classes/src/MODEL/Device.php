@@ -247,7 +247,7 @@ class Device {
 
         $sql = new Sql();
 
-        return json_encode($sql->select("SELECT *
+        return json_encode($sql->select("SELECT *, a.isActive AS 'deviceIsActive'
                             FROM tbDevices a
                             INNER JOIN tbBoards b
                             ON (a.idBoard = b.idBoard) 
