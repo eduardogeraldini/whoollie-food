@@ -85,9 +85,9 @@
             $("#formEditBoard #qtPlaces").val(data[0].qtPlaces);
 
             if ((data[0].isActive) == 1) {
-                $("#checkYes").prop("checked", true);
+                $("#formEditBoard #checkYes").prop("checked", true);
             } else {
-                $("#checkNo").prop("checked", true);
+                $("#formEditBoard #checkNo").prop("checked", true);
             }
 
             $("#btnEditBoard").data("id", idBoard);
