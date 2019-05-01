@@ -28,10 +28,10 @@
                 success: function (data) {
 
                     if (JSON.parse(data).error) {
-                        swal("Erro!", JSON.parse(data).message, "error");
+                        toastr["error"](JSON.parse(data).message, "Erro!");
                     } else {
                         $('#addModal').modal('hide');
-                        swal("Tudo certo!", "Ingrediente adicionado com sucesso!", "success");
+                        toastr["success"]("Ingrediente adicionado com sucesso!", "Tudo certo!");
                         loadIngredients();
                         $(`#formCreateIngredient`).trigger("reset");
                     }
@@ -76,10 +76,10 @@
                 success: function (data) {
 
                     if (JSON.parse(data).error) {
-                        swal("Erro!", JSON.parse(data).message, "error");
+                        toastr["error"](JSON.parse(data).message, "Erro!");
                     } else {
                         $('#editIngredientModal').modal('hide');
-                        swal("Tudo certo!", "Ingrediente editado com sucesso!", "success");
+                        toastr["success"]("Ingrediente editado com sucesso!", "Tudo certo!");
                         loadIngredients();
                         $(`#formEditIngredient`).trigger("reset");
                     }
@@ -179,15 +179,13 @@
 
             if (willDelete) {
                 $.post("/api/ingredient/delete/" + idIngredient, function (data) {
-                    swal("Deletado com sucesso!", {
-                        icon: "success",
-                    });
+                    toastr["success"]("Ingrediente deletado com sucesso!", "Tudo certo!");
                     loadIngredients();
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
             } else {
-                swal("A ação de deletar foi cancelada!");
+                toastr["warning"]("A ação de deletar foi cancelada!");
             }
         });
 

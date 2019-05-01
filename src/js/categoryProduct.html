@@ -15,7 +15,7 @@
 
             $.post('/api/categories/products', $("#formCreateCategorieProduct").serialize(), function (data) {
                 $('#addModal').modal('hide');
-                swal("Tudo certo!", "Categoria para produtos criada com sucesso!", "success");
+                toastr["success"]("Categoria para produtos criada com sucesso!", "Tudo certo!");
                 loadCategoriesProducts();
             }).fail(function () {
                 console.log("Rota não encontrada!");
@@ -87,15 +87,13 @@
 
                     if (willDelete) {
                         $.post("/api/categories/products/delete/" + idProductCategory + "", function (data) {
-                            swal("Deletado com sucesso!", {
-                                icon: "success",
-                            });
+                            toastr["success"]("Categoria para produtos deletada com sucesso!", "Tudo certo!");
                             loadCategoriesProducts();
                         }).fail(function () {
                             console.log("Rota não encontrada!");
                         });
                     } else {
-                        swal("A ação de deletar foi cancelada!");
+                        toastr["warning"]("A ação de deletar foi cancelada!");
                     }
                 });
 
@@ -160,10 +158,10 @@
                 success: function (data) {
 
                     if (JSON.parse(data).error) {
-                        swal("Erro!", JSON.parse(data).message, "error");
+                        toastr["error"](JSON.parse(data).message, "Erro!");
                     } else {
                         $('#editModal').modal('hide');
-                        swal("Tudo certo!", "Categoria editada com sucesso!", "success");
+                        toastr["success"]("Categoria editada com sucesso!", "Tudo certo!");
                         loadCategoriesProducts();
                         $(`#formEditCategories`).trigger("reset");
                     }

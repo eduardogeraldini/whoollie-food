@@ -56,6 +56,19 @@ $app->post('/api/request', function($request, $response, $args) {
     
 });
 
+$app->get('/api/requests/current/order', function($request, $response, $args) {
+
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
+    
+    $request = new Request();
+    
+	echo $request->listRequestsByOrders();
+    
+});
+
+
 $app->get('/api/requests/orders/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();

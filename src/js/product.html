@@ -31,7 +31,7 @@
                         swal("Erro!", JSON.parse(data).message, "error");
                     } else {
                         $('#addModal').modal('hide');
-                        swal("Tudo certo!", "Produto adicionado com sucesso!", "success");
+                        toastr["success"]("Produto adicionado com sucesso!", "Tudo certo!");
                         loadProducts();
                         $(`#formCreateProduct`).trigger("reset");
                     }
@@ -83,27 +83,6 @@
                     </div>
                     </div>`);
 
-                    /*$("#viewProduct").append(`
-                    <div class="col-lg-3"> 
-                        <div class="card shadow mb-4 border-left-${element.isActive == 1 ? "success" : "danger"}"> 
-                            <div class="card-header py-3"> 
-                                <h6 class="m-0 font-weight-bold text-primary float-left"> ${element.desName} </h6>
-                                <span class="badge badge-success float-right">R$  ${element.vlUnity} </span>
-                            </div>
-                            <div class="card-body text-center">
-                                <img class="fluid-img mb-1" src="${element.desImagePath}" alt="" style="width: 100px; height: 100px;">
-                                <p> ${((element.desNote == "") ? "Produto sem descrição." : element.desNote)} </p>
-                                <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle" onclick="removeProduct(${element.idProduct});">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>`);*/
-
-
                 });
 
             }).fail(function () {
@@ -141,10 +120,10 @@
                 success: function (data) {
 
                     if (JSON.parse(data).error) {
-                        swal("Erro!", JSON.parse(data).message, "error");
+                        toastr["error"](JSON.parse(data).message, "Erro!");
                     } else {
                         $('#editProductModal').modal('hide');
-                        swal("Tudo certo!", "Produto editado com sucesso!", "success");
+                        toastr["success"]("Produto editado com sucesso!", "Tudo certo!");
                         loadProducts();
                         $(`#formEditProduct`).trigger("reset");
                     }
@@ -243,9 +222,9 @@
         $.post(`/api/add/ingredient/product`, $("#formDataIngredient").serialize(), function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Ingrediente adicionado com sucesso!", "success");
+                toastr["success"]("Ingrediente adicionado com sucesso!", "Tudo certo!");
             } else {
-                swal("Ops!", JSON.parse(data).message, "error");
+                toastr["error"](JSON.parse(data).message, "Ops!");
             }
 
         }).then(() => {
@@ -268,9 +247,9 @@
         $.post(`/api/remove/ingredient/product`, { idIngredientProduct }, function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Ingrediente removido com sucesso!", "success");
+                toastr["success"]("Ingrediente removido com sucesso!", "Tudo certo!");
             } else {
-                swal("Ops!", JSON.parse(data).message, "error");
+                toastr["error"](JSON.parse(data).message, "Ops!");
             }
 
         }).then(() => {
@@ -363,15 +342,13 @@
 
             if (willDelete) {
                 $.post("/api/product/delete/" + idProduct, function (data) {
-                    swal("Deletado com sucesso!", {
-                        icon: "success",
-                    });
+                    toastr["success"]("Produto removido com sucesso!", "Tudo certo!");
                     loadProducts();
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
             } else {
-                swal("A ação de deletar foi cancelada!");
+                toastr["warming"]("A ação de deletar foi cancelada!");
             }
         });
 

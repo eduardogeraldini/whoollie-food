@@ -153,9 +153,9 @@
         $.post(`/api/close/order/${idOrder}`, function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Comanda fechada com sucesso!", "success");
+                toastr["success"]("Comanda fechada com sucesso!", "Tudo certo!");
             } else {
-                swal("Ops!", JSON.parse(data).message, "error");
+                toastr["error"](JSON.parse(data).message, "Ops!");
             }
 
         }).fail(() => {

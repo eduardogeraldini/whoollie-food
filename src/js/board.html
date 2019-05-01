@@ -62,12 +62,12 @@
 
         $.post("/api/boards", $("#formCreateBoard").serialize(), function (data) {
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Mesa cadastrada com sucesso!", "success");
+                toastr["success"]("Mesa cadastrada com sucesso!", "Tudo certo!");
                 $("#formCreateBoard")[0].reset();
                 $("#addBoardModal").modal("toggle");
             } else {
                 console.log(JSON.parse(data).message);
-                swal("Erro!", JSON.parse(data).message, "error");
+                toastr["error"](JSON.parse(data).message, "Erro!");
             }
 
 
@@ -111,7 +111,7 @@
         $.post(`/api/board/edit/${idBoard}`, $("#formEditBoard").serialize(), function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Mesa editada com sucesso!", "success");
+                toastr["success"]("Mesa editada com sucesso!", "Tudo certo!");
                 $("#formEditBoard")[0].reset();
                 $("#editBoardModal").modal("toggle");
             } else {
@@ -134,15 +134,13 @@
         }).then((willDelete) => {
             if (willDelete) {
                 $.post("/api/board/delete/" + idBoard, function (data) {
-                    swal("Deletado com sucesso!", {
-                        icon: "success",
-                    });
+                    toastr["success"]("Mesa deletada com sucesso!", "Tudo certo!");
                     loadBoards();
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
             } else {
-                swal("A ação de deletar foi cancelada!");
+                toastr["warning"]("A ação de deletar foi cancelada!");
             }
         });
     }

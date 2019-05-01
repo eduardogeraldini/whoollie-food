@@ -4,7 +4,7 @@ $(function () {
         "closeButton": false,
         "debug": false,
         "newestOnTop": false,
-        "progressBar": false,
+        "progressBar": true,
         "positionClass": "toast-bottom-right",
         "preventDuplicates": false,
         "onclick": null,
@@ -37,6 +37,18 @@ $(function () {
     $("input").on("focus", function() {
         $(this).removeClass("border");
         $(this).removeClass("border-danger");
+    });
+
+    $(".btn-loading").click(function(e) {
+        let html = $(this).html();
+
+        $(this).attr("disabled", true);
+        $(this).html("<img src='/res/admin/img/loader.gif' width='20px'/>");
+
+        setTimeout(() => {
+            $(this).html(html);
+            $(this).attr("disabled", false);
+        }, 1000);
     });
 
 });
