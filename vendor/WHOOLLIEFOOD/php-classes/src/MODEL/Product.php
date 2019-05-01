@@ -422,7 +422,7 @@ class Product{
 
 		$sql = new Sql();
 
-		return json_encode($sql->select("SELECT rp.idProduct, p.desName, SUM(rp.qtProduct) AS 'TOTAL'
+		return json_encode($sql->select("SELECT rp.idProduct, p.desName, SUM(rp.qtProduct) AS 'total'
 							 FROM tbRequestsProducts rp
 							 INNER JOIN tbProducts p ON (rp.idProduct = p.idProduct) 
 							 WHERE 

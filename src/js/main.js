@@ -41,13 +41,15 @@ function formValidate(idForm) {
 }
  
 function numberToShow(number) {
-    var number = number.split('.');
+    var number = number + ""; 
+    number = number.split('.');
     number[0] = number[0].split(/(?=(?:...)*$)/).join('.');
     return number.join(',');
 }
 
 function numberToReal(number) {
-    var number = number.split('.');
+    var number = number + ""; 
+    number = number.split('.');
     number[0] = "R$ " + number[0].split(/(?=(?:...)*$)/).join('.');
     return number.join(',');
 }

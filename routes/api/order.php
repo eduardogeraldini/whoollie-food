@@ -5,6 +5,15 @@ use \WHOOLLIEFOOD\MODEL\Cart;
 use \WHOOLLIEFOOD\MODEL\Order;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->get('/api/orders/by/month', function($request, $response, $args) {
+	
+	User::verifyLogin();
+
+	$order = new Order();
+	
+	echo $order->ordersByMonth();
+	
+});
 
 /*$app->get('/api/price/order/{id}', function($request, $response, $args) {
 
