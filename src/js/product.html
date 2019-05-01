@@ -72,40 +72,24 @@
                             <h5 class="font-weight-bold">R$ ${numberToShow(element.vlUnity)} </h5>
                         </div>
                         <div class="float-right mt-1">
-                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
-                            <i class="fas fa-edit"></i>
+                            <a href="#" class="btn btn-warning btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Ingredientes" onclick='loadAddIngredients(${element.idProduct});'>
+                                <i class="fas fa-align-justify"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
-                            <i class="fas fa-trash"></i>
-                             </a>
+                            <a href="#" class="btn btn-info btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Produto" onclick='loadEditProduct(${element.idProduct});'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Excluir Produto" onclick="removeProduct(${element.idProduct});">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </div>
                     </div>
                     </div>
                     </div>`);
 
-                    /*$("#viewProduct").append(`
-                    <div class="col-lg-3"> 
-                        <div class="card shadow mb-4 border-left-${element.isActive == 1 ? "success" : "danger"}"> 
-                            <div class="card-header py-3"> 
-                                <h6 class="m-0 font-weight-bold text-primary float-left"> ${element.desName} </h6>
-                                <span class="badge badge-success float-right">R$  ${element.vlUnity} </span>
-                            </div>
-                            <div class="card-body text-center">
-                                <img class="fluid-img mb-1" src="${element.desImagePath}" alt="" style="width: 100px; height: 100px;">
-                                <p> ${((element.desNote == "") ? "Produto sem descrição." : element.desNote)} </p>
-                                <a href="#" class="btn btn-info btn-circle" onclick='loadEditProduct(${element.idProduct});'>
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="#" class="btn btn-danger btn-circle" onclick="removeProduct(${element.idProduct});">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>`);*/
-
-
                 });
 
+            }).then( () => {
+                $('[data-toggle="tooltip"]').tooltip();
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });
@@ -201,13 +185,13 @@
                             <h5 class="font-weight-bold">R$ ${numberToShow(element.vlUnity)}</h5>
                         </div>
                         <div class="float-right mt-1">
-                            <a href="#" class="btn btn-warning btn-sm btn-circle" onclick='loadAddIngredients(${element.idProduct});'>
+                            <a href="#" class="btn btn-warning btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Ingredientes" onclick='loadAddIngredients(${element.idProduct});'>
                                 <i class="fas fa-align-justify"></i>
                             </a>
-                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
+                            <a href="#" class="btn btn-info btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Produto" onclick='loadEditProduct(${element.idProduct});'>
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Excluir Produto" onclick="removeProduct(${element.idProduct});">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>
@@ -217,6 +201,8 @@
 
             });
 
+        }).then(() => {
+            $('[data-toggle="tooltip"]').tooltip();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });

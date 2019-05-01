@@ -124,10 +124,10 @@
                 $("#viewIngredient").append(`
                     <tr>
                         <th>
-                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditIngredient(${element.idIngredient});'>
+                            <a href="#" class="btn btn-info btn-sm btn-circle" data-tooltip="tooltip" data-placement="top" title="Editar" onclick='loadEditIngredient(${element.idIngredient});'>
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeIngredient(${element.idIngredient});">
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" data-tooltip="tooltip" data-placement="top" title="Excluir" onclick="removeIngredient(${element.idIngredient});">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </th>
@@ -138,6 +138,8 @@
 
             });
 
+        }).then(()=>{
+            $('[data-tooltip="tooltip"]').tooltip();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });

@@ -1,5 +1,5 @@
 $(function () {
-    
+
     $.getJSON('/api/currentEmployee', function (data) {
         $("#spanCompanyName").html(data[0].desName);
         $("#spanCompanyName").data("id", data[0].idEmployee);

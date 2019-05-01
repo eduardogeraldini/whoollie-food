@@ -27,10 +27,10 @@
                 $("#viewOrders tbody").append(`
                         <tr>
                             <td>
-                                <a href="#" onclick="loadViewRequestsModal(${element.idOrder});" class="btn btn-success btn-sm btn-circle btnViewOrder">
+                                <a href="#" data-tooltip="tooltip" data-placement="top" title="Ver Pedidos" onclick="loadViewRequestsModal(${element.idOrder});" class="btn btn-success btn-sm btn-circle btnViewOrder">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="#" onclick="closeOrder(${element.idOrder});" class="btn btn-warning btn-sm btn-circle btnCloseOrder">
+                                <a href="#" data-tooltip="tooltip" data-placement="top" title="Encerrar Comanda" onclick="closeOrder(${element.idOrder});" class="btn btn-warning btn-sm btn-circle btnCloseOrder">
                                     <i class="fas fa-window-close"></i>
                                 </a>
                             </td>
@@ -46,7 +46,7 @@
             });
 
         }).then(() => {
-
+            $('[data-tooltip="tooltip"]').tooltip();
             loadDataTables();
 
         }).fail(function () {
