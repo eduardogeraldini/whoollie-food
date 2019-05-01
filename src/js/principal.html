@@ -1,65 +1,171 @@
 <script>
 
-var pieData;
+    var pieData;
 
-$(function() {
-    getBestSellingProducts();
-});
+    $(function () {
+        getBestSellingProducts();
+        getSaleInTheLastDays();
+    });
 
-function getBestSellingProducts() {
+    function getBestSellingProducts() {
 
-    let limit = 5;
+        let limit = 5;
 
-    $.get(`/api/best/${limit}/selling/products`, function (data) {
-        
-        let names = [];
-        let values = [];
-        let colors = [];
+        $.get(`/api/best/${limit}/selling/products`, function (data) {
 
-        JSON.parse(data).forEach(element => {
-            names.push(element.desName);
-            values.push(element.TOTAL);
-            colors.push(getRandomColor());
+            let names = [];
+            let values = [];
+            let colors = [];
+
+            JSON.parse(data).forEach(element => {
+                names.push(element.desName);
+                values.push(element.TOTAL);
+                colors.push(getRandomColor());
+            });
+
+            renderPieChart(names, values, colors);
         });
 
-        renderPieChart(names, values, colors);
-    });
+    }
 
-}
+    function getSaleInTheLastDays() {
+
+        let days = 10;
+
+        $.get(`/api/days/${days}/selling/products`, function (data) {
+
+            let days = [];
+            let values = [];
+            let average = 0;
+
+            JSON.parse(data).forEach(element => {
+                days.push(element.DAY);
+                values.push(element.TOTAL);
+            });
+
+            values.forEach(element => {
+                average += Number(element);
+            });
+
+            average = average/days.length;
+
+            $("#averageLastDays").html("R$ " + numberToShow(average.toFixed(2)));
+
+            renderBarCharts(days, values);
+
+        });
+
+    }
 
 
-function renderPieChart(names, values, colors) {
-    var ctx = document.getElementById("myPieChart");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: names,
-            datasets: [{
-                data: values,
-                backgroundColor: colors,
-                hoverBorderColor: "rgba(234, 236, 244, 1)",
-            }],
-        },
-        options: {
-            maintainAspectRatio: false,
-            tooltips: {
-                backgroundColor: "rgb(255,255,255)",
-                bodyFontColor: "#858796",
-                borderColor: '#dddfeb',
-                borderWidth: 1,
-                xPadding: 15,
-                yPadding: 15,
-                displayColors: false,
-                caretPadding: 10,
+    function renderPieChart(names, values, colors) {
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: names,
+                datasets: [{
+                    data: values,
+                    backgroundColor: colors,
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
             },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
                 legend: {
-                display: false
+                    display: false
+                },
+                cutoutPercentage: 80,
             },
-            cutoutPercentage: 80,
-        },
-    });
+        });
 
-}
+    }
+
+    function renderBarCharts(days, values) {
+        var ctx = document.getElementById("myBarChart");
+        var myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: "TOTAL: R$",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: values,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'day'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function (value, index, values) {
+                                return 'DIA ' + value;
+                            }
+                        },
+                        maxBarThickness: 25,
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            callback: function (value, index, values) {
+                                return 'R$ ' + value;
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10
+                }
+            }
+        });
+    }
 
 // Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 // Chart.defaults.global.defaultFontColor = '#858796';

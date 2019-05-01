@@ -437,6 +437,26 @@ class Product{
 
 	}
 
+	public function listSalesInTheLastDays($days) {
+
+		$sql = new Sql();
+
+		return json_encode($sql->select("SELECT DAY(a.dtregister) AS DAY, SUM(a.qtProduct*a.vlUnity) AS TOTAL 
+							FROM tbRequestsProducts a 
+							INNER JOIN tbRequests b ON(a.idRequest = b.idRequest)
+							INNER JOIN tbOrders c ON(b.idOrder = c.idOrder)
+							WHERE a.isDeleted = :ISDELETED AND 
+							b.vlStatus = :VLSTATUS AND
+							c.idCompany = :IDCOMPANY AND
+							a.dtRegister BETWEEN  DATE_ADD(SYSDATE(), INTERVAL -".$days." DAY) AND SYSDATE() 
+							GROUP BY(DAY(a.dtRegister)) ORDER BY a.dtRegister ASC", [
+				":ISDELETED"=>$this->getIsDeleted(),   
+				":VLSTATUS"=>1,
+				":IDCOMPANY"=>$this->getIdCompany()   
+			]));
+
+	}
+
 }
 
 ?>

@@ -17,6 +17,18 @@ $app->get('/api/best/{limit}/selling/products', function($request, $response, $a
 	
 });
 
+$app->get('/api/days/{days}/selling/products', function($request, $response, $args) {
+	
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->setIsDeleted(0);
+	
+	echo $product->listSalesInTheLastDays($args["days"]);
+	
+});
+
 $app->post('/api/product/delete/{id}', function($request, $response, $args) {
 	
 	User::verifyLogin();
