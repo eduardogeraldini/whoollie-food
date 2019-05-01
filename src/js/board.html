@@ -1,9 +1,16 @@
 <script>
 
-
     $(function () {
 
         loadBoards();
+
+        $("#formCreateBoard").on("submit", function(e) {
+            e.preventDefault();
+        });
+
+        $("#formEditBoard").on("submit", function(e) {
+            e.preventDefault();
+        });
 
     });
 
@@ -17,10 +24,10 @@
             if (data.length <= 0) {
 
                 $("#viewBoard").html(`
-            <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
-                <h4 class="alert-heading">Ops, sem mesas!</h4>
-                <p>Não encontramos mesas cadastradas! Você pode cadastrar uma mesa clicando no botão 'Adicionar Mesa'.</p>
-            </div>`
+                    <div class="alert alert-danger mt-3 ml-3 mr-3" role="alert">
+                        <h4 class="alert-heading">Ops, sem mesas!</h4>
+                        <p>Não encontramos mesas cadastradas! Você pode cadastrar uma mesa clicando no botão 'Adicionar Mesa'.</p>
+                    </div>`
                 );
 
             }
@@ -47,10 +54,9 @@
         });
     }
 
-    // ---------------------------- Cria mesas ----------------------------------------------------
     function createBoard() {
 
-        if (!formValidate("formCreateBoard")) {  //testa se todos os campos forma preenchidos
+        if (!formValidate("formCreateBoard")) { 
             return;
         };
 
@@ -74,7 +80,6 @@
         $(`#formCreateBoard`).trigger("reset");
     });
 
-    /*--------------------------------------abre formulario Editar Mesa ------------------------------*/
     function loadEditBoardModal(idBoard) {
 
         $.getJSON(`/api/boards/${idBoard}`, function (data) {
@@ -97,10 +102,9 @@
         });
     }
 
-    /*-------------------------- Editar Mesa ----------------------------*/
     function editBoard(idBoard) {
 
-        if (!formValidate("formEditBoard")) {  //testa se todos os campos forma preenchidos
+        if (!formValidate("formEditBoard")) { 
             return;
         };
 
@@ -120,9 +124,6 @@
 
     }
 
-
-
-    // ------------------------- Deleta Mesa -------------------
     function removeBoard(idBoard) {
         swal({
             title: "Você tem certeza ?",

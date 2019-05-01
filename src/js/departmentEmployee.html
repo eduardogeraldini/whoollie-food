@@ -1,5 +1,14 @@
 <script>
     $(function () {
+        
+        $("#formCreateDepartments").on("submit", function(e) {
+            e.preventDefault();
+        });
+        
+        $("#formEditDepartments").on("submit", function(e) {
+            e.preventDefault();
+        });
+        
         $("#btnCreateDepartment").click(function (e) {
 
             e.preventDefault();

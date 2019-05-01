@@ -1,5 +1,14 @@
 <script>
     $(function () {
+
+        $("#formCreateIngredient").on("submit", function(e) {
+            e.preventDefault();
+        });
+
+        $("#formEditIngredient").on("submit", function(e) {
+            e.preventDefault();
+        });
+
         $("#btnCreateIngredient").click(function (e) {
             e.preventDefault();
 
