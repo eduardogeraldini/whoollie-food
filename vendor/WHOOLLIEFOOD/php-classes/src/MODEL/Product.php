@@ -223,7 +223,7 @@ class Product{
 
 	}
 
-	public function listProductById($idProduct){
+	/*public function listProductById($idProduct){
 
 		$sql = new Sql();
 
@@ -285,6 +285,45 @@ class Product{
 		}
 
 		return json_encode($arr);
+
+	}*/
+
+	public function listProductById($idProduct){
+
+		$sql = new Sql();
+
+		$products = $sql->select("SELECT * 
+									FROM tbProducts 
+									WHERE idProduct = :IDPRODUCT AND
+									idCompany = :IDCOMPANY",[
+				':IDPRODUCT' => $idProduct,
+				':IDCOMPANY' => $this->getIdCompany()
+		]);
+		
+			
+			$ingredients = $sql->select("
+				SELECT i.*, ip.idIngredientProduct, ip.qtIngredient, ip.idProduct, m.desName AS 'desShort'
+				FROM tbIngredients i
+				INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
+				INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
+				WHERE
+				i.idCompany = :IDCOMPANY AND
+				i.isDeleted = :ISDELETED AND
+				i.idIngredient IN (
+					SELECT idIngredient
+					FROM tbIngredientsProducts
+					WHERE 
+					idProduct = :IDPRODUCT
+				)
+			",[
+				":IDCOMPANY" => $this->getIdCompany(),
+				":ISDELETED" => 0,
+				':IDPRODUCT' => $idProduct
+			]);
+			
+		$products[0]['listIngredients'] = $ingredients;
+
+		return json_encode($products);
 
 	}
 
