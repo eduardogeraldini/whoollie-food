@@ -63,7 +63,6 @@ $app->get('/api/requests/current/order', function($request, $response, $args) {
 	}
     
     $request = new Request();
-    
 	echo $request->listRequestsByOrders();
     
 });
