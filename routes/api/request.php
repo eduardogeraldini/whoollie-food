@@ -19,7 +19,9 @@ $app->post('/api/aprove/request/{id}', function($request, $response, $args) {
 
 $app->get('/api/products/request/{id}', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
     
     $request = new Request();
 
@@ -68,7 +70,9 @@ $app->get('/api/requests/orders/{id}', function($request, $response, $args) {
 
 $app->get('/api/requests/products/{id}', function($request, $response, $args) {
 
-	User::verifyLogin();
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
     
     $request = new Request();
 
