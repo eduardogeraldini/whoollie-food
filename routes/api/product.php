@@ -4,6 +4,19 @@ use \WHOOLLIEFOOD\MODEL\Product;
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->get('/api/best/{limit}/selling/products', function($request, $response, $args) {
+	
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->setIsDeleted(0);  
+	$product->setLimit($args["limit"]);  
+	
+	echo $product->listBestSellingProducts();
+	
+});
+
 $app->post('/api/product/delete/{id}', function($request, $response, $args) {
 	
 	User::verifyLogin();

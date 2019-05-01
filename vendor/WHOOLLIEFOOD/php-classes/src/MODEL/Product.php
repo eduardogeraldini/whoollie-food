@@ -6,6 +6,7 @@ use \WHOOLLIEFOOD\DB\Sql;
 
 class Product{
 
+	private $limit;
 	private $desName;
 	private $desNote;
 	private $desImagePath;
@@ -49,6 +50,10 @@ class Product{
 
 	public function setIdProduct($idProduct) {
 		$this->idProduct = $idProduct;
+	}
+
+	public function setLimit($limit) {
+		$this->limit = $limit;
 	}
 
 	public function setDesImagePath($files, $desOldImagePath = "") {
@@ -167,6 +172,10 @@ class Product{
 
 	public function getIdProduct() {
 		return $this->idProduct;
+	}
+
+	public function getLimit() {
+		return $this->limit;
 	}
 
 	public function listAll(){
@@ -367,6 +376,25 @@ class Product{
 		$this->setVlUnity($res['vlUnity']);
 		$this->setIsActive($res['isActive']);
 		$this->setIdProductCategory($res['idProductCategory']);
+
+	}
+
+	public function listBestSellingProducts() {
+
+		$sql = new Sql();
+
+		return json_encode($sql->select("SELECT rp.idProduct, p.desName, SUM(rp.qtProduct) AS 'TOTAL'
+							 FROM tbRequestsProducts rp
+							 INNER JOIN tbProducts p ON (rp.idProduct = p.idProduct) 
+							 WHERE 
+							 p.isDeleted = :ISDELETED AND
+							 p.idCompany = :IDCOMPANY
+							 GROUP BY rp.idProduct
+							 ORDER BY TOTAL DESC
+							 LIMIT ".$this->getLimit().";", [
+                ":IDCOMPANY"=>$this->getIdCompany(),
+				":ISDELETED"=>$this->getIsDeleted()                   
+			]));
 
 	}
 
