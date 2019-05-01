@@ -36,10 +36,10 @@
                 $("#viewBoard tbody").append(`
                     <tr>
                         <td>
-                            <a href="#" onclick="loadEditBoardModal(${element.idBoard});" class="btn btn-info btn-sm btn-circle">
+                            <a href="#" onclick="loadEditBoardModal(${element.idBoard});" data-tooltip="tooltip" data-placement="top" title="Editar" class="btn btn-info btn-sm btn-circle">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" onclick="removeBoard(${element.idBoard});" class="btn btn-danger btn-sm btn-circle">
+                            <a href="#" onclick="removeBoard(${element.idBoard});" data-tooltip="tooltip" data-placement="top" title="Excluir" class="btn btn-danger btn-sm btn-circle">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
@@ -49,6 +49,8 @@
                     </tr>
                 `);
             });
+        }).then( () => {
+            $('[data-tooltip="tooltip"]').tooltip();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });

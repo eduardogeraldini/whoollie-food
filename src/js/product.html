@@ -72,12 +72,15 @@
                             <h5 class="font-weight-bold">R$ ${numberToShow(element.vlUnity)} </h5>
                         </div>
                         <div class="float-right mt-1">
-                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
-                            <i class="fas fa-edit"></i>
+                            <a href="#" class="btn btn-warning btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Ingredientes" onclick='loadAddIngredients(${element.idProduct});'>
+                                <i class="fas fa-align-justify"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
-                            <i class="fas fa-trash"></i>
-                             </a>
+                            <a href="#" class="btn btn-info btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Produto" onclick='loadEditProduct(${element.idProduct});'>
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Excluir Produto" onclick="removeProduct(${element.idProduct});">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </div>
                     </div>
                     </div>
@@ -85,6 +88,8 @@
 
                 });
 
+            }).then( () => {
+                $('[data-toggle="tooltip"]').tooltip();
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });
@@ -180,13 +185,13 @@
                             <h5 class="font-weight-bold">R$ ${numberToShow(element.vlUnity)}</h5>
                         </div>
                         <div class="float-right mt-1">
-                            <a href="#" class="btn btn-warning btn-sm btn-circle" onclick='loadAddIngredients(${element.idProduct});'>
+                            <a href="#" class="btn btn-warning btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Ingredientes" onclick='loadAddIngredients(${element.idProduct});'>
                                 <i class="fas fa-align-justify"></i>
                             </a>
-                            <a href="#" class="btn btn-info btn-sm btn-circle" onclick='loadEditProduct(${element.idProduct});'>
+                            <a href="#" class="btn btn-info btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Editar Produto" onclick='loadEditProduct(${element.idProduct});'>
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger btn-sm btn-circle" onclick="removeProduct(${element.idProduct});">
+                            <a href="#" class="btn btn-danger btn-sm btn-circle" data-toggle="tooltip" data-placement="top" title="Excluir Produto" onclick="removeProduct(${element.idProduct});">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>
@@ -196,6 +201,8 @@
 
             });
 
+        }).then(() => {
+            $('[data-toggle="tooltip"]').tooltip();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });

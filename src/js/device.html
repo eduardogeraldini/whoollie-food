@@ -45,10 +45,10 @@
                 $("#viewDevice tbody").append(`
                     <tr>
                         <td>
-                            <a href="#" onclick="loadEditDeviceModal(${element.idDevice});" class="btn btn-success btn-sm btn-circle btnEditPassword">
+                            <a href="#" onclick="loadEditDeviceModal(${element.idDevice});" data-tooltip="tooltip" data-placement="top" title="Editar" class="btn btn-success btn-sm btn-circle btnEditPassword">
                                 <i class="fas fa-key"></i>
                             </a>
-                            <a href="#" onclick="removeDevice(${element.idDevice});" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
+                            <a href="#" onclick="removeDevice(${element.idDevice});" data-tooltip="tooltip" data-placement="top" title="Excluir" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>
@@ -60,6 +60,8 @@
                 `);
             });
 
+        }).then( () => {
+            $('[data-tooltip="tooltip"]').tooltip();
         }).fail(function () {
             console.log("Rota não encontrada!");
         });

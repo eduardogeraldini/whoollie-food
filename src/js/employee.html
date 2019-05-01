@@ -43,13 +43,13 @@
                 $("#viewEmployees tbody").append(`
                         <tr>
                             <td>
-                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployee}" class="btn btn-info btn-sm btn-circle btnEditModal">
+                                <a href="#" data-toggle="modal" data-target="#editModal" data-id="${element.idEmployee}" data-tooltip="tooltip" data-placement="top" title="Editar" class="btn btn-info btn-sm btn-circle btnEditModal">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idUser}" class="btn btn-success btn-sm btn-circle btnEditPassword">
+                                <a href="#" data-toggle="modal" data-target="#editPasswordModal" data-id="${element.idUser}" data-tooltip="tooltip" data-placement="top" title="Editar Senha" class="btn btn-success btn-sm btn-circle btnEditPassword">
                                     <i class="fas fa-key"></i>
                                 </a>
-                                <a href="#" data-id="${element.idEmployee}" id="btnRemove" class="btn btn-danger btn-sm btn-circle btnRemove">
+                                <a href="#" data-id="${element.idEmployee}" id="btnRemove" data-tooltip="tooltip" data-placement="top" title="Excluir" class="btn btn-danger btn-sm btn-circle btnRemove">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -82,12 +82,12 @@
             });
 
         }).then(() => {
-
             loadPrivileges();
             loadSwitcherrys();
             loadEditEmployee();
             loadRemoveEmployee();
             loadEditPasswordEmployee();
+            $('[data-tooltip="tooltip"]').tooltip();
 
         }).fail(function () {
             console.log("Rota não encontrada!");
