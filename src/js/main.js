@@ -66,7 +66,7 @@ function showDateTime(datetime) {
 
 }
 
-function getRandomColor() {
+function getRandomColor() { 
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
     for (var i = 0; i < 6; i++ ) {
