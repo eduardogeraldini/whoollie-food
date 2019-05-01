@@ -25,7 +25,6 @@ $app->get('/api/orders/by/month', function($request, $response, $args) {
 	
 });*/
 
-//FECHAR COMANDAR POR ID
 $app->post('/api/close/order/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
@@ -61,7 +60,6 @@ $app->post('/api/open/order', function($request, $response, $args) {
     $order = new Order();
 
 	$order->setDesName($input['desName']);
-	//$order->setIdBoard($input['idBoard']);    
     
     echo $order->openNewOrder();
     
