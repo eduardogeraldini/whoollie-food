@@ -8,23 +8,39 @@
     <p>Permite você visualizar, buscar e gerenciar suas categorias de produtos de forma simples.</p>
 
     <br>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered" id="viewCategoriesProducts">
-            <thead>
-                <tr>
-                    <th>Ações</th>
-                    <th>Nome</th>
-                    <th>Registrado em:</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+
+    <div class="row">
+        <div class="col">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Categorias</h6>
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" id="viewCategoriesProducts">
+                            <thead>
+                                <tr>
+                                    <th>Ações</th>
+                                    <th>Nome</th>
+                                    <th>Registrado em:</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
     </div>
+
 
 </div>
 <!-- /.container-fluid -->
@@ -82,7 +98,8 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success btn-loading" id="btnCreateCategorieProduct">Cadastrar!</button>
+                <button type="submit" class="btn btn-success btn-loading"
+                    id="btnCreateCategorieProduct">Cadastrar!</button>
             </div>
         </div>
     </div>
