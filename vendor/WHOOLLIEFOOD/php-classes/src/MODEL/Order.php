@@ -221,6 +221,37 @@ class Order {
 				":IDCOMPANY" => $this->getIdCompany()
 			]));
 
+    }
+    
+    public function ordersByMonth() {
+
+		$sql = new Sql();
+
+		$data = [];
+
+		for ($month = 1; $month <= 12; $month++) { 
+		
+			$res = $sql->select("SELECT COUNT(DISTINCT r.idOrder) AS 'total'
+				FROM tbRequests r
+				INNER JOIN tbOrders o ON (r.idOrder = o.idOrder)
+				WHERE
+				YEAR(r.dtRegister) = :YEAR AND
+				MONTH(r.dtRegister) = :MONTH AND
+				o.idCompany = :IDCOMPANY;", [
+					":YEAR"=>date("Y", strtotime("now")),                 
+					":MONTH"=>$month,                  
+					":IDCOMPANY"=>$this->getIdCompany()                  
+			])[0];
+
+			$data[] = [
+                "month" => $month,
+                "total" => $res["total"]
+            ];
+		
+		}
+
+		return json_encode($data);
+
 	}
 
 }
