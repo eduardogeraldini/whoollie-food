@@ -54,7 +54,7 @@
                                 </a>
                             </td>
                             <td>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>Ativo</span></td>" : "<span class='badge badge-danger'>Inativo</span>")}</td>
-                            <td>${element.dtRegister}</td>
+                            <td>${showDate(element.dtRegister)}</td>
                         </tr>
                     `);
 

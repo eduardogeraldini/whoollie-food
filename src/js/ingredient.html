@@ -133,7 +133,7 @@
                         </th>
                         <th>${element.desName} ${((element.isActive == 1) ? "<span class='badge badge-success'>ATIVO</span></td>" : "<span class='badge badge-danger'>INATIVO</span>")}</th>
                         <th>${element.desShort}</th>
-                        <td>${element.dtRegister}</td>
+                        <td>${showDate(element.dtRegister)}</td>
                     </tr>`);
 
             });

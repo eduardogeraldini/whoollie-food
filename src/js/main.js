@@ -102,3 +102,21 @@ function getRandomColor() {
     }
     return color;
 }
+
+function showDate(date, withHours = true){
+
+    let dateFormated = new Date(date);
+
+    let day = ('0' + dateFormated.getDate()).slice(-2);
+    let month = ('0' + (dateFormated.getMonth()+1)).slice(-2);
+    let year = dateFormated.getFullYear();
+    let hour = ('0' + dateFormated.getHours()).slice(-2);
+    let minutes = ('0' + dateFormated.getMinutes()).slice(-2);
+
+    if(withHours){
+        return day + "/" + month + "/" + year + " " + hour + ":" + minutes;
+    } else {
+        return day + "/" + month + "/" + year;
+    }
+
+}
