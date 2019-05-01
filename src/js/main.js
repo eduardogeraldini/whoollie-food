@@ -41,6 +41,11 @@ function formValidate(idForm) {
 }
  
 function numberToShow(number) {
+
+    if (number == undefined) {
+        return "0,00";
+    }
+
     var number = number + ""; 
     number = number.split('.');
     number[0] = number[0].split(/(?=(?:...)*$)/).join('.');
@@ -48,6 +53,11 @@ function numberToShow(number) {
 }
 
 function numberToReal(number) {
+
+    if (number == undefined) {
+        return "R$ 00,00";
+    }
+
     var number = number + ""; 
     number = number.split('.');
     number[0] = "R$ " + number[0].split(/(?=(?:...)*$)/).join('.');
