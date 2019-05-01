@@ -19,7 +19,7 @@
 
             $.post('/api/departments/employees', $("#formCreateDepartments").serialize(), function (data) {
                 $('#addModal').modal('hide');
-                swal("Tudo certo!", "Departamento criado com sucesso!", "success");
+                toastr["success"]("Departamento criado com sucesso!", "Tudo certo!");
                 loadDepartments();
             }).fail(function () {
                 console.log("Rota não encontrada!");
@@ -92,15 +92,13 @@
 
                     if (willDelete) {
                         $.post("/api/departments/employees/delete/" + idDepartment + "", function (data) {
-                            swal("Deletado com sucesso!", {
-                                icon: "success",
-                            });
+                            toastr["success"]("Departamento deletado com sucesso!", "Tudo certo!");
                             loadDepartments();
                         }).fail(function () {
                             console.log("Rota não encontrada!");
                         });
                     } else {
-                        swal("A ação de deletar foi cancelada!");
+                        toastr["warning"]("A ação de deletar foi cancelada!");
                     }
                 });
 
@@ -145,7 +143,7 @@
             let idDepartment = $("#editModal [name='idHidden']").val();
 
             $.post("/api/departments/employees/update/" + idDepartment + "", $("#formEditDepartments").serialize(), function (data) {
-                swal("Tudo certo!", "Informações do departamento atualizadas com sucesso!", "success");
+                toastr["success"]("Informações do departamento atualizadas com sucesso!", "Tudo certo!");
                 $('#editModal').modal('hide');
                 loadDepartments();
             }).fail(function () {

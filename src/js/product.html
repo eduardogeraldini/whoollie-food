@@ -31,7 +31,7 @@
                         swal("Erro!", JSON.parse(data).message, "error");
                     } else {
                         $('#addModal').modal('hide');
-                        swal("Tudo certo!", "Produto adicionado com sucesso!", "success");
+                        toastr["success"]("Produto adicionado com sucesso!", "Tudo certo!");
                         loadProducts();
                         $(`#formCreateProduct`).trigger("reset");
                     }
@@ -125,10 +125,10 @@
                 success: function (data) {
 
                     if (JSON.parse(data).error) {
-                        swal("Erro!", JSON.parse(data).message, "error");
+                        toastr["error"](JSON.parse(data).message, "Erro!");
                     } else {
                         $('#editProductModal').modal('hide');
-                        swal("Tudo certo!", "Produto editado com sucesso!", "success");
+                        toastr["success"]("Produto editado com sucesso!", "Tudo certo!");
                         loadProducts();
                         $(`#formEditProduct`).trigger("reset");
                     }
@@ -229,9 +229,9 @@
         $.post(`/api/add/ingredient/product`, $("#formDataIngredient").serialize(), function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Ingrediente adicionado com sucesso!", "success");
+                toastr["success"]("Ingrediente adicionado com sucesso!", "Tudo certo!");
             } else {
-                swal("Ops!", JSON.parse(data).message, "error");
+                toastr["error"](JSON.parse(data).message, "Ops!");
             }
 
         }).then(() => {
@@ -254,9 +254,9 @@
         $.post(`/api/remove/ingredient/product`, { idIngredientProduct }, function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Ingrediente removido com sucesso!", "success");
+                toastr["success"]("Ingrediente removido com sucesso!", "Tudo certo!");
             } else {
-                swal("Ops!", JSON.parse(data).message, "error");
+                toastr["error"](JSON.parse(data).message, "Ops!");
             }
 
         }).then(() => {
@@ -349,15 +349,13 @@
 
             if (willDelete) {
                 $.post("/api/product/delete/" + idProduct, function (data) {
-                    swal("Deletado com sucesso!", {
-                        icon: "success",
-                    });
+                    toastr["success"]("Produto removido com sucesso!", "Tudo certo!");
                     loadProducts();
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
             } else {
-                swal("A ação de deletar foi cancelada!");
+                toastr["warming"]("A ação de deletar foi cancelada!");
             }
         });
 

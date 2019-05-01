@@ -10,7 +10,7 @@
         $.post("/api/devices", $("#formCreateDevice").serialize(), function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Dispositivo cadastrado com sucesso!", "success");
+                toastr["success"]("Dispositivo cadastrado com sucesso!", "Tudo certo!");
                 $("#formCreateDevice")[0].reset();
                 $("#addDeviceModal").modal("toggle");
             } else {
@@ -99,7 +99,7 @@
         $.post(`/api/device/edit/${idDevice}`, $("#formEditDevice").serialize(), function (data) {
 
             if (!JSON.parse(data).error) {
-                swal("Tudo certo!", "Dispositivo editado com sucesso!", "success");
+                toastr["success"]("Dispositivo editado com sucesso!", "Tudo certo!");
                 $("#formEditDevice")[0].reset();
                 $("#editDeviceModal").modal("toggle");
             } else {
@@ -124,15 +124,13 @@
 
             if (willDelete) {
                 $.post("/api/device/delete/" + idDevice, function (data) {
-                    swal("Deletado com sucesso!", {
-                        icon: "success",
-                    });
+                    toastr["success"]("Dispositivo deletado com sucesso!", "Tudo certo!");
                     loadDevices();
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
             } else {
-                swal("A ação de deletar foi cancelada!");
+                toastr["warning"]("A ação de deletar foi cancelada!");
             }
         });
     }

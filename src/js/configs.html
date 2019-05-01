@@ -19,7 +19,7 @@
             $('.cnpj').unmask();
 
             $.post("/api/configs/company", $("#formEditCompany").serialize(), function (data) {
-                swal("Tudo certo!", "Empresa atualizada com sucesso!", "success");
+                toastr["success"]("Empresa atualizada com sucesso!", "Tudo certo!");
             }).fail(function () {
                 console.log("Rota não encontrada!");
             });
