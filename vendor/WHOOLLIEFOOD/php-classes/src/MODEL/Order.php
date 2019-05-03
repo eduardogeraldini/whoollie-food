@@ -211,9 +211,16 @@ class Order {
 
 		$sql = new Sql();
 
-        return json_encode($sql->select("SELECT a.idOrder, a.idCompany, a.desName, a.vlDiscount, a.vlStatus, a.dtRegister, b.idRequest, 
-            (SELECT SUM(vlUnity*qtProduct) FROM tbRequestsProducts WHERE idRequest = b.idRequest) AS total 
-            FROM tbOrders a INNER JOIN tbRequests b ON(a.idOrder = b.idOrder) 
+        return json_encode($sql->select("
+            SELECT a.idOrder, a.idCompany, a.desName, a.vlDiscount, a.vlStatus, a.dtRegister, 
+                    (
+                            SELECT SUM(rp.vlUnity * rp.qtProduct) 
+                                FROM tbRequestsProducts rp
+                                INNER JOIN tbRequests r ON (r.idRequest = rp.idRequest)
+                                WHERE 
+                                r.idOrder = a.idOrder
+                    ) AS total 
+            FROM tbOrders a 
             WHERE a.isDeleted = :ISDELETED
             AND a.idCompany = :IDCOMPANY
             ORDER BY a.dtRegister DESC", [
