@@ -61,7 +61,8 @@ $app->post('/api/open/order', function($request, $response, $args) {
 
 	$order->setDesName($input['desName']);
     
-    echo $order->openNewOrder();
+	echo $order->openNewOrder();
+	$cart->clearCart();
     
 });
 
