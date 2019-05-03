@@ -54,7 +54,7 @@ class Cart{
     public function addProductToCart($input) {
         
         for ($i=0; $i < $input['vlTotal']; $i++) { 
-            if (!isset($this->products[$idProduct])) {
+            if (!isset($this->products[$input['idProduct']])) {
                 $this->products[$input['idProduct']] = 1;
             } else {
                 $this->products[$input['idProduct']]++;
