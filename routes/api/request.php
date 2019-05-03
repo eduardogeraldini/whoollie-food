@@ -4,6 +4,17 @@ use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Request;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->get('/api/requests/current/order/data/list', function($request, $response, $args) {
+
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
+    
+    $request = new Request();
+	echo $request->orderDataList();
+    
+});
+
 $app->post('/api/aprove/request/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
@@ -66,7 +77,6 @@ $app->get('/api/requests/current/order', function($request, $response, $args) {
 	echo $request->listRequestsByOrders();
     
 });
-
 
 $app->get('/api/requests/orders/{id}', function($request, $response, $args) {
 

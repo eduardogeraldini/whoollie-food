@@ -156,13 +156,61 @@ class Request {
 
     }
 
+    public function orderDataList() {
+
+        $sql = new Sql();
+
+        $arr = [];
+
+        $requests = $sql->select("SELECT *, (
+                                SELECT SUM(vlUnity*qtProduct) 
+                                FROM tbRequestsProducts 
+                                WHERE 
+                                idRequest = a.idRequest
+                            ) as vlTotal 
+                     FROM tbRequests a 
+                     WHERE isDeleted = :ISDELETED AND 
+                     idOrder = :IDORDER
+                     ORDER BY dtRegister ASC;", [
+                        ":ISDELETED" => 0,
+                        ":IDORDER" => $this->getIdOrder()
+                     ]);
+
+        foreach ($requests as $key) {
+
+            $products = $sql->select("SELECT a.idProduct, a.qtProduct, a.vlUnity, b.desName, a.dtRegister 
+                                      FROM tbRequestsProducts a 
+                                      INNER JOIN tbProducts b 
+                                      ON(a.idProduct = b.idProduct) 
+                                      WHERE a.idRequest = :IDREQUEST", [
+                            ":IDREQUEST" => $key["idRequest"]
+                        ]);
+
+            array_push($arr, [
+                "idRequest" => $key["idRequest"],
+                "desNote" => $key["desNote"],
+                "vlTotal" => $key["vlTotal"],
+                "vlStatus" => $key["vlStatus"],
+                "listProducts" => $products,
+                "dtRegister" => $key["dtRegister"]
+            ]);
+        }
+
+        return json_encode($arr);
+
+    }
+
     public function listRequestsByOrders(){
 
         $sql = new Sql();
 
 		return json_encode($sql->select("
-        SELECT *, 
-        (SELECT SUM(vlUnity*qtProduct) FROM tbRequestsProducts WHERE idRequest = a.idRequest) as total 
+        SELECT *, (
+                    SELECT SUM(vlUnity*qtProduct) 
+                    FROM tbRequestsProducts 
+                    WHERE 
+                    idRequest = a.idRequest
+                   ) as total 
         FROM tbRequests a 
         WHERE isDeleted = :ISDELETED AND 
         idOrder = :IDORDER
