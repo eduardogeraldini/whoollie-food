@@ -33,7 +33,8 @@ $app->get('/api/boards/{id}', function($request, $response, $args) {
 
 	User::verifyLogin();
 
-	echo Board::listBoardById($args['id']);
+    $board = new Board();
+	echo $board->listBoardById($args['id']);
 	
 });
 
