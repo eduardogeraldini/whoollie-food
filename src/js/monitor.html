@@ -27,6 +27,7 @@
         $.getJSON('/api/requests', function (data) {
 
             $("body .row").html("");
+            $("#noRequests").hide();
 
             let div = ``;
 
