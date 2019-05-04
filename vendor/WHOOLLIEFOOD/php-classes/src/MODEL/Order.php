@@ -177,10 +177,10 @@ class Order {
                             ":IDORDER"=>$this->getIdOrder()
                         ]);
 
-            $this->setIdOrder("");
-
             $data['message'] = 'Comanda finalizada!';
             $this->pusher->trigger($this->getDesChannel(), 'close-order-id-'.$this->getIdOrder(), $data);
+
+            $this->setIdOrder("");
 
             return json_encode([
 				'error' => false
