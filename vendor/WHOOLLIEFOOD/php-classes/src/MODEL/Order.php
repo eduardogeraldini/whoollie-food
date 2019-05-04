@@ -125,6 +125,10 @@ class Order {
 
     }
 
+    public function clearOrder() {
+        $this->setIdOrder("");
+    }
+
     public function openNewOrder() {
 
         $sql = new Sql();
@@ -142,7 +146,8 @@ class Order {
         return json_encode([
             "idOrder"=>$this->getIdOrder(),
             "idBoard"=>$this->getIdBoard(),
-            "desName"=>$this->getDesName()
+            "desName"=>$this->getDesName(),
+            "desChannel"=>$this->getDesChannel()
         ]);
 
     }

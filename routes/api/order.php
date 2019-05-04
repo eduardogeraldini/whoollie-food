@@ -68,7 +68,6 @@ $app->post('/api/open/order', function($request, $response, $args) {
     
 });
 
-
 $app->post('/api/close/order', function($request, $response, $args) {
 
 	if (!Device::verifyLogin()["login"]) {
@@ -84,6 +83,18 @@ $app->post('/api/close/order', function($request, $response, $args) {
 
     $cart = new Cart();
     $cart->clearCart();
+    
+});
+
+$app->post('/api/clear/order', function($request, $response, $args) {
+
+	if (!Device::verifyLogin()["login"]) {
+		User::verifyLogin();
+	}
+
+    $order = new Order();
+
+    $order->clearOrder();
     
 });
 
