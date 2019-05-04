@@ -27,6 +27,7 @@ class Order {
             $this->desChannel = $_SESSION["Device"]['desChannel'];
         } else {
             $this->idCompany = $_SESSION['User']['idCompany'];
+            $this->desChannel = $_SESSION['User']['desChannel'];
         }
 
         $this->options = array(
