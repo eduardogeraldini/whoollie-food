@@ -51,10 +51,10 @@
                             <div class="requests">   
                             </div>
                             <div class="note">
-                                ${((element.desNote != null) ?
-                                `<p class="card-text font-weight-bold mt-4">*OBSERVAÇÕES DO PEDIDO: <br> ${element.desNote}</p>`
-                                :
+                                ${((element.desNote == null) ?
                                 `<p class="card-text font-weight-bold mt-4">*OBSERVAÇÕES DO PEDIDO: <br> SEM OBSERVAÇÕES.</p>`
+                                :
+                                `<p class="card-text font-weight-bold mt-4">*OBSERVAÇÕES DO PEDIDO: <br> ${element.desNote}</p>`
                                 )}
                             </div>
                             <div class="text-center mt-3">
