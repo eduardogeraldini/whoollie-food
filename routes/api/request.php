@@ -61,9 +61,12 @@ $app->post('/api/request', function($request, $response, $args) {
 	if (!Device::verifyLogin()["login"]) {
 		User::verifyLogin();
 	}
+
+	$input = $request->getParsedBody();
     
     $request = new Request();
-    $request->openNewRequest();
+	$request->setDesNote($input['desNote']);
+	$request->openNewRequest();
     
 });
 

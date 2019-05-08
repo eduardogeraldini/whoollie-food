@@ -11,6 +11,7 @@ class Request {
 	private $idCompany;
 	private $idOrder;
     private $idRequest;
+    private $desNote;
     private $vlStatus;
     
 	private $options;
@@ -70,6 +71,14 @@ class Request {
         return $this->idRequest;
     }
 
+    public function setDesNote($value) {
+        $this->desNote = $value;
+    }
+
+    public function getDesNote() {
+        return $this->desNote;
+    }
+
     public function setDesChannel($value) {
         $this->desChannel = $value;
     }
@@ -119,9 +128,10 @@ class Request {
 
         $sql = new Sql();
 
-        $idRequest = $sql->query("INSERT INTO tbRequests(idOrder)
-                    VALUES (:IDORDER)", [
-                        ":IDORDER"=>$this->getIdOrder()
+        $idRequest = $sql->query("INSERT INTO tbRequests(idOrder, desNote)
+                    VALUES (:IDORDER, :DESNOTE)", [
+                        ":IDORDER"=>$this->getIdOrder(),
+                        ":DESNOTE"=>$this->getDesNote()
                     ]);
 
         $this->setIdRequest($idRequest);
