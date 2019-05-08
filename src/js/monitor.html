@@ -43,16 +43,21 @@
 
             data.forEach(element => {
 
-                div = ``;
-
-                div += `
-                    <div class="col-sm-3 mb-2" id="col-${element.idRequest}">
+                $("body .row").append(`
+                    <div class="text-uppercase col-sm-3 mb-2" id="col-${element.idRequest}">
                         <div class="card shadow">
-                        <h5 class="card-header">MESA Nº ${element.vlBoard} | PEDIDO nº ${element.idOrder}</h5>
+                        <h5 class="card-header">MESA Nº ${element.vlBoard} | COMANDA nº ${element.idOrder}</h5>
                         <div class="card-body">
                             <div class="requests">   
                             </div>
-                            <div class="text-center">
+                            <div class="note">
+                                ${((element.desNote != null) ?
+                                `<p class="card-text font-weight-bold mt-4">*OBSERVAÇÕES DO PEDIDO: <br> ${element.desNote}</p>`
+                                :
+                                `<p class="card-text font-weight-bold mt-4">*OBSERVAÇÕES DO PEDIDO: <br> SEM OBSERVAÇÕES.</p>`
+                                )}
+                            </div>
+                            <div class="text-center mt-3">
                                 <a href="#" class="btn btn-success" onclick="aproveRequest(${element.idRequest});">PRONTO</a>
                             </div>
                         </div>
@@ -66,16 +71,13 @@
                         </div>
                         </div>
                     </div>                  
-                `;
-
-                $("body .row").append(div);
+                `);
 
                 $.getJSON(`/api/products/request/${element.idRequest}`, function (dataProducts) {
                     let items = ``;
 
                     dataProducts.forEach(product => {
                         items += `<h5 class="card-text">${product.qtProduct} X - ${product.desName}</h5>`;
-                        items += `<p>Inserir opção para comentário.</p>`;
                     });
 
                     $(`#col-${element.idRequest} .requests`).html(items);

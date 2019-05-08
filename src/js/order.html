@@ -158,6 +158,17 @@
                 toastr["error"](JSON.parse(data).message, "Ops!");
             }
 
+        }).then(() => {
+
+            /*var tables = $.fn.dataTable.fnTables(true);
+
+            $(tables).each(function () {
+                $(this).dataTable().fnClearTable();
+                $(this).dataTable().fnDestroy();
+            });
+
+            loadOrders();*/
+            
         }).fail(() => {
 
             console.log("Rota não encontrada!");
