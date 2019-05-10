@@ -3,6 +3,10 @@
 use \WHOOLLIEFOOD\MODEL\User;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->get('/api/verify/login/device', function ($request, $response, $args) {
+    echo json_encode(Device::verifyLogin()["login"]);
+});
+
 $app->post('/api/device/delete/{id}', function($request, $response, $args) {
     
     User::verifyLogin();
