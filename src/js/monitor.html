@@ -40,7 +40,6 @@
 
             }
 
-
             data.forEach(element => {
 
                 $("body .row").append(`
@@ -48,8 +47,13 @@
                         <div class="card shadow">
                         <h5 class="card-header">MESA Nº ${element.vlBoard} | COMANDA nº ${element.idOrder}</h5>
                         <div class="card-body">
+                            <h5>
+                            PEDIDO nº ${element.idRequest}:
+                            <hr>
+                            </h5> 
                             <div class="requests">   
                             </div>
+                            <hr>
                             <div class="note">
                                 ${((element.desNote == null || element.desNote == "") ?
                                 `<p class="card-text font-weight-bold mt-4">*OBSERVAÇÕES DO PEDIDO: <br> SEM OBSERVAÇÕES.</p>`
