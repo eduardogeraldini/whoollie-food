@@ -209,7 +209,7 @@ class Order {
 
         $device = new Device();
         $device->setIdBoard($_SESSION["Device"]["idBoard"]);
-        $desName = json_decode($device->listDeviceById())["desName"];
+        $desName = json_decode($device->listDeviceById())[0]["desName"];
 
         $data['message'] = 'O cliente '.$_SESSION["Order"]["desName"].' da mesa ['.$desName.'] está solicitando o atendimento !';
         $this->pusher->trigger($this->getDesChannel(), "ringbell", $data);
