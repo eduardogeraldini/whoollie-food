@@ -210,7 +210,7 @@ class Order {
         $board = new Board();
         $vlBoard = json_decode($board->listBoardById((int) $_SESSION["Device"]["idBoard"]));
 
-        $data['message'] = 'O cliente '.$_SESSION["Order"]["desName"].' da mesa ['.$vlBoard.'] está solicitando o atendimento !\n';
+        $data['message'] = 'O cliente '.$_SESSION["Order"]["desName"].' da mesa ['.$board->listBoardById((int) $_SESSION["Device"]["idBoard"]).'] está solicitando o atendimento !\n';
         $this->pusher->trigger($this->getDesChannel(), "ringbell", $data);
 
     }
