@@ -81,6 +81,11 @@ $app->post('/api/devices', function($request, $response, $args) {
 	
 });
 
+$app->get('/api/devices/logout', function ($request, $response, $args) {
+
+    Device::logout();
+
+});
 
 $app->get('/api/devices', function($request, $response, $args) {
     

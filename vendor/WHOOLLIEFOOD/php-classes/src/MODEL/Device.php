@@ -157,6 +157,17 @@ class Device {
 
 	}
     
+    public static function logout(){
+
+		$_SESSION[Device::SESSION] = NULL;
+
+		echo json_encode([
+			'login' => false,
+			'message' => 'Você foi deslogado!'
+		]);
+
+    }
+    
     public function createDevice() {
         
         $sql = new Sql();
