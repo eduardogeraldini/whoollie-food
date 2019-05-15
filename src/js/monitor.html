@@ -22,6 +22,26 @@
         });
 
         channel.bind('ringbell', function (data) {
+
+            toastr.success(data.message + '<br><br><button class="btn btn-success clear"></button>', "Atenção!", {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": 0,
+                "extendedTimeOut": 0,
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut",
+                "tapToDismiss": false
+            })
+
             toastr["success"]("" + data.message, "Atenção!");
         });
     });
