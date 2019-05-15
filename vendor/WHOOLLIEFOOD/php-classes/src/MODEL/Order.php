@@ -143,6 +143,8 @@ class Order {
 
         $this->setIdOrder($idOrder);
 
+        $_SESSION["Order"]["desName"] = $this->getDesName();
+
         return json_encode([
             "idOrder"=>$this->getIdOrder(),
             "idBoard"=>$this->getIdBoard(),
@@ -203,6 +205,17 @@ class Order {
         
     } 
     
+    public function ringBell() {
+
+        $device = new Device();
+        $device->setIdBoard($_SESSION["Device"]["idBoard"]);
+        $desName = json_decode($device->listDeviceById())["desName"];
+
+        $data['message'] = 'O cliente '.$_SESSION["Order"]["desName"].' da mesa ['.$desName.'] está solicitando o atendimento !';
+        $this->pusher->trigger($this->getDesChannel(), "ringbell", $data);
+
+    }
+
     public function listOrderById($idOrder){
 
         $sql = new Sql();

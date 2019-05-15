@@ -5,6 +5,15 @@ use \WHOOLLIEFOOD\MODEL\Cart;
 use \WHOOLLIEFOOD\MODEL\Order;
 use \WHOOLLIEFOOD\MODEL\Device;
 
+$app->post('/api/order/ringbell', function($request, $response, $args) {
+
+	Device::verifyLogin()["login"];
+    
+    $order = new Order();
+    $order->ringBell();
+    
+});
+
 $app->get('/api/orders/by/month', function($request, $response, $args) {
 	
 	User::verifyLogin();
