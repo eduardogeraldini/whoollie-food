@@ -208,9 +208,9 @@ class Order {
     public function ringBell() {
 
         $board = new Board();
-        $desName = json_decode($board->listBoardById($_SESSION["Device"]["idBoard"]))["vlBoard"];
+        $desName = json_decode($board->listBoardById($_SESSION["Device"]["idBoard"]))[0]["vlBoard"];
 
-        $data['message'] = 'O cliente '.$_SESSION["Order"]["desName"].' da mesa ['.$desName.'] está solicitando o atendimento !\n'.$board->listBoardById($_SESSION["Device"]["idBoard"]);
+        $data['message'] = 'O cliente '.$_SESSION["Order"]["desName"].' da mesa ['.$desName.'] está solicitando o atendimento !\n';
         $this->pusher->trigger($this->getDesChannel(), "ringbell", $data);
 
     }
