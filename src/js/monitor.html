@@ -22,7 +22,7 @@
         });
 
         channel.bind('ringbell', function (data) {
-            console.log(JSON.parse(data));
+            console.log(data);
             toastr["success"](JSON.parse(data).message, "Atenção!");
         });
     });
