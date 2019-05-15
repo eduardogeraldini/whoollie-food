@@ -20,6 +20,10 @@
             loadRequests();
             toastr["success"]("Novo pedido foi adicionado!", "Tudo certo!");
         });
+
+        channel.bind('ringbell', function (data) {
+            toastr["success"](data.message, "Atenção!");
+        });
     });
 
     function loadRequests() {
