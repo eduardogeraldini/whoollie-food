@@ -26,7 +26,7 @@ $app->post('/api/categories/products/delete/{id}', function($request, $response,
 
 	$category = new ProductCategory();
 	 
-	$category->deleteProductCategory($args['id']);
+	echo $category->deleteProductCategory($args['id']);
 	
 });
 
