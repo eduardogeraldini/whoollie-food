@@ -23,8 +23,8 @@
 
         channel.bind('ringbell', function (data) {
 
-            toastr.warning(data.message + '<br><br><button type="button" class="btn btn-success clear toast-close-button" role="button">OK</button>', "Atenção!", {
-                "closeButton": true,
+            toastr.warning(data.message + '<br><br><button type="button" class="btn clear">Yes</button>', "Atenção!", {
+                "closeButton": false,
                 "debug": false,
                 "newestOnTop": false,
                 "progressBar": false,
