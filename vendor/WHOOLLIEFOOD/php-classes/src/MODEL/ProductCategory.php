@@ -173,14 +173,39 @@ class ProductCategory{
        
     }
 
+    public function hasRelations($idProductCategory) {
+
+		$sql = new Sql();
+
+        $res = $sql->select("SELECT COUNT(idProduct) AS 'TOTAL'
+                             FROM tbProducts
+                             WHERE 
+                             idProductCategory = :IDPRODUCTCATEGORY;", [
+                ":IDPRODUCTCATEGORY"=>$idProductCategory                       
+		]);
+		
+		if((int)$res[0]["TOTAL"] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
     public function deleteProductCategory($idProductCategory){
 
         $sql = new Sql();
+
+        if ($this->hasRelations($idProductCategory)) {
+			return json_encode(["error" => true, "message" => "A categoria possui produtos relacionados. Não será possível excluí-la!"]);
+		}
 
         $sql->query("UPDATE tbProductsCategories SET isDeleted = :ISDELETED WHERE idProductCategory = :IDPRODUCTCATEGORY", [
             ":ISDELETED"=> 1,
             ":IDPRODUCTCATEGORY"=> $idProductCategory
         ]);
+
+        return json_encode(["error" => false]);
        
     }
 

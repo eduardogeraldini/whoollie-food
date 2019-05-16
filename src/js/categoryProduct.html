@@ -87,9 +87,15 @@
                 .then((willDelete) => {
 
                     if (willDelete) {
-                        $.post("/api/categories/products/delete/" + idProductCategory + "", function (data) {
-                            toastr["success"]("Categoria para produtos deletada com sucesso!", "Tudo certo!");
-                            loadCategoriesProducts();
+                        $.post("/api/categories/products/delete/" + idProductCategory + "", function (data) {                            
+
+                            if (JSON.parse(data).error == false) {
+                                toastr["success"]("Categoria para produtos deletada com sucesso!", "Tudo certo!");
+                                loadCategoriesProducts();
+                            } else {
+                                toastr["error"](JSON.parse(data).message, "Erro!");
+                            }
+
                         }).fail(function () {
                             console.log("Rota não encontrada!");
                         });
