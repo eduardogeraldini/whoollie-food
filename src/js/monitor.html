@@ -12,7 +12,9 @@
     $(function () {
         loadRequests();
 
-        $('body').on('click', 'a#close-toastr', function () {
+        $('body').on('click', 'a.close-toastr', function (e) {
+            e.preventDefault();
+
             $(this).closest('.toast').remove();
         });
     });
@@ -27,7 +29,7 @@
 
         channel.bind('ringbell', function (data) {
 
-            toastr.warning(data.message + '<br><br><button type="button" class="btn btn-success close-toastr">OK</button>', "Atenção!", {
+            toastr.warning(data.message + '<br><br><a class="btn btn-success close-toastr">OK</button>', "Atenção!", {
                 "closeButton": false,
                 "debug": false,
                 "newestOnTop": false,
