@@ -11,6 +11,10 @@
 
     $(function () {
         loadRequests();
+
+        $('body').on('click', 'a#close-toastr', function () {
+            $(this).closest('.toast').remove();
+        });
     });
 
     $.getJSON('/api/currentCompany', function (data) {
@@ -23,9 +27,8 @@
 
         channel.bind('ringbell', function (data) {
 
-            toastr.warning(data.message, "Atenção!", {
-                "closeButton": true,
-                "closeHtml": '<button class="btn btn-success">OK</button>',
+            toastr.warning(data.message + '<br><br><button type="button" class="btn btn-success close-toastr">OK</button>', "Atenção!", {
+                "closeButton": false,
                 "debug": false,
                 "newestOnTop": false,
                 "progressBar": false,
