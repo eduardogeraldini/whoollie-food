@@ -95,43 +95,40 @@
 
             data.forEach(element => {
 
-                contentViewRequest = '<div class="card text-uppercase">';
-                contentViewRequest += '<div class="card-header">';
-                contentViewRequest += '<div class="float-left">';
-                contentViewRequest += 'PEDIDO Nº ' + element.idRequest;
-                contentViewRequest += '</div>';
-                contentViewRequest += '<div class="float-right">R$ ' + numberToShow(element.total);
-                contentViewRequest += '</div>';
-                contentViewRequest += '</div>';
-                contentViewRequest += '<div class="card-body">';
-                contentViewRequest += '<div class="desRequest requestProducts" data-id="' + element.idRequest + '">';
-                contentViewRequest += '</div>';
-
-                if (element.desNote == null || element.desNote == "") {
-                    contentViewRequest += '<p class="card-text">* Pedido sem observações.</p>';
-                } else {
-                    contentViewRequest += '<p class="card-text">* ' + element.desNote + '</p>';
-                }
-
-                contentViewRequest += '</div>';
-                contentViewRequest += '<div class="card-footer">';
-                contentViewRequest += '<div class="float-left">';
-
-                if (element.vlStatus == 1) {
-                    contentViewRequest += "<span class='badge badge-success'>CONCLUÍDO</span></td>";
-                } else {
-                    contentViewRequest += "<span class='badge badge-danger'>EM ABERTO</span>";
-                }
-
-                contentViewRequest += '</div>';
-                contentViewRequest += '<div class="float-right">';
-                contentViewRequest += '<small><i class="fas fa-clock"></i> ' + element.dtRegister + '</small>';
-                contentViewRequest += '</div>';
-                contentViewRequest += '</div>';
-                contentViewRequest += '</div>'
-                contentViewRequest += '<br>';
-
-                $("#viewRequests").append(contentViewRequest);
+                $("#viewRequests").append(`
+                <div class="card text-uppercase">
+                <div class="card-header">
+                <div class="float-left">
+                PEDIDO Nº ${element.idRequest}
+                </div>
+                <div class="float-right">R$ ${numberToShow(element.total)}
+                </div>
+                </div>
+                <div class="card-body">
+                <div class="desRequest requestProducts" data-id="${element.idRequest}">
+                </div>
+                ${((element.desNote == null || element.desNote == "") ?
+                    `<p class="card-text">* Pedido sem observações.</p>`
+                    :
+                    `<p class="card-text">* ${element.desNote}</p>`
+                )}
+                </div>
+                <div class="card-footer">
+                <div class="float-left">
+                ${((element.vlStatus == 1) ?
+                    `<span class='badge badge-success'>CONCLUÍDO</span></td>`
+                    :
+                    `<span class='badge badge-danger'>EM ABERTO</span>`
+                )}
+                </div>
+                <div class="float-right">
+                <small><i class="fas fa-clock"></i> ${showDate(element.dtRegister)}</small>
+                </div>
+                </div>
+                </div>
+                <br>
+                `
+                );
 
             });
 
@@ -168,7 +165,7 @@
             });
 
             loadOrders();*/
-            
+
         }).fail(() => {
 
             console.log("Rota não encontrada!");
