@@ -419,7 +419,7 @@ class Product{
                 ":IDPRODUCT"=>$idProduct                       
             ]);
 	
-		return json_encode(["error" => true]);
+		return json_encode(["error" => false]);
 
 	} 
 	
