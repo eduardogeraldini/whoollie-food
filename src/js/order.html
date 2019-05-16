@@ -95,7 +95,7 @@
 
             data.forEach(element => {
 
-                contentViewRequest = '<div class="card">';
+                contentViewRequest = '<div class="card text-uppercase">';
                 contentViewRequest += '<div class="card-header">';
                 contentViewRequest += '<div class="float-left">';
                 contentViewRequest += 'PEDIDO Nº ' + element.idRequest;
@@ -107,10 +107,10 @@
                 contentViewRequest += '<div class="desRequest requestProducts" data-id="' + element.idRequest + '">';
                 contentViewRequest += '</div>';
 
-                if (element.desNote != null) {
-                    contentViewRequest += '<p class="card-text">*' + element.desNote + '</p>';
-                } else {
+                if (element.desNote == null || element.desNote == "") {
                     contentViewRequest += '<p class="card-text">* Pedido sem observações.</p>';
+                } else {
+                    contentViewRequest += '<p class="card-text">* ' + element.desNote + '</p>';
                 }
 
                 contentViewRequest += '</div>';
