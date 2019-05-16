@@ -115,6 +115,7 @@ class Order {
             if ($_SESSION["Order"]["id"] != "")
                 return [
                     "open" => true,
+                    "desChannel" => $this->desChannel,
                     "id" => (int) $_SESSION["Order"]["id"]
                 ];
             else
