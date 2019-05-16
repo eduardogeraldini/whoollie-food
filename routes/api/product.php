@@ -35,7 +35,7 @@ $app->post('/api/product/delete/{id}', function($request, $response, $args) {
 
 	$product = new Product();
 	$product->setIsDeleted(1);  
-	$product->deleteProduct($args['id']);
+	echo $product->deleteProduct($args['id']);
 	
 });
 

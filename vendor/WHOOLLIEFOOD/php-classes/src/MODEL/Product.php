@@ -385,17 +385,42 @@ class Product{
 
 	}
 
+	public function hasRelations($idProduct) {
+
+		$sql = new Sql();
+
+        $res = $sql->select("SELECT COUNT(idRequestProduct) AS 'TOTAL'
+					  FROM tbRequestsProducts
+					  WHERE 
+					  idProduct = :IDPRODUCT", [
+                ":IDPRODUCT"=>$idProduct                       
+		]);
+		
+		if((int)$res["TOTAL"] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	public function deleteProduct($idProduct){
 
         $sql = new Sql();
 
-        return $sql->query("UPDATE tbProducts SET isDeleted = :ISDELETED
+		if ($this->hasRelations($idProduct)) {
+			return json_encode(["error" => true, "message" => "O produto está relacionado a um ou mais pedidos. Não será possível excluí-lo!"]);
+		}
+
+        $sql->query("UPDATE tbProducts SET isDeleted = :ISDELETED
                 WHERE idCompany = :IDCOMPANY AND idProduct = :IDPRODUCT", [
                 ":ISDELETED"=>$this->getIsDeleted(),
                 ":IDCOMPANY"=>$this->getIdCompany(),
                 ":IDPRODUCT"=>$idProduct                       
             ]);
-    
+	
+		return json_encode(["error" => true]);
+
 	} 
 	
 	public function setAllPropertiesById($idProduct) {

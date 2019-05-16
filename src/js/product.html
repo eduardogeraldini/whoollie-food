@@ -349,8 +349,14 @@
 
             if (willDelete) {
                 $.post("/api/product/delete/" + idProduct, function (data) {
-                    toastr["success"]("Produto removido com sucesso!", "Tudo certo!");
-                    loadProducts();
+
+                    if (JSON.parse(data).error == false) {
+                        toastr["success"]("Produto removido com sucesso!", "Tudo certo!");
+                        loadProducts();
+                    } else {
+                        toastr["success"](JSON.parse(data).message, "Tudo certo!");
+                    }
+
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
