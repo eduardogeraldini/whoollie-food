@@ -181,8 +181,14 @@
 
             if (willDelete) {
                 $.post("/api/ingredient/delete/" + idIngredient, function (data) {
-                    toastr["success"]("Ingrediente deletado com sucesso!", "Tudo certo!");
-                    loadIngredients();
+
+                    if (JSON.parse(data).error == false) {
+                        toastr["success"]("Ingrediente deletado com sucesso!", "Tudo certo!");
+                        loadIngredients();
+                    } else {
+                        toastr["error"](JSON.parse(data).message, "Erro!");
+                    }
+
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });

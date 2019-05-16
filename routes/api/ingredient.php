@@ -66,7 +66,7 @@ $app->post('/api/ingredient/delete/{id}', function($request, $response, $args) {
 	$ingredient = new Ingredient();
 	$ingredient->setIdIngredient($args['id']);  
 	$ingredient->setIsDeleted(1);  
-	$ingredient->deleteIngredient();
+	echo $ingredient->deleteIngredient();
 	
 });
 

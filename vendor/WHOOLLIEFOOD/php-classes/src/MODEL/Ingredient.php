@@ -195,9 +195,32 @@ class Ingredient {
 
 	}
 
+	public function hasRelations($idProduct) {
+
+		$sql = new Sql();
+
+        $res = $sql->select("SELECT COUNT(idProduct) AS 'TOTAL'
+							 FROM tbIngredientsProducts
+							 WHERE 
+							 idProduct = :IDPRODUCT", [
+                ":IDPRODUCT"=>$idProduct                       
+		]);
+		
+		if((int)$res[0]["TOTAL"] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	public function deleteIngredient(){
 
-        $sql = new Sql();
+		$sql = new Sql();
+		
+		if ($this->hasRelations($idProduct)) {
+			return json_encode(["error" => true, "message" => "O ingrediente está relacionado a um ou mais produtos. Não será possível excluí-lo!"]);
+		}
 
         return $sql->query("UPDATE tbIngredients SET 
                             isDeleted = :ISDELETED
@@ -207,7 +230,9 @@ class Ingredient {
                 ":ISDELETED"=>$this->getIsDeleted(),
                 ":IDCOMPANY"=>$this->getIdCompany(),
                 ":IDINGREDIENT"=>$this->getIdIngredient()                      
-            ]);
+			]);
+			
+		return json_encode(["error" => false]);
     
 	} 
 
