@@ -195,7 +195,7 @@ class Ingredient {
 
 	}
 
-	public function hasRelations($idIngredient) {
+	public function hasRelations() {
 
 		$sql = new Sql();
 
@@ -203,7 +203,7 @@ class Ingredient {
 							FROM tbIngredientsProducts
 							WHERE 
 							idIngredient = :IDINGREDIENT", [
-                ":IDINGREDIENT"=>$idIngredient                       
+                ":IDINGREDIENT"=>$this->getIdIngredient()                  
 		]);
 		
 		if((int)$res[0]["TOTAL"] > 0) {
@@ -218,7 +218,7 @@ class Ingredient {
 
 		$sql = new Sql();
 		
-		if ($this->hasRelations($this->getIdIngredient())) {
+		if ($this->hasRelations()) {
 			return json_encode(["error" => true, "message" => "O ingrediente está relacionado a um ou mais produtos. Não será possível excluí-lo!"]);
 		}
 
