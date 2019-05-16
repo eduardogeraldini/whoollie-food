@@ -218,7 +218,7 @@ class Ingredient {
 
 		$sql = new Sql();
 		
-		if ($this->hasRelations(getIdIngredient())) {
+		if ($this->hasRelations($this->getIdIngredient())) {
 			return json_encode(["error" => true, "message" => "O ingrediente está relacionado a um ou mais produtos. Não será possível excluí-lo!"]);
 		}
 
