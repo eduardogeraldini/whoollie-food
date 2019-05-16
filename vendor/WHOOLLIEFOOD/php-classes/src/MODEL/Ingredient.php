@@ -206,6 +206,8 @@ class Ingredient {
                 ":IDINGREDIENT"=>$this->getIdIngredient()                  
 		]);
 		
+		var_dump($res);
+
 		if((int)$res[0]["TOTAL"] > 0) {
 			return true;
 		} else {
@@ -214,7 +216,7 @@ class Ingredient {
 
 	}
 
-	public function deleteIngredient(){
+	public function deleteIngredient() {
 
 		$sql = new Sql();
 		
