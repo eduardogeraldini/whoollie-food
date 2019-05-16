@@ -205,8 +205,6 @@ class Ingredient {
 							idIngredient = :IDINGREDIENT", [
                 ":IDINGREDIENT"=>$this->getIdIngredient()                  
 		]);
-		
-		var_dump($res);
 
 		if((int)$res[0]["TOTAL"] > 0) {
 			return true;
@@ -224,7 +222,7 @@ class Ingredient {
 			return json_encode(["error" => true, "message" => "O ingrediente está relacionado a um ou mais produtos. Não será possível excluí-lo!"]);
 		}
 
-        return $sql->query("UPDATE tbIngredients SET 
+        $sql->query("UPDATE tbIngredients SET 
                             isDeleted = :ISDELETED
                             WHERE 
                             idCompany = :IDCOMPANY AND 
