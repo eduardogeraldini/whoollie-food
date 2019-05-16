@@ -396,7 +396,7 @@ class Product{
                 ":IDPRODUCT"=>$idProduct                       
 		]);
 		
-		if((int)$res["TOTAL"] > 0) {
+		if((int)$res[0]["TOTAL"] > 0) {
 			return true;
 		} else {
 			return false;
