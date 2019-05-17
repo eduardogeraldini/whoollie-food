@@ -316,6 +316,7 @@ class Product{
 				INNER JOIN tbIngredientsProducts ip ON (i.idIngredient = ip.idIngredient)
 				INNER JOIN tbMeasurements m ON (i.idMeasurement = m.idMeasurement)
 				WHERE
+				ip.idProduct = :IDPRODUCT AND
 				i.idCompany = :IDCOMPANY AND
 				i.isDeleted = :ISDELETED AND
 				i.idIngredient IN (
