@@ -234,9 +234,31 @@ class Device {
 
     }
 
+    public function hasRelations() {
+
+		$sql = new Sql();
+
+        $res = $sql->select("SELECT COUNT(idOrder) AS 'TOTAL'
+                            FROM tbOrders
+                            WHERE idDevice = :IDDEVICE;", [
+                ":IDDEVICE"=>$this->getIdDevice()                       
+		]);
+		
+		if((int)$res[0]["TOTAL"] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
     public function deleteDevice() {
 
         $sql = new Sql();
+
+        if ($this->hasRelations()) {
+			return json_encode(["error" => true, "message" => "O dispositivo possui comandas relacionados. Não será possível excluí-lo!"]);
+		}
 
         $sql->query("UPDATE tbDevices
                     SET 

@@ -23,7 +23,7 @@ $app->post('/api/departments/employees/delete/{id}', function($request, $respons
 
 	$dept = new DepartmentEmployee();
 	 
-	$dept->deleteDepartmentEmployee($args['id']);
+	echo $dept->deleteDepartmentEmployee($args['id']);
 	
 });
 

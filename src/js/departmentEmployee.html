@@ -92,8 +92,14 @@
 
                     if (willDelete) {
                         $.post("/api/departments/employees/delete/" + idDepartment + "", function (data) {
-                            toastr["success"]("Departamento deletado com sucesso!", "Tudo certo!");
-                            loadDepartments();
+
+                            if (JSON.parse(data).error == false) {
+                                toastr["success"]("Departamento deletado com sucesso!", "Tudo certo!");
+                                loadDepartments();
+                            } else {
+                                toastr["error"](JSON.parse(data).message, "Erro!");
+                            }
+
                         }).fail(function () {
                             console.log("Rota não encontrada!");
                         });

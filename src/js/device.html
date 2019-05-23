@@ -124,8 +124,14 @@
 
             if (willDelete) {
                 $.post("/api/device/delete/" + idDevice, function (data) {
-                    toastr["success"]("Dispositivo deletado com sucesso!", "Tudo certo!");
-                    loadDevices();
+                    
+                    if (JSON.parse(data).error == false) {
+                        toastr["success"]("Dispositivo deletado com sucesso!", "Tudo certo!");
+                        loadDevices();
+                    } else {
+                        toastr["error"](JSON.parse(data).message, "Erro!");
+                    }
+
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });

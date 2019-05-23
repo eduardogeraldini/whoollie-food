@@ -70,15 +70,40 @@ class DepartmentEmployee{
        
     }
 
+    public function hasRelations($idDepartment) {
+
+		$sql = new Sql();
+
+        $res = $sql->select("SELECT COUNT(idEmployee) AS 'TOTAL' 
+                            FROM tbEmployees
+                            WHERE 
+                            idDepartment = :IDDEPARTMENT;", [
+                ":IDDEPARTMENT"=>$idDepartment                       
+		]);
+		
+		if((int)$res[0]["TOTAL"] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
     public function deleteDepartmentEmployee($idDepartment){
 
         $sql = new Sql();
 
-            $sql->query("UPDATE tbDepartments SET isDeleted = :ISDELETED WHERE idDepartment = :IDDEPARTMENT", [
-                ":ISDELETED"=> 1,
-                ":IDDEPARTMENT"=> $idDepartment
-            ]);
-       
+        if ($this->hasRelations($idDepartment)) {
+			return json_encode(["error" => true, "message" => "O departamento possui funcionários relacionados. Não será possível excluí-lo!"]);
+		}
+
+        $sql->query("UPDATE tbDepartments SET isDeleted = :ISDELETED WHERE idDepartment = :IDDEPARTMENT", [
+            ":ISDELETED"=> 1,
+            ":IDDEPARTMENT"=> $idDepartment
+        ]);
+
+        return json_encode(["error" => false]);
+    
     }
 
     public function returnDepartmentById($idDepartment){

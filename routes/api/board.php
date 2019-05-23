@@ -44,7 +44,7 @@ $app->post('/api/board/delete/{id}', function($request, $response, $args) {
 
 	$board = new Board();
 	$board->setIsDeleted(1);  
-	$board->deleteBoard($args['id']);
+	echo $board->deleteBoard($args['id']);
 	
 	
 });

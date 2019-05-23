@@ -54,10 +54,10 @@ class Board {
 	}
 
 
-    
-    public function createBoard() {
-			
-        $sql = new Sql();
+	
+	public function createBoard() {
+		
+		$sql = new Sql();
 
 		$isCreated = $sql->select(" 
 				SELECT * FROM  tbBoards
@@ -70,37 +70,37 @@ class Board {
 					":ISDELETED" => 0,
 					":IDCOMPANY" => $this->getIdCompany()
 				]);
-						
-		if(count($isCreated) > 0){ //se a query retornar uma linha, quer dizer que já foi criado uma mesa nesse numero
+							
+			if(count($isCreated) > 0){ //se a query retornar uma linha, quer dizer que já foi criado uma mesa nesse numero
 
-			return json_encode([
-				'error' => true,
-				'message' => 'Mesa já cadastrada!',
-			]);
-		}
-		else{
-			$idBoard = $sql->query("
-			INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces, isActive) 
-			VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES, :ISACTIVE)", [
-			":IDCOMPANY"=>$this->getIdCompany(),
-			":VLBOARD"=>$this->getVlBoard(),
-			":QTPLACES"=>$this->getQtPlaces(),
-			":ISACTIVE"=>$this->getIsActive()			
-			]);
-
-			$this->setIdBoard($idBoard);
-
-			if ($idBoard > 0) {
-				return json_encode([
-					'error' => false
-				]);
-			} else {
 				return json_encode([
 					'error' => true,
-					'message' => 'Erro ao cadastrar a mesa!',
+					'message' => 'Mesa já cadastrada!',
 				]);
+				
+			} else {
+				$idBoard = $sql->query("
+				INSERT INTO tbBoards(idCompany, vlBoard, qtPlaces, isActive) 
+				VALUES (:IDCOMPANY, :VLBOARD, :QTPLACES, :ISACTIVE)", [
+				":IDCOMPANY"=>$this->getIdCompany(),
+				":VLBOARD"=>$this->getVlBoard(),
+				":QTPLACES"=>$this->getQtPlaces(),
+				":ISACTIVE"=>$this->getIsActive()			
+				]);
+
+				$this->setIdBoard($idBoard);
+
+				if ($idBoard > 0) {
+					return json_encode([
+						'error' => false
+					]);
+				} else {
+					return json_encode([
+						'error' => true,
+						'message' => 'Erro ao cadastrar a mesa!',
+					]);
+				}
 			}
-		}
 
 
 		
@@ -158,18 +158,42 @@ class Board {
 		}
 	
 	}
+
+	public function hasRelations($idBoard) {
+
+		$sql = new Sql();
+
+		
+		$res = $sql->select("SELECT COUNT(idDevice) AS 'TOTAL'
+												FROM tbDevices
+												WHERE idBoard = :IDBOARD;", [
+						":IDBOARD"=>$idBoard                       
+		]);
+		
+		if((int)$res[0]["TOTAL"] > 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
 	
 	public function deleteBoard($idBoard){
 	
 		$sql = new Sql();
+
+		if ($this->hasRelations($idBoard)) {
+			return json_encode(["error" => true, "message" => "A mesa possui dispositivos relacionados. Não será possível excluí-la!"]);
+		}
 	
 		return $sql->query("UPDATE tbBoards SET isDeleted = :ISDELETED
 				WHERE idCompany = :IDCOMPANY AND idBoard = :IDBOARD", [
 				":ISDELETED"=>$this->getIsDeleted(),
 				":IDCOMPANY"=>$this->getIdCompany(),
 				":IDBOARD"=>$idBoard                       
-			]);
-	
+		]);
+					
+		return json_encode(["error" => false]);
 	} 
 }
 ?>

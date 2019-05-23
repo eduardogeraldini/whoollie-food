@@ -136,8 +136,14 @@
         }).then((willDelete) => {
             if (willDelete) {
                 $.post("/api/board/delete/" + idBoard, function (data) {
-                    toastr["success"]("Mesa deletada com sucesso!", "Tudo certo!");
-                    loadBoards();
+
+                    if (JSON.parse(data).error == false) {
+                        toastr["success"]("Mesa deletada com sucesso!", "Tudo certo!");
+                        loadBoards();
+                    } else {
+                        toastr["error"](JSON.parse(data).message, "Erro!");
+                    }
+
                 }).fail(function () {
                     console.log("Rota não encontrada!");
                 });
