@@ -309,6 +309,10 @@
 
     }
 
+    function closeAddIngredientsProductModal() {
+        $("#addIngredientsProductModal").modal("toggle");
+    }
+
     function loadEditProduct(idProduct) {
 
         $.getJSON(`/api/products/${idProduct}`, function (data) {
