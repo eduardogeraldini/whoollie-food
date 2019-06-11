@@ -36,8 +36,8 @@
                             </td>
                             <td>${element.idOrder}</td>
                             <td>${element.desName}</td>
-                            <td>
-                                ${((element.vlStatus == 1) ? "<span class='badge badge-success'>CONCLUÍDO</span></td>" : "<span class='badge badge-danger'>EM ABERTO</span>")}
+                            <td id="status-${element.idOrder}">
+                                ${((element.vlStatus == 1) ? "<span class='badge badge-success'>CONCLUÍDO</span>" : "<span class='badge badge-danger'>EM ABERTO</span>")}
                             </td>
                             <td>R$ ${numberToShow(element.total)}</td>
                             <td>${showDate(element.dtRegister)}</td>
@@ -165,6 +165,8 @@
             });
 
             loadOrders();*/
+
+            $(`#status-${idOrder}`).html("<span class='badge badge-success'>CONCLUÍDO</span>");
 
         }).fail(() => {
 
