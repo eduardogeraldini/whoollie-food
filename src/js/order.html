@@ -151,6 +151,7 @@
 
             if (!JSON.parse(data).error) {
                 toastr["success"]("Comanda fechada com sucesso!", "Tudo certo!");
+                $(`#status-${idOrder}`).html("<span class='badge badge-success'>CONCLUÍDO</span>");
             } else {
                 toastr["error"](JSON.parse(data).message, "Ops!");
             }
@@ -165,8 +166,6 @@
             });
 
             loadOrders();*/
-
-            $(`#status-${idOrder}`).html("<span class='badge badge-success'>CONCLUÍDO</span>");
 
         }).fail(() => {
 
